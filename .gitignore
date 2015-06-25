@@ -1,0 +1,7 @@
+#Ignored files
+*.dat
+*.njsproj
+
+
+#Ignored folders
+node_modules/

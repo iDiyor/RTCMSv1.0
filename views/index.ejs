@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ProcabV0 Project Prototype</title>
+  </head>
+  <body>
+	<p>Welcome to <%= title %></p>
+
+	<div id="header">
+		<h1>ProcabV0 Login</h1>
+	</div>
+
+	<div id="section">
+		<form action="/login" method="POST">
+		username:<br>
+		<input type="text" name="username"/>
+		<input type="text" name="password"/>
+		<input type="submit" name="submit" value="login"/>
+		</form>
+	</div>
+    <script scr=/javascript/jquery.min.js></script>
+  </body>
+</html>
