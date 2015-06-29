@@ -1,11 +1,41 @@
 ﻿<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="RTCMS">
 <head>
+    <base href='/'>
     <meta charset="utf-8" />
-    <title>CMS - Cab Management System 2015</title>
+    <!--JQuery-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--Angular.js-->
+    <script type="text/javascript" src="https://code.angularjs.org/1.3.16/angular.min.js"></script>
+    <script type="text/javascript" src="https://code.angularjs.org/1.3.16/angular-route.js"></script>
+    <!--Angular resources-->
+    <script type="text/javascript" src="https://code.angularjs.org/1.3.16/angular-resource.min.js"></script>
+    <!--Bootsrap CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    
+    <!-- Angular.js scripts-->
+    <script type="text/javascript" src="app/controllers/AdminController.js"></script>
+    <script type="text/javascript" src="app/services/AdminServices.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+    
+
+<title>RTCMS - Real - Time Cab Management System Prototype</title>
 </head>
-<body>
-    <p>Welcome to Cab Management System 2015</p>
+<body ng-controller="MainAppController">
+    <div id="section">
+        <ul class="nav nav-tabs">
+            <li role="presentation" data-toggle="tab" class="active" ng-click="onTabClicked('admin')"><a href="#admin">Admin</a></li>
+            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('map')"><a href="#map">Map</a></li>
+            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('messages')"><a href="#messages">Messages</a></li>
+        </ul>
+    </div>
+    <div ng-view>
+    </div>
+
 </body>
 </html>

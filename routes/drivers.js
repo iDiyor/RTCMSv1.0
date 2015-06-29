@@ -16,14 +16,14 @@ var knex = require('knex')({
 
 var bookshelf = require('bookshelf')(knex);
 
-var Staff = bookshelf.Model.extend({
-    tableName: 'staff'
+var Drivers = bookshelf.Model.extend({
+    tableName: 'drivers'
 });
 
 router.get('/', function (req, res) {
-    new Staff().fetchAll()
+    new Drivers().fetchAll()
     .then(function (staff_data) {
-        res.send(staff_data.toJSON());
+        res.json(staff_data.toJSON());
     }).catch(function (error) {
         console.log(error);
         res.send('An error occured');
