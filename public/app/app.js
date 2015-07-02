@@ -1,4 +1,4 @@
-var app = angular.module('RTCMS', ['ngRoute', 'adminControllers', 'adminServices']);
+var app = angular.module('RTCMS', ['ngRoute', 'driverControllers', 'driverServices', 'vehicleControllers', 'vehicleServices']);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -7,9 +7,13 @@ app.config(function ($routeProvider) {
         templateUrl: 'app/views/AppPage.html',
         controller: 'MainAppController'
     })
-   .when('/admin', {
-        templateUrl: 'app/views/AdminPage.html',
-        controller: 'AdminCtrl'
+   .when('/driver', {
+        templateUrl: 'app/views/DriverPage.html',
+        controller: 'DriverCtrl'
+    })
+   .when('/vehicle', {
+        templateUrl: 'app/views/VehiclePage.html',
+        controller: 'VehicleCtrl'
     })
    .when('/map', {
         templateUrl: 'app/views/MapPage.html',
