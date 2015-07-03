@@ -8,6 +8,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Registration number</th>
                             <th>Make</th>
                             <th>Model</th>
@@ -17,18 +18,20 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="vehicle in vehicles" selection-model>
+                            <td>{{$index+1}}</td>
                             <td>{{vehicle.registration_number}}</td>
                             <td>{{vehicle.make}}</td>
                             <td>{{vehicle.model}}</td>
                             <td>{{vehicle.passenger_seat_number}}</td>
-                            <td><button type="button" class="btn btn-default" ng-click="onEditButtonClick($index)">Edit</button></td>
+                            <td><button type="button" class="btn btn-default" ng-click="onShowEditDialog($index)">Edit</button>
+                                <button type="button" class="btn btn-default" ng-click="onShowRemoveDialog($index)">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!--Control buttons-->
             <div>
-                <button type="button" class="btn btn-primary" ng-click="onAddButtonClick('add')">Add</button>
+                <button type="button" class="btn btn-primary" ng-click="onShowAddDialog('add')">Add</button>
             </div>
             <!--Modal Edit Dialog-->
             <div class="modal fade" id="editModalDialog" role="dialog">
@@ -46,22 +49,22 @@
                             <!--Registration number-->
                             <div class="form-group">
                                 <label for="registrationNumberId">Registration number</label>
-                                <input type="text" class="form-control" id="registrationNumberId" placeholder="Registration number">
+                                <p class="form-control-static" id="editRegistrationNumberId"></p>
                             </div>
                             <!--Make-->
                             <div class="form-group">
                                 <label for="makeId">Vehicle make</label>
-                                <input type="text" class="form-control" id="makeId" placeholder="Vehicle make">
+                                <input type="text" class="form-control" id="editMakeId" placeholder="Vehicle make">
                             </div>
                             <!--Model -->
                             <div class="form-group">
                                 <label for="modelId">Vehicle model</label>
-                                <input type="text" class="form-control" id="modelId" placeholder="Vehicle model">
+                                <input type="text" class="form-control" id="editModelId" placeholder="Vehicle model">
                             </div>
                             <!--Passenger seat-->
                             <div class="form-group">
                                 <label for="passengerSeatId">Passenger Seat number</label>
-                                <input type="text" class="form-control" id="passengerSeatId" placeholder="Passenger Seat number">
+                                <input type="text" class="form-control" id="editPassengerSeatId" placeholder="Passenger Seat number">
                             </div>
                         </div>
                         <!--Modal Footer-->
@@ -87,29 +90,82 @@
                         </div>
                         <!--Modal Body-->
                         <div class="modal-body">
-                            <p>Add dialog</p>
+                            <!--Registration number-->
+                            <div class="form-group">
+                                <label for="registrationNumberId">Registration number</label>
+                                <input type="text" class="form-control" id="addRegistrationNumberId" placeholder="Registration number">
+                            </div>
+                            <!--Make-->
+                            <div class="form-group">
+                                <label for="makeId">Vehicle make</label>
+                                <input type="text" class="form-control" id="addMakeId" placeholder="Vehicle make">
+                            </div>
+                            <!--Model -->
+                            <div class="form-group">
+                                <label for="modelId">Vehicle model</label>
+                                <input type="text" class="form-control" id="addModelId" placeholder="Vehicle model">
+                            </div>
+                            <!--Passenger seat-->
+                            <div class="form-group">
+                                <label for="passengerSeatId">Passenger Seat number</label>
+                                <input type="text" class="form-control" id="addPassengerSeatId" placeholder="Passenger Seat number">
+                            </div>
                         </div>
                         <!-- Modal Footer-->
                         <div class="modal-footer">
                             <!--Add button-->
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Add</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="onAddButtonClicked('')">Add</button>
                             <!--Close dialog button-->
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--Modal Remove Alert Dialog-->
+            <div class="modal fade" id="removeModalDialog" role="dialog">
+                <div class="modal-dialog">
+                    <!--Add modal dialog content-->
+                    <div class="modal-content">
+                        <!--Modal Header-->
+                        <div class="modal-header">
+                            <!--Dismiss (X) button on top-right-->
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Do you really want to remove this vehicle?</h4>
+                        </div>
+                        <!--Modal Body-->
+                        <div class="modal-body">
+                            <!--Registration number-->
+                            <div class="form-group">
+                                <label for="registrationNumberId">Registration number</label>
+                                <p class="form-control-static" id="removeRegistrationNumberId"></p>
+                            </div>
+                            <!--Make-->
+                            <div class="form-group">
+                                <label for="makeId">Vehicle make</label>
+                                <p class="form-control-static" id="removeMakeId"></p>
+                            </div>
+                            <!--Model -->
+                            <div class="form-group">
+                                <label for="modelId">Vehicle model</label>
+                                <p class="form-control-static" id="removeModelId"></p>
+                            </div>
+                            <!--Passenger seat-->
+                            <div class="form-group">
+                                <label for="passengerSeatId">Passenger Seat number</label>
+                                <p class="form-control-static" id="removePassengerSeatId"></p>
+                            </div>
+                        </div>
+                        <!-- Modal Footer-->
+                        <div class="modal-footer">
+                            <!--Add button-->
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="onRemoveButtonClicked('')">Remove</button>
+                            <!--Close dialog button-->
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!--<div id="header">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-
-            </div>
-        </nav>
-    </div>-->
-
-
 
 </div>
