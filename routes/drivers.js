@@ -7,6 +7,7 @@ var Driver, Vehicle;
 
 Driver = bookshelf.Model.extend({
     tableName: 'driver',
+    idAttribute: 'id_driver',
     vehicle : function () {
         return this.hasOne(Vehicle);
     }
@@ -14,6 +15,7 @@ Driver = bookshelf.Model.extend({
 
 Vehicle = bookshelf.Model.extend({
     tableName: 'vehicle',
+    idAttribute: 'registration_number',
     driver: function () {
         return this.belongsTo(Driver);
     }
@@ -23,11 +25,37 @@ Vehicle = bookshelf.Model.extend({
 router.get('/', function (req, res) {
     Driver.forge()
     .fetchAll()
-    .then(function (driversCollection) {
-        res.json(driversCollection.toJSON());
-    }).catch(function (error) {
+    .then(function (driverCollection) {
+        res.json(driverCollection.toJSON());
+    })
+    .catch(function (error) {
         console.log(error);
         res.send('An error occured');
+    });
+});
+
+// create a new driver and insert into the database
+router.post('/', function (req, res) {
+    Driver.forge({
+        first_name: req.body.first_name,
+        middle_name: req.body.middle_name,
+        last_name: req.body.last_name,
+        date_of_birth: req.body.date_of_birth,
+        post_code: req.body.post_code,
+        house_number: req.body.house_number,
+        address_line_1: req.body.address_line_1,
+        address_line_2: req.body.address_line_2,
+        phone_number: req.body.phone_number,
+        email: req.body.email,
+        driving_licence_number: req.body.driving_licence_number,
+        vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
+    })
+    .save()
+    .then(function (driver) {
+        res.json({ error: false, data: { id: driver.get('id_driver') } });
+    })
+    .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
 
@@ -40,30 +68,38 @@ router.get('/:id_driver', function (req, res) {
    .fetch()
    .then(function (driverData) {
         res.json(driverData.toJSON());
+    })
+   .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
 
-// create a new driver and insert into the database
-router.post('/', function (req, res) {
-    Driver.forge({
-        first_name: 'firstName',
-        middle_name: 'middleName',
-        last_name: 'lastName',
-        date_of_birth: '2015-06-18',
-        post_code: 'postCode',
-        house_number: '6',
-        address_line_1: 'addressLine1',
-        address_line_2: 'addressLine2',
-        phone_number: '12345678',
-        email: 'email@gmail.com',
-        driving_licence_number: 'DLN7777',
-        vehicle_id_fk: '2'
-    })
-    .save()
-    .then(function (driver) {
-        res.json({ error: false, data: { id: driver.get('id_driver') } });
-    });
+router.put('/:id_driver', function (req, res) {
     
+    Driver.forge({ id_driver: req.params.id_driver })
+    .fetch()
+    .then(function (driver) {
+        driver.save({
+            first_name: req.body.first_name,
+            middle_name: req.body.middle_name,
+            last_name: req.body.last_name,
+            date_of_birth: req.body.date_of_birth,
+            post_code: req.body.post_code,
+            house_number: req.body.house_number,
+            address_line_1: req.body.address_line_1,
+            address_line_2: req.body.address_line_2,
+            phone_number: req.body.phone_number,
+            email: req.body.email,
+            driving_licence_number: req.body.driving_licence_number,
+            vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
+        })
+        .then(function () {
+            res.json({ error: false, message: 'Record updated' });
+        });
+    })
+    .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
+    });
 });
 
 // delete a driver from database
@@ -73,30 +109,11 @@ router.delete('/:id_driver', function (req, res) {
    .then(function (driverData) {
         driverData.destroy();
         res.json({ message: 'Driver successfully deleted' });
+    })
+    .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
 
-//router.get('/', function (req, res) {
-    //var username = req.body.username;
-    //var password = req.body.password;
-    //res.send(username);
-
-    //dbConnection.getConnection(function (err, connection) {
-    //    if (err) {
-    //        console.error('Connection error: ', err);
-    //        res.statusCode = 503;
-    //        res.send({ result: 'error', err: err.code });
-    //    } else {
-    //        connection.query('SELECT * from staff', function (err, rows, fields) {
-    //            if (!err) {
-    //                res.json(rows);
-    //            } else {
-    //                console.log('Error while performing Query.');
-    //            }
-    //        });
-    //        connection.release();
-    //    }
-    //});
-//});
 
 module.exports = router;

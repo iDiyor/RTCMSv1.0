@@ -2,13 +2,17 @@
 
 /* Services */
 
-var adminServices = angular.module('driverServices', ['ngResource']);
+var driverServices = angular.module('driverServices', ['ngResource']);
 
-adminServices.factory('Driver', ['$resource', function ($resource) {
-        return $resource('api/:driverId', {}, {
-            query: { method: 'GET', params: { driverId: 'drivers' }, isArray: true }
+driverServices.factory('Driver', ['$resource', function ($resource) {
+        return $resource('api/drivers/:id_driver', {}, {
+            query: { method: 'GET', params: { id_driver: '' }, isArray: true },
+            get: { method: 'GET', params: { id_driver: '@id_driver' }, isArray: false },
+            update: { method: 'PUT', params: { id_driver: '@id_driver' } },
+            create: { method: 'POST' }, 
+            delete: { method: 'DELETE', params: { id_driver: '@id_driver' } }
         });
-    }]);
+}]);
 
 
 

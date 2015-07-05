@@ -15,7 +15,8 @@ router.get('/', function (req, res) {
     .fetchAll()
     .then(function (vehicleCollection) {
         res.json(vehicleCollection.toJSON());
-    }).catch(function (error) {
+    })
+    .catch(function (error) {
         console.log(error);
         res.send('An error occuered while retrieving vehicles data');
     });
@@ -48,7 +49,10 @@ router.get('/:registration_number', function (req, res) {
    .fetch()
    .then(function (vehicleData) {
         res.json(vehicleData.toJSON());
-    });
+    })
+   .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
+    }); 
 });
 
 // put/update a vehicle by reg number
@@ -68,7 +72,10 @@ router.put('/:registration_number', function (req, res) {
         .then(function () {
             res.json({ error: false, message: 'Record updated' });
         });                    
-    });
+    })
+    .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
+    }); 
 });
 
 router.delete('/:registration_number', function (req, res) {

@@ -58,12 +58,20 @@ vehicleControllers.controller('VehicleCtrl', ['$scope', 'Vehicle', function ($sc
             var model = $('#addModelId').val();
             var passengerSeatNumber = $('#addPassengerSeatId').val();
             
+            //var newVehicle = {
+            //    'registration_number': registrationNumber,
+            //    'make' : make,
+            //    'model' : model,
+            //    'passenger_seat_number' : passengerSeatNumber
+            //};
+            
             var newVehicle = {
-                'registration_number': registrationNumber,
-                'make' : make,
-                'model' : model,
-                'passenger_seat_number' : passengerSeatNumber
+                registration_number: registrationNumber,
+                make : make,
+                model : model,
+                passenger_seat_number : passengerSeatNumber
             };
+
             // create a new vehicle 
             Vehicle.create(newVehicle);
             // hide the dialog
@@ -83,10 +91,16 @@ vehicleControllers.controller('VehicleCtrl', ['$scope', 'Vehicle', function ($sc
             var model = $('#editModelId').val();
             var passengerSeatNumber = $('#editPassengerSeatId').val();
             
+            //var updatedVehicle = {
+            //    'make' : make,
+            //    'model' : model,
+            //    'passenger_seat_number' : passengerSeatNumber
+            //};
+            
             var updatedVehicle = {
-                'make' : make,
-                'model' : model,
-                'passenger_seat_number' : passengerSeatNumber
+                make: make,
+                model: model,
+                passenger_seat_number: passengerSeatNumber
             };
 
             //Vehicle.update({ registration_number: registrationNumber } , updatedVehicle);
