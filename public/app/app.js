@@ -8,15 +8,15 @@ app.config(function ($routeProvider) {
         controller: 'MainAppController'
     })
    .when('/driver', {
-        templateUrl: 'app/views/DriverPage.html',
+        templateUrl: 'app/views/DriverView.html',
         controller: 'DriverCtrl'
     })
    .when('/vehicle', {
-        templateUrl: 'app/views/VehiclePage.html',
+        templateUrl: 'app/views/VehicleView.html',
         controller: 'VehicleCtrl'
     })
    .when('/map', {
-        templateUrl: 'app/views/MapPage.html',
+        templateUrl: 'app/views/MapView.html',
         controller: 'MapController'
     })
 });
