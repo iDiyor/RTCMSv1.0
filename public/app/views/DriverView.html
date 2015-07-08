@@ -26,7 +26,7 @@
                             <td>{{driver.email}}</td>
                             <td>{{driver.post_code}}</td>
                             <td>{{driver.driving_licence_number}}</td>
-                            <td>{{driver.vehicle_registration_number_fk}}</td>
+                            <td>{{driver.vehicle.id_registration_number}}</td>
                             <td><button type="button" class="btn btn-default" ng-click="onShowEditDialog($index)">Edit</button>
                                 <button type="button" class="btn btn-default" ng-click="onShowRemoveDialog($index)">Delete</button></td>
                         </tr>
@@ -117,7 +117,7 @@
                                     <button class="btn btn-default" data-toggle="dropdown"><span id="dropdownTitle">Select a registration number</span><span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="editDropdownRegistrationNumber">
                                         <li ng-repeat="vehicle in vehicles">
-                                            <a ng-click="onDropdownMenuSelected($index)">{{vehicle.registration_number}}</a>
+                                            <a ng-click="onDropdownMenuSelected($index)">{{vehicle.id_registration_number}}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -214,7 +214,7 @@
                                     <button class="btn btn-default" data-toggle="dropdown"><span id="dropdownTitle">Select a registration number</span><span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownRegistrationNumber">
                                         <li ng-repeat="vehicle in vehicles">
-                                            <a ng-click="onDropdownMenuSelected($index)">{{vehicle.registration_number}}</a>
+                                            <a ng-click="onDropdownMenuSelected($index)">{{vehicle.id_registration_number}}</a>
                                         </li>
                                     </ul>
                                 </div>

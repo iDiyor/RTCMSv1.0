@@ -5,33 +5,53 @@ var bookshelf = require('./bookshelfRTCMS.js');
 
 var Driver, Vehicle;
 
+Vehicle = bookshelf.Model.extend({
+    tableName: 'vehicle',
+    idAttribute: 'id_registration_number',
+});
+
 Driver = bookshelf.Model.extend({
     tableName: 'driver',
     idAttribute: 'id_driver',
     vehicle : function () {
-        return this.hasOne(Vehicle);
+        return this.hasOne(Vehicle, ['id_driver']);
     }
 });
 
-Vehicle = bookshelf.Model.extend({
-    tableName: 'vehicle',
-    idAttribute: 'registration_number',
-    driver: function () {
-        return this.belongsTo(Driver);
-    }
-});
+
 
 // get all drivers list
 router.get('/', function (req, res) {
+    //Driver.forge()
+    //.fetchAll()
+    //.then(function (driverCollection) {
+    //    res.json(driverCollection.toJSON());
+    //})
+    //.catch(function (error) {
+    //    console.log(error);
+    //    res.send('An error occured');
+    //});
+    
     Driver.forge()
     .fetchAll()
-    .then(function (driverCollection) {
-        res.json(driverCollection.toJSON());
-    })
-    .catch(function (error) {
-        console.log(error);
-        res.send('An error occured');
+    .then(function (driver) {
+        driver
+        .load(['vehicle'])
+        .then(function (model) {
+            res.json(model.toJSON()); 
+        });
+        
     });
+
+    //Driver.forge({ id_driver: 2 })
+    //.vehicle()
+    //.fetch()
+    //.then(function (data) {
+    //    res.json(data);
+    //})
+    //.catch(function (error) {
+    //    res.send(error);
+    //});
 });
 
 // create a new driver and insert into the database
