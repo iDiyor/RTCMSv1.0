@@ -1,4 +1,4 @@
-var app = angular.module('RTCMS', ['ngRoute', 'driverControllers', 'driverServices', 'vehicleControllers', 'vehicleServices']);
+var app = angular.module('RTCMS', ['ngRoute', 'driverControllers', 'driverServices', 'vehicleControllers', 'vehicleServices', 'mapControllers']);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -17,7 +17,7 @@ app.config(function ($routeProvider) {
     })
    .when('/map', {
         templateUrl: 'app/views/MapView.html',
-        controller: 'MapController'
+        controller: 'MapCtrl'
     })
 });
 
