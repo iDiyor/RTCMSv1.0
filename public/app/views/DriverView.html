@@ -9,12 +9,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                           <th>Name</th>
+                            <th>Name</th>
                             <th>Phone number</th>
                             <th>Email</th>
                             <th>Address</th>
                             <th>Driving licence number</th>
-                            <th>Vehicle registration number</th>
+                            <th>Vehicle</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -26,7 +26,7 @@
                             <td>{{driver.email}}</td>
                             <td>{{driver.post_code}}</td>
                             <td>{{driver.driving_licence_number}}</td>
-                            <td>{{driver.vehicle.id_registration_number}}</td>
+                            <td>{{driver.vehicle.id_registration_number + " - " + driver.vehicle.make}}</td>
                             <td><button type="button" class="btn btn-default" ng-click="onShowEditDialog($index)">Edit</button>
                                 <button type="button" class="btn btn-default" ng-click="onShowRemoveDialog($index)">Delete</button></td>
                         </tr>

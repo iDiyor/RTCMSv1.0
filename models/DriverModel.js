@@ -16,7 +16,9 @@ var Driver = bookshelf.Model.extend({
     tableName: 'driver',
     idAttribute: 'id_driver',
     vehicle : function () {
-        return this.hasMany('Vehicle', 'id_driver');
+        /* hasOne ==> driver[index].vehicle.make
+         * hasMany ==> driver[index.vehicle[index].make */
+        return this.hasOne('Vehicle', 'id_driver');
     }
 });
 
