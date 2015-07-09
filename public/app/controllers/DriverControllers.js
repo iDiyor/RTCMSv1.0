@@ -5,13 +5,12 @@
 var driverControllers = angular.module('driverControllers', ['vehicleServices']);
 
 // Admin tab
-driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', function ($scope, Driver, Vehicle) {
+driverControllers.controller('DriverCtrl', ['$scope', 'Driver', function ($scope, Driver) {
         $scope.drivers = Driver.query();
-        $scope.vehicles = Vehicle.query();
-       
+        
         // temp variables
         $scope.rowIndex = -1;
-        $scope.registrataionNumber = null;
+        //$scope.registrataionNumber = null;
         
         /* SHOW ADD DIALOG */
         /* shows add modal dialog */
@@ -40,7 +39,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
             $('#editPhoneNumberId').val($scope.drivers[index].phone_number);
             $('#editEmailId').val($scope.drivers[index].email);
             $('#editDrivingLicenceNumberId').val($scope.drivers[index].driving_licence_number);
-            $('#editRegistrationNumberId').val($scope.drivers[index].vehicle_registration_number_fk);
+            //$('#editRegistrationNumberId').val($scope.drivers[index].vehicle_registration_number_fk);
             
             $scope.rowIndex = index;
             
@@ -64,7 +63,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
             $('#phoneNumberId').text($scope.drivers[index].phone_number);
             $('#emailId').text($scope.drivers[index].email);
             $('#drivingLicenceNumberId').text($scope.drivers[index].driving_licence_number);
-            $('#registrationNumberId').text($scope.drivers[index].vehicle_registration_number_fk);
+            //$('#registrationNumberId').text($scope.drivers[index].vehicle_registration_number_fk);
             
             $scope.rowIndex = index;
             
@@ -86,7 +85,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
             var phoneNumber = $('#addPhoneNumberId').val();
             var email = $('#addEmailId').val();
             var drivingLicenceNumber = $('#addDrivingLicenceNumberId').val();
-            var vehicleRegistrationNumber = $scope.registrataionNumber;
+            //var vehicleRegistrationNumber = $scope.registrataionNumber;
 
             //var newDriver = {
             //    'first_name': firstName,
@@ -116,12 +115,12 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
                 phone_number: phoneNumber,
                 email: email,
                 driving_licence_number: drivingLicenceNumber,
-                vehicle_registration_number_fk: vehicleRegistrationNumber
+                //vehicle_registration_number_fk: vehicleRegistrationNumber
             };
             // create a new driver 
             Driver.create(newDriver);
             // registration number nill for next reuse
-            $scope.registrataionNumber = null;
+            //$scope.registrataionNumber = null;
             // hide the dialog
             $('#addModalDialog').on('hidden.bs.modal', function () {
                 location.reload();
@@ -146,9 +145,9 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
             var phoneNumber = $('#editPhoneNumberId').val();
             var email = $('#editEmailId').val();
             var drivingLicenceNumber = $('#editDrivingLicenceNumberId').val();
-            var vehicleRegistrationNumber = null;
-            if ($scope.registrataionNumber != null)
-                vehicleRegistrationNumber = $scope.registrataionNumber;
+            //var vehicleRegistrationNumber = null;
+            //if ($scope.registrataionNumber != null)
+            //    vehicleRegistrationNumber = $scope.registrataionNumber;
             
             //var updatedDriver = {
             //    'first_name': firstName,
@@ -177,7 +176,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
                 phone_number: phoneNumber,
                 email: email,
                 driving_licence_number: drivingLicenceNumber,
-                vehicle_registration_number_fk: vehicleRegistrationNumber
+                //vehicle_registration_number_fk: vehicleRegistrationNumber
             };
             
             //Vehicle.update({ registration_number: registrationNumber } , updatedVehicle);
@@ -222,8 +221,8 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'Vehicle', funct
 
         /* DROPDOWN MENU SELECT */
         /* Saves selected value of the dropdown menu */
-        $scope.onDropdownMenuSelected = function (index) {
-            $('#dropdownTitle').text($scope.vehicles[index].registration_number);
-            $scope.registrataionNumber = $scope.vehicles[index].registration_number;
-        };
+        //$scope.onDropdownMenuSelected = function (index) {
+        //    $('#dropdownTitle').text($scope.vehicles[index].registration_number);
+        //    $scope.registrataionNumber = $scope.vehicles[index].registration_number;
+        //};
 }]);
