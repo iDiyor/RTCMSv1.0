@@ -1,25 +1,48 @@
-﻿var express = require('express');
+﻿'use strict';
+
+var express = require('express');
 var router = express.Router();
 
-var bookshelf = require('./bookshelfRTCMS.js');
+//var bookshelf = require('./../models/BookshelfConnector');
+var Vehicle = require('./../models/VehicleModel.js');
 
-var Vehicle = bookshelf.Model.extend({
-    tableName: 'vehicle',
-    idAttribute: 'registration_number' // this line helped to implement update(HTTP->PUT) of a record
-});
-
+//var Vehicle = bookshelf.Model.extend( {
+//    tableName: 'vehicle',
+//    idAttribute: 'registration_number' // this line helped to implement update(HTTP->PUT) of a record
+//    //vehicle : function () {
+//    //    return this.belongsTo(Driver
+//    //};
+//});
 
 // get a list of all vehicles
 router.get('/', function (req, res) {
+    //Vehicle.forge()
+    //.fetchAll()
+    //.then(function (vehicle) {
+    //    res.json(vehicle.toJSON());
+    //})
+    //.catch(function (error) {
+    //    console.log(error);
+    //    res.send('An error occuered while retrieving vehicles data');
+    //});
+    // #2
+    //Vehicle.forge()
+    //.fetch({ withRelated: ['driver'] })
+    //.then(function (data) {
+    //    res.json(data.related('driver'));
+    //});
+
+    //#3
     Vehicle.forge()
     .fetchAll()
-    .then(function (vehicleCollection) {
-        res.json(vehicleCollection.toJSON());
-    })
-    .catch(function (error) {
-        console.log(error);
-        res.send('An error occuered while retrieving vehicles data');
+    .then(function (vehicle) {
+        vehicle
+        .load(['driver'])
+        .then(function (model) {
+            res.json(model.toJSON());
+        });
     });
+
 });
 
 // creates a new vehicle
@@ -93,7 +116,6 @@ router.delete('/:registration_number', function (req, res) {
         res.status(500).json({ error: true, data: { message: error.message } });
     }); 
 });
-
 
 module.exports = router;
 

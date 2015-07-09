@@ -1,24 +1,25 @@
-﻿var express = require('express');
+﻿'use strict';
+
+var express = require('express');
 var router = express.Router();
 
-var bookshelf = require('./bookshelfRTCMS.js');
+//var bookshelf = require('./../models/BookshelfConnector');
+var Driver = require('./../models/DriverModel.js');
 
-var Driver, Vehicle;
+//var Driver, Vehicle;
 
-Vehicle = bookshelf.Model.extend({
-    tableName: 'vehicle',
-    idAttribute: 'id_registration_number',
-});
+//Vehicle = bookshelf.Model.extend({
+//    tableName: 'vehicle',
+//    idAttribute: 'id_registration_number',
+//});
 
-Driver = bookshelf.Model.extend({
-    tableName: 'driver',
-    idAttribute: 'id_driver',
-    vehicle : function () {
-        return this.hasOne(Vehicle, ['id_driver']);
-    }
-});
-
-
+//var Driver = bookshelf.Model.extend({
+//    tableName: 'driver',
+//    idAttribute: 'id_driver',
+//    vehicle : function () {
+//        return this.hasOne(Vehicle, ['id_driver']);
+//    }
+//});
 
 // get all drivers list
 router.get('/', function (req, res) {
@@ -38,20 +39,14 @@ router.get('/', function (req, res) {
         driver
         .load(['vehicle'])
         .then(function (model) {
-            res.json(model.toJSON()); 
+            res.json(model.toJSON());
         });
         
+    })
+    .catch(function (error) {
+        console.log(error);
+        res.send('An error occured');
     });
-
-    //Driver.forge({ id_driver: 2 })
-    //.vehicle()
-    //.fetch()
-    //.then(function (data) {
-    //    res.json(data);
-    //})
-    //.catch(function (error) {
-    //    res.send(error);
-    //});
 });
 
 // create a new driver and insert into the database
@@ -68,7 +63,7 @@ router.post('/', function (req, res) {
         phone_number: req.body.phone_number,
         email: req.body.email,
         driving_licence_number: req.body.driving_licence_number,
-        vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
+        //vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
     })
     .save()
     .then(function (driver) {
@@ -134,6 +129,5 @@ router.delete('/:id_driver', function (req, res) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
-
 
 module.exports = router;
