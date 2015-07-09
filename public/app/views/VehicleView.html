@@ -21,7 +21,7 @@
                         <tr ng-repeat="vehicle in vehicles" selection-model>
                             <td>{{$index+1}}</td>
                             <td>{{vehicle.id_registration_number}}</td>
-                            <td>{{vehicle.id_driver}}</td>
+                            <td>{{vehicle.driver.first_name + " " + vehicle.driver.last_name}}</td>
                             <td>{{vehicle.make}}</td>
                             <td>{{vehicle.model}}</td>
                             <td>{{vehicle.passenger_seat_number}}</td>
@@ -68,6 +68,16 @@
                                 <label for="editPassengerSeatId">Passenger Seat number</label>
                                 <input type="text" class="form-control" id="editPassengerSeatId" placeholder="Passenger Seat number">
                             </div>
+                            <!--Driver-->
+                            <label for="editDriverId">Driver</label>
+                            <div class="dropdown" id="editDriverId">
+                                <button class="btn btn-default" data-toggle="dropdown"><span id="editDropdownTitle">Choose a driver for this vehicle</span><span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="editDriverId">
+                                    <li ng-repeat="driver in drivers">
+                                        <a ng-click="onDropdownMenuSelected($index, 'edit')">{{driver.first_name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <!--Modal Footer-->
                         <div class="modal-footer">
@@ -111,6 +121,16 @@
                             <div class="form-group">
                                 <label for="passengerSeatId">Passenger Seat number</label>
                                 <input type="text" class="form-control" id="addPassengerSeatId" placeholder="Passenger Seat number">
+                            </div>
+                            <!--Driver-->
+                            <label for="addDriverId">Driver</label>
+                            <div class="dropdown" id="driverId">
+                                <button class="btn btn-default" data-toggle="dropdown"><span id="addDropdownTitle">Choose a driver for this vehicle</span><span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="addDriverId">
+                                    <li ng-repeat="driver in drivers">
+                                        <a ng-click="onDropdownMenuSelected($index, 'add')">{{driver.first_name}}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <!-- Modal Footer-->

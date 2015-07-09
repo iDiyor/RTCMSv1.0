@@ -49,14 +49,15 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
     
     Vehicle.forge({
-        registration_number: req.body.registration_number,
+        id_registration_number: req.body.id_registration_number,
         make: req.body.make,
         model: req.body.model,
-        passenger_seat_number: req.body.passenger_seat_number
+        passenger_seat_number: req.body.passenger_seat_number,
+        id_driver: req.body.id_driver
     })
     .save(null, { method: 'insert' })
     .then(function (vehicle) {
-        res.json({ error: false, data: { registration_number: vehicle.get('registration_number') } });
+        res.json({ error: false, data: { id_registration_number: vehicle.get('id_registration_number') } });
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
@@ -64,14 +65,14 @@ router.post('/', function (req, res) {
 });
 
 // get a vehicle by reg number
-router.get('/:registration_number', function (req, res) {
+router.get('/:id_registration_number', function (req, res) {
     /* req.params - An object containing properties mapped to the named route “ parameters” .For example, 
     if you have the route /user/:name, then the “name” property is available as req.params.name.
     This object defaults to { }.*/
-    Vehicle.forge({ registration_number: req.params.registration_number })
+    Vehicle.forge({ id_registration_number: req.params.id_registration_number })
    .fetch()
-   .then(function (vehicleData) {
-        res.json(vehicleData.toJSON());
+   .then(function (vehicle) {
+        res.json(vehicle.toJSON());
     })
    .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
@@ -79,18 +80,19 @@ router.get('/:registration_number', function (req, res) {
 });
 
 // put/update a vehicle by reg number
-router.put('/:registration_number', function (req, res) {
+router.put('/:id_registration_number', function (req, res) {
     /* req.params - An object containing properties mapped to the named route “ parameters” .For example, 
     if you have the route /user/:name, then the “name” property is available as req.params.name.
     This object defaults to { }.*/
    
-    Vehicle.forge({ registration_number : req.params.registration_number })
+    Vehicle.forge({ id_registration_number : req.params.id_registration_number })
    .fetch()
    .then(function (vehicle) {
         vehicle.save({
             make: req.body.make, 
             model: req.body.model,
-            passenger_seat_number: req.body.passenger_seat_number
+            passenger_seat_number: req.body.passenger_seat_number,
+            id_driver: req.body.id_driver
         })
         .then(function () {
             res.json({ error: false, message: 'Record updated' });
@@ -101,11 +103,11 @@ router.put('/:registration_number', function (req, res) {
     }); 
 });
 
-router.delete('/:registration_number', function (req, res) {
+router.delete('/:id_registration_number', function (req, res) {
     
     // pay attention to req.body and req.params
-    Vehicle.forge({ registration_number: req.params.registration_number })
-    .fetch()
+    Vehicle.forge({ id_registration_number: req.params.id_registration_number })
+    .fetch({ require: true })
     .then(function (vehicle) {
         vehicle.destroy()
         .then(function () {
