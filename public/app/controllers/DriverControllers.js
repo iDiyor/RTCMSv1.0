@@ -8,6 +8,7 @@ var driverControllers = angular.module('driverControllers', ['vehicleServices'])
 driverControllers.controller('DriverCtrl', ['$scope', 'Driver', function ($scope, Driver) {
         $scope.drivers = Driver.query();
         
+       
         // temp variables
         $scope.rowIndex = -1;
         //$scope.registrataionNumber = null;

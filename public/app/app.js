@@ -1,4 +1,13 @@
-var app = angular.module('RTCMS', ['ngRoute', 'driverControllers', 'driverServices', 'vehicleControllers', 'vehicleServices', 'mapControllers']);
+var app = angular.module('RTCMS', ['ngRoute', 
+                                    // driver 
+                                    'driverControllers', 
+                                    'driverServices', 
+                                    // vehicle
+                                    'vehicleControllers', 
+                                    'vehicleServices', 
+                                    // map
+                                    'mapControllers', 
+                                    'mapServices']);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -28,10 +37,4 @@ app.controller('MainAppController', function ($scope) {
     $scope.onTabClicked = function (tabId) {
         console.log(tabId);
     };
-});
-
-
-// Map tab
-app.controller('MapController', function ($scope) {
-    $scope.title = 'Map Tab';
 });
