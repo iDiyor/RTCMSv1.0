@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
 var api = require('./routes/api');
 
 var app = express();
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/app/views/index.html');
 });
+
 app.use('/api', api);
 
 

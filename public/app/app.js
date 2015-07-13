@@ -7,7 +7,9 @@ var app = angular.module('RTCMS', ['ngRoute',
                                     'vehicleServices', 
                                     // map
                                     'mapControllers', 
-                                    'mapServices']);
+                                    'mapServices',
+                                    // message
+                                    'messageControllers']);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -27,6 +29,10 @@ app.config(function ($routeProvider) {
    .when('/map', {
         templateUrl: 'app/views/MapView.html',
         controller: 'MapCtrl'
+    })
+   .when('/message', {
+        templateUrl: 'app/views/MessageView.html',
+        controller: 'MessageCtrl'
     })
 });
 
