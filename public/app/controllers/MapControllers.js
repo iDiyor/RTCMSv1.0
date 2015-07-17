@@ -8,27 +8,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         
         $scope.viewTitle = 'MapView';    
 
-        var london = ol.proj.fromLonLat([-0.12755, 51.507222]);    
-        
-        ///* Elements of popup */
-        //var popupContainer = document.getElementById('popup');
-        //var popupContent = document.getElementById('popup-content');
-        //var popupCloser = document.getElementById('popup-closer');
-        
-        ///* Closes the popup */
-        //popupCloser.onclick = function () {
-        //    overlay.setPosition(undefined);
-        //    closer.blur();
-        //    return false;
-        //};
-        
-        
-        /* An overlay to anchor the popup to the map */
-        //var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
-        //    //position: london,
-        //    element: popupContainer,
-        //}));
-        
         var view = new ol.View({
             center: london,
             zoom: 15
@@ -68,7 +47,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         });    
         
 
-
+        var socket = io.connect('http://52.28.143.209:3000/');
         
-        var london = ol.proj.fromLonLat([-0.12755, 51.507222]);
+        //var socket = io.connect('http://localhost:3000/');
+        socket.on('server:location', function (data) {
+            $scope.longitude = data.longitude;
+            $scope.latitude = data.latitude;
+            
+        });
 }]);
