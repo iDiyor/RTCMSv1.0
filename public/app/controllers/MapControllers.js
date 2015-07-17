@@ -51,7 +51,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         
         //var socket = io.connect('http://localhost:3000/');
         socket.on('server:message', function (data) {
-            $scope.status = JSON.parse(data);
+            $scope.status = data.status;
             console.log('web :' + data);
         });
         
