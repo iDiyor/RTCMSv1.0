@@ -50,6 +50,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         var socket = io.connect('http://52.28.143.209:3000/');
         
         //var socket = io.connect('http://localhost:3000/');
+        socket.on('server:message', function (data) {
+            $scope.status = data.status;
+        });
+        
         socket.on('server:location', function (data) {
             $scope.longitude = data.longitude;
             $scope.latitude = data.latitude;
