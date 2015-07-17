@@ -7,6 +7,25 @@ var mapControllers = angular.module('mapControllers', []);
 mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Location) {
         
         $scope.viewTitle = 'MapView';    
+        
+        
+        var socket = io.connect('http://52.28.143.209:3000/');
+        
+        //var socket = io.connect('http://localhost:3000');
+        socket.on('server:message', function (data) {
+            $scope.status = data.status;
+            console.log(data);
+        });
+        
+        socket.on('server:location', function (data) {
+            $scope.longitude = data.longitude;
+            $scope.latitude = data.latitude;
+            console.log(data);
+            
+        });
+        
+        
+        
 
         var view = new ol.View({
             //center: london,
@@ -47,18 +66,4 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         });    
         
 
-        var socket = io.connect('http://52.28.143.209:3000/');
-        
-        //var socket = io.connect('http://localhost:3000/');
-        socket.on('server:message', function (data) {
-            $scope.status = data.status;
-            console.log('web :' + data);
-        });
-        
-        socket.on('server:location', function (data) {
-            $scope.longitude = data.longitude;
-            $scope.latitude = data.latitude;
-            console.log('web :' + data);
-            
-        });
 }]);
