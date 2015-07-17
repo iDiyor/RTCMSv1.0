@@ -6,21 +6,6 @@ var router = express.Router();
 //var bookshelf = require('./../models/BookshelfConnector');
 var Driver = require('./../models/DriverModel.js');
 
-//var Driver, Vehicle;
-
-//Vehicle = bookshelf.Model.extend({
-//    tableName: 'vehicle',
-//    idAttribute: 'id_registration_number',
-//});
-
-//var Driver = bookshelf.Model.extend({
-//    tableName: 'driver',
-//    idAttribute: 'id_driver',
-//    vehicle : function () {
-//        return this.hasOne(Vehicle, ['id_driver']);
-//    }
-//});
-
 // get all drivers list
 router.get('/', function (req, res) {
     //Driver.forge()

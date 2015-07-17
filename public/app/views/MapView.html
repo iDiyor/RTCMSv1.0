@@ -1,18 +1,23 @@
 ﻿<div>
-    {{viewTitle}}
-   <h2>Map View</h2>
-    <div class="row-fluid">
-        <div class="span12">
-            <!--Map-->
-            <div id="map" class="map">
+    <!--Navigation-->
+    <!--<div ng-include="'app/views/NavigationView.html'"></div>-->
+    <!--Page Content-->
+    <div>
+        <h2>Map View</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <!--Map-->
+                <div id="map" class="map">
 
-            </div>
-            <!--Pop up on map-->
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
+                </div>
+                <!--Pop up on map-->
+                <div class="popup-container">
+                    <div id="popup" class="ol-popup">
+                        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                        <div id="popup-content"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
 </div>

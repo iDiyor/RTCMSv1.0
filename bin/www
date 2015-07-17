@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var io = require('../socketio'); //#########################
+var io = require('../SocketIOServer/SocketIO'); //#########################
 var debug = require('debug')('procab:server');
 var http = require('http');
 

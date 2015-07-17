@@ -16,7 +16,7 @@ var ConnectionStatus = UserAccess.ConnectionStatus;
 var SupportedUserType = ['admin', 'driver'];
 var userType;
 
-router.post('/login', function (req, res) {
+router.post('/authenticate', function (req, res) {
     UserLogin.forge({
         username: req.body.username,
         password: req.body.password
@@ -27,16 +27,24 @@ router.post('/login', function (req, res) {
         // use user id to redirect to specific page or operation
         checkForUserType(user, function (data) {
             var resJSON = {
-                userName: data.userProfile.first_name,
-                userType: data.userType,
-                userProfile: data.userProfile
+                responseStatus: 'success',
+                responseBody: {
+                    userName: data.userProfile.first_name,
+                    userType: data.userType,
+                    userProfile: data.userProfile
+                }
             };
             res.json(resJSON);
         });
         
     })
     .catch(function(error) {
-        res.status(500).json({ error: true, data: { message: error.message } });
+        res.status(500).json({
+            responseStatus: 'failure',
+            responseBody: {
+                message: error.message
+            }
+        });
     });
     
 });
@@ -87,7 +95,6 @@ function fetchUserDataForUserType(userType, callback) {
             });
         }
     }
-    
 }
 
 function getDriverDataByDriverGroupId(driverGroup, callback) {
