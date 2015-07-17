@@ -9,7 +9,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         $scope.viewTitle = 'MapView';    
         
         
-        var socket = io.connect('http://52.28.143.209:3000/');
+        var socket = io.connect('http://52.28.143.209:3000');
         
         //var socket = io.connect('http://localhost:3000');
         socket.on('server:message', function (data) {
