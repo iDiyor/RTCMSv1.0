@@ -9,7 +9,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         $scope.viewTitle = 'MapView';    
 
         var view = new ol.View({
-            center: london,
+            //center: london,
             zoom: 15
         });    
         
