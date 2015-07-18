@@ -2,12 +2,11 @@
 
 /* Controllers */
 
-var mapControllers = angular.module('mapControllers', []);
+var mapControllers = angular.module('mapControllers', ['socketServices']);
 
 mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function ($scope, Location, Socket) {
         
         $scope.viewTitle = 'MapView';    
-        $scope.longitude = 122354;
         
         //var socket = io.connect('http://52.28.143.209:3000');
         
@@ -24,7 +23,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
         //});
         Socket.On('server:message', function (data) {
-            $scope.status = data.status; 
+            $scope.status = data.status;
+            $scope.latitude = data.status;
         });
         
         

@@ -14,4 +14,6 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
                 });
             });
         };
+
+        return services;
 }]);
