@@ -19,14 +19,18 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         //socket.on('server:location', function (data) {
         //    $scope.longitude = data.longitude;
         //    $scope.latitude = data.latitude;
-        //    console.log(data);
-            
+        //    console.log(data);          
         //});
+
         Socket.On('server:message', function (data) {
             $scope.status = data.status;
-            $scope.latitude = data.status;
         });
         
+        Socket.On('server:location', function (data) {
+            $scope.longitude = data.longitude;
+            $scope.latitude = data.latitude;
+            console.log(data);
+        });
         
 
         var view = new ol.View({

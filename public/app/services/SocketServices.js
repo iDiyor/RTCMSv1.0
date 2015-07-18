@@ -8,9 +8,10 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
         var services = {};
         
         services.On = function (eventName, callback) {
-            socket.on(eventName, function (data) {
+            socket.on(eventName, function () {
+                var args = arguments;
                 $rootScope.$apply(function () {
-                    callback.apply(socket, data);
+                    callback.apply(socket, args);
                 });
             });
         };
