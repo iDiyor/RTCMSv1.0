@@ -4,26 +4,28 @@
 
 var mapControllers = angular.module('mapControllers', []);
 
-mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Location) {
+mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function ($scope, Location, Socket) {
         
         $scope.viewTitle = 'MapView';    
+        $scope.longitude = 122354;
         
-        
-        var socket = io.connect('http://52.28.143.209:3000');
+        //var socket = io.connect('http://52.28.143.209:3000');
         
         //var socket = io.connect('http://localhost:3000');
-        socket.on('server:message', function (data) {
-            $scope.status = data.status;
-            console.log(data);
-        });
+        //socket.on('server:message', function (data) {
+        //    $scope.status = data.status;
+        //    console.log(data);
+        //});
         
-        socket.on('server:location', function (data) {
-            $scope.longitude = data.longitude;
-            $scope.latitude = data.latitude;
-            console.log(data);
+        //socket.on('server:location', function (data) {
+        //    $scope.longitude = data.longitude;
+        //    $scope.latitude = data.latitude;
+        //    console.log(data);
             
+        //});
+        Socket.On('server:message', function (data) {
+            $scope.status = data.status; 
         });
-        
         
         
 

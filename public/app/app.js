@@ -14,7 +14,9 @@ var app = angular.module('RTCMS', [/*'ngRoute',*/ 'ui.router',
                                     'mapControllers', 
                                     'mapServices',
                                     // message
-                                    'messageControllers']);
+                                    'messageControllers',
+                                    // socket services
+                                    'socketServices']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
