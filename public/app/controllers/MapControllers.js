@@ -9,7 +9,17 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         $scope.viewTitle = 'MapView';    
         
         var mapOverlays = [];
-       
+        
+        // convert radians to degrees
+        function radToDeg(rad) {
+            return rad * 360 / (Math.PI * 2);
+        }
+        // convert degrees to radians
+        function degToRad(deg) {
+            return deg * Math.PI * 2 / 360;
+        }
+        
+
         // view
         var view = new ol.View({
             center: [0,0],
@@ -74,6 +84,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var mobileLocation = [data.longitude, data.latitude];
             var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
             geolocation.set('position', projectedLocation);
+            geolocation.set('accuracy', data.accuracy);
+            geolocation.set('speed', data.speed);
+            geolocation.set('heading', degToRad(data.bearing));
             geolocation.changed();
             console.log(data);
         });
