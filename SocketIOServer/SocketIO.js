@@ -9,6 +9,11 @@ io.on('connection', function (socket) {
         // this will inform web app about mobile device connection and creates a popup for it
         socket.broadcast.emit('server:mobile:connection', data);         
     });
+    
+    socket.on('mobile:connection', function (data) {
+        // this will inform web app about mobile device connection and creates a popup for it
+        socket.broadcast.emit('server:mobile:connection', data);
+    });
 
     // on location data receive from mobile app 
     socket.on('mobile:location', function (data) {
@@ -16,6 +21,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('server:location', data);
     });
 
+    socket.on('disconnect', function () {
+        console.log('client disconnected');
+    });
 });
+
+
 
 module.exports = io;
