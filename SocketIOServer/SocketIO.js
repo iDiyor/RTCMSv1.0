@@ -5,12 +5,15 @@ io.on('connection', function (socket) {
     
     socket.emit('server:message', { status: 'connection success' });
     
-    socket.on('client:connection', function (data) {
-        //if (data.client == 'mobile') {
+    socket.on('client:connection', function (clientData) {
+        if (clientData.type == 'mobile') {
             // this will inform web app about mobile device connection and creates a popup for it
-        socket.broadcast.emit('server:mobile:connection', data);
-        console.log(data);
-        //}                 
+            socket.broadcast.emit('server:mobile:connection', clientData);
+        }
+        else if (clientData.type == 'web') {
+            // this will inform other clients about web client connection
+            socket.broadcast.emit('server:web:connection', clientData);
+        }        
     });
     
     // on location data receive from mobile app 
@@ -19,13 +22,13 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('server:location', data);
     });
 
-    socket.on('client:disconnection', function (data) {
-        if (data.client == 'mobile') {
+    socket.on('client:disconnection', function (clientData) {
+        if (clientData.type == 'mobile') {
             console.log('mobile client disconnected');
             // need to figure out how to categorise phone and web disconnection
-            socket.broadcast.emit('server:mobile:disconnection');
+            socket.broadcast.emit('server:mobile:disconnection', clientData);
         }
-        else if (data.client == 'web') {
+        else if (clientData.type == 'web') {
             console.log('web client disconnected');
         }
     });

@@ -56,10 +56,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             $scope.longitude = position[0];
             $scope.latitude = position[1];
-
-            var overlay = mapOverlays[0];
-            overlay.setPosition(position);
-            view.setCenter(position);
+            
+            if (mapOverlays.length > 0) {
+                var overlay = mapOverlays[0];
+                overlay.setPosition(position);
+                view.setCenter(position);
+            }
         });
         
         geolocation.on('error', function () {
@@ -93,16 +95,21 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         // on mobile connection event from the server 
         // creates a popup for this mobile
-        Socket.On('server:mobile:connection', function (data) {
+        Socket.On('server:mobile:connection', function (clientData) {
             var popup = $('#popup').clone().show();
-            var popupContent = $(popup).find('#popup-content').html('<p>' + data.client + '</p>');
+            var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             var overlay = new ol.Overlay({
                 element: popup
             });
             mapOverlays.push(overlay);
             map.addOverlay(overlay);
         });
-
+        // on mobile disconnection event from the server
+        Socket.On('server:mobile:disconnection', function (clientData) {
+            var overlay = mapOverlays[0];
+            map.removeOverlay(overlay);
+            delete mapOverlays[0];
+        });
 
         //var i;
         //var overlay, overlay2;
