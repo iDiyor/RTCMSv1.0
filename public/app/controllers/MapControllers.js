@@ -109,7 +109,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         Socket.On('server:mobile:disconnection', function (clientData) {
             var overlay = mapOverlays[0];
             map.removeOverlay(overlay);
-            delete mapOverlays[0];
+            mapOverlays.slice(0, 1);
         });
 
         //var i;
