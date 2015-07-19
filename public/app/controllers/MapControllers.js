@@ -84,6 +84,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             mapOverlays.push(overlay);
             map.addOverlay(overlay);
+            console.log(mapOverlays.length);
         });
 
 
