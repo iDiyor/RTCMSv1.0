@@ -8,36 +8,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.viewTitle = 'MapView';    
         
-        //var socket = io.connect('http://52.28.143.209:3000');
-        
-        //var socket = io.connect('http://localhost:3000');
-        //socket.on('server:message', function (data) {
-        //    $scope.status = data.status;
-        //    console.log(data);
-        //});
-        
-        //socket.on('server:location', function (data) {
-        //    $scope.longitude = data.longitude;
-        //    $scope.latitude = data.latitude;
-        //    console.log(data);          
-        //});
-
-        Socket.On('server:message', function (data) {
-            $scope.status = data.status;
-        });
-        
-        Socket.On('server:location', function (data) {
-            $scope.longitude = data.longitude;
-            $scope.latitude = data.latitude;
-            console.log(data);
-        });
-        
-
+       
+        // view
         var view = new ol.View({
             //center: london,
             zoom: 15
         });    
-        
+        // layer with OpenStreetMap
         var layer = new ol.layer.Tile({
             source: new ol.source.OSM()
         });
@@ -48,6 +25,55 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             target: 'map',
             view: view
         });    
+        
+        var geolocation = new ol.Geolocation({
+            projection: view.getProjection(),      
+            trackingOptions: {
+                maximumAge: 10000,
+                enableHighAccuracy: true,
+                timeout: 600000
+            }      
+        });
+        
+        geolocation.on('change', function (evt) {
+            var position = geolocation.getPosition();
+            var coords = position.coords;
+            
+            $scope.longitude = coords.longitude;
+            $scope.latitude = coords.latitude;
+            
+        });
+
+        //var socket = io.connect('http://52.28.143.209:3000');
+        
+        //var socket = io.connect('http://localhost:3000');
+        
+        /* SOCKET EVENT HANDLERS */
+
+        // connection status from the server
+        Socket.On('server:message', function (data) {
+            $scope.status = data.status;
+        });
+        
+        // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB
+        Socket.On('server:location', function (data) {
+            //$scope.longitude = data.longitude;
+            //$scope.latitude = data.latitude;
+            var mobileLocation = [data.longitude, data.latitude];
+            var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
+            geolocation.set('position', projectedLocation);
+            geolocation.changed();
+            console.log(data);
+        });
+        
+        // on mobile connection event from the server 
+        // creates a popup for this mobile
+        Socket.On('server:mobile:connection', function (data) {
+            
+        });
+
+
+
         
         var i;
         var overlay, overlay2;
@@ -71,5 +97,4 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             };    
         });    
         
-
 }]);
