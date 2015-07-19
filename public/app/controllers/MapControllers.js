@@ -24,6 +24,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             layers: [layer],
             //overlays: [overlay],
             target: 'map',
+            controls: ol.control.defaults({
+                attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                    collapsible: false
+                })
+            }),
             view: view
         });    
         
