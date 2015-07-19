@@ -103,6 +103,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             mapOverlays.push(overlay);
             map.addOverlay(overlay);
+            console.log('mobile connect');
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
