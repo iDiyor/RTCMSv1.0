@@ -37,10 +37,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         geolocation.on('change', function (evt) {
             var position = geolocation.getPosition();
-            var coords = position.coords;
             
-            $scope.longitude = coords.longitude;
-            $scope.latitude = coords.latitude;
+            $scope.longitude = position[0];
+            $scope.latitude = position[1];
             
         });
 
