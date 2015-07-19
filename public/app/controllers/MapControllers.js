@@ -101,15 +101,17 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var overlay = new ol.Overlay({
                 element: popup
             });
-            mapOverlays.push(overlay);
             map.addOverlay(overlay);
+            mapOverlays.push(overlay);
             console.log('mobile connect');
+            console.log(mapOverlays.length);
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
             var overlay = mapOverlays[0];
             map.removeOverlay(overlay);
             mapOverlays.slice(0, 1);
+            console.log(mapOverlays.length);
         });
 
         //var i;
