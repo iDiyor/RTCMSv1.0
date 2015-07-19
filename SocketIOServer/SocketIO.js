@@ -6,10 +6,11 @@ io.on('connection', function (socket) {
     socket.emit('server:message', { status: 'connection success' });
     
     socket.on('client:connection', function (data) {
-        if (data.client == 'mobile') {
+        //if (data.client == 'mobile') {
             // this will inform web app about mobile device connection and creates a popup for it
-            socket.broadcast.emit('server:mobile:connection', data);
-        }                 
+        socket.broadcast.emit('server:mobile:connection', data);
+        console.log(data);
+        //}                 
     });
     
     // on location data receive from mobile app 
