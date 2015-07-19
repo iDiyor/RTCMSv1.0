@@ -8,7 +8,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.viewTitle = 'MapView';    
         
-        var mapOverlays = {};
+        var mapOverlays = [];
        
         // view
         var view = new ol.View({
