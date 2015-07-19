@@ -8,6 +8,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.viewTitle = 'MapView';    
         
+        var mapOverlays = {};
        
         // view
         var view = new ol.View({
@@ -40,15 +41,23 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             $scope.longitude = position[0];
             $scope.latitude = position[1];
+
+            var overlay = mapOverlays[0];
+            overlay.setPosition(position);
+            view.setCenter(position);
             
         });
-
-        //var socket = io.connect('http://52.28.143.209:3000');
         
-        //var socket = io.connect('http://localhost:3000');
+        geolocation.on('error', function () {
+            alert('geolocation error');
+            // FIXME we should remove the coordinates in positions
+        });
+
+
         
         /* SOCKET EVENT HANDLERS */
-
+        //var socket = io.connect('http://52.28.143.209:3000');      
+        //var socket = io.connect('http://localhost:3000');
         // connection status from the server
         Socket.On('server:message', function (data) {
             $scope.status = data.status;
@@ -68,32 +77,36 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // on mobile connection event from the server 
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (data) {
-            
+            var popup = $('#popup').clone().show();
+            var popupContent = $(popup).find('#popup-content').html('<p>my android</p>');
+            var overlay = new ol.Overlay({
+                element: popup
+            });
+            mapOverlays.push(overlay);
+            map.addOverlay(overlay);
         });
 
 
+        //var i;
+        //var overlay, overlay2;
+        //var position;
 
-        
-        var i;
-        var overlay, overlay2;
-        var position;
-
-        Location.GetLocation('', function (res) {
+        //Location.GetLocation('', function (res) {
             
-            for (i = 0; i < res.length; i++) {
-                var position = ol.proj.fromLonLat([res[i].longitude, res[i].latitude]);
-                var popup = $('#popup').clone().show();//find('#popup-content').html('<p>Hello World!</p>').
-                var popupContent = $(popup).find('#popup-content').html('<p>' + res[i].description +'</p>');
+        //    for (i = 0; i < res.length; i++) {
+        //        var position = ol.proj.fromLonLat([res[i].longitude, res[i].latitude]);
+        //        var popup = $('#popup').clone().show();//find('#popup-content').html('<p>Hello World!</p>').
+        //        var popupContent = $(popup).find('#popup-content').html('<p>' + res[i].description +'</p>');
 
-                overlay = new ol.Overlay({
-                    position: position,
-                    element: popup
-                });
+        //        overlay = new ol.Overlay({
+        //            position: position,
+        //            element: popup
+        //        });
 
-                map.addOverlay(overlay);
+        //        map.addOverlay(overlay);
 
-                view.setCenter(position);
-            };    
-        });    
+        //        view.setCenter(position);
+        //    };    
+        //});    
         
 }]);
