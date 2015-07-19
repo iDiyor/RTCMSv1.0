@@ -95,7 +95,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (data) {
             var popup = $('#popup').clone().show();
-            var popupContent = $(popup).find('#popup-content').html('<p>' + data + '</p>');
+            var popupContent = $(popup).find('#popup-content').html('<p>' + data.client + '</p>');
             var overlay = new ol.Overlay({
                 element: popup
             });
