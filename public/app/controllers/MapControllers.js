@@ -12,8 +12,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
        
         // view
         var view = new ol.View({
-            //center: london,
-            zoom: 15
+            center: [0,0],
+            zoom: 2
         });    
         // layer with OpenStreetMap
         var layer = new ol.layer.Tile({
@@ -45,7 +45,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var overlay = mapOverlays[0];
             overlay.setPosition(position);
             view.setCenter(position);
-            
         });
         
         geolocation.on('error', function () {
@@ -78,13 +77,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (data) {
             var popup = $('#popup').clone().show();
-            var popupContent = $(popup).find('#popup-content').html('<p>my android</p>');
+            var popupContent = $(popup).find('#popup-content').html('<p>' + data + '</p>');
             var overlay = new ol.Overlay({
                 element: popup
             });
             mapOverlays.push(overlay);
             map.addOverlay(overlay);
-            console.log(mapOverlays.length);
         });
 
 
