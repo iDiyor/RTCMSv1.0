@@ -9,10 +9,10 @@
 #marker {
   width: 20px;
   height: 20px;
-  border: 1px solid #f6cc47;
+  border: 1px solid #000;
   border-radius: 5px;
-  background-color: #fffa8c;
-  opacity: 0.5;
+  background-color: #f67c47;
+  opacity: 0.75;
 }
 
 .ol-popup {
