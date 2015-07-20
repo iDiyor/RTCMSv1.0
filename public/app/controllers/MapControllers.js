@@ -19,7 +19,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             return deg * Math.PI * 2 / 360;
         }
         
-
         // view
         var view = new ol.View({
             center: [0,0],
@@ -102,9 +101,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         Socket.On('server:mobile:connection', function (clientData) {
             var popup = $('#popup').clone().show();
             var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
-            //var marker = $('#location_marker');
+            var marker = $('#location_marker');
             var overlay = new ol.Overlay({
-                element: popup
+                element: marker
             });
             map.addOverlay(overlay);
             mapOverlays.push(overlay);
@@ -121,6 +120,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             }
             console.log(mapOverlays.length);
         });
+
 
         //var i;
         //var overlay, overlay2;
