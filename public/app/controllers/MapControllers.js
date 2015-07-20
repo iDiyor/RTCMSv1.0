@@ -104,8 +104,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var marker = $('#marker');
             var icon = $('#location_marker');
             var overlay = new ol.Overlay({
-                element: icon
                 element: icon,
+                positioning: 'bottom-center',
+                stopEvent: false
             });
             map.addOverlay(overlay);
             mapOverlays.push(overlay);
