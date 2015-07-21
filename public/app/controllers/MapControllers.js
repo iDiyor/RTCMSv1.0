@@ -81,7 +81,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 if (overlay.getElement().is($(this))) {
                     console.log('true');
                     // popover
-                    $('[data-toggle="popover"]').popover();
+                    $('[data-toggle="popover"]').popover({
+                    content: '<p>' + mapOverlays[i].name + '</p>'});
                 } else {
                     console.log('false');
                 }
