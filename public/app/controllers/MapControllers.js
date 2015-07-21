@@ -76,10 +76,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var i;
             for (i = 0; i < mapOverlays.length; i++) {
                 var overlay = mapOverlays[i].overlay;
-                console.log(mapOverlays[i]);
-                console.log(overlay.getElement());
+                //console.log(mapOverlays[i]);
+                //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
                     console.log('true');
+                    var popup = $('#popup').clone().show();
+                    var popupContent = $(popup).find('#popup-content').html('<p>' + mapOverlays[i].name + '</p>');
+
                 } else {
                     console.log('false');
                 }
@@ -114,7 +117,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //var popup = $('#popup').clone().show();
             //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             //var marker = $('#marker');
-            var icon = $('.location_marker').clone(true);
+            var icon = $('.location_marker').clone(true); // clone(true) -> fixes click event on icon 
             var overlay = new ol.Overlay({
                 element: icon,
                 positioning: 'bottom-center',
