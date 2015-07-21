@@ -82,7 +82,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     console.log('true');
                     // popover
                     $('[data-toggle="popover"]').popover({
-                    content: '<p>' + mapOverlays[i].name + '</p>'});
+                    content: 'Name: ' + mapOverlays[i].name});
                 } else {
                     console.log('false');
                 }
