@@ -8,6 +8,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.viewTitle = 'MapView';    
         
+        // array to store icons/markers on the map
         var mapOverlays = [];
         
         // convert radians to degrees
@@ -63,8 +64,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 overlay.setPosition(position);
                 view.setCenter(position);
             }
-
-
         });
         
         geolocation.on('error', function () {
@@ -72,7 +71,19 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             // FIXME we should remove the coordinates in positions
         });
 
+        map.on('click', function (evt) {
+            var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                return feature;
+            });
 
+            if (feature) {
+                console.log(feature);
+            }
+        });
+        
+        $('#location_marker').click(function () {
+            console.log($(this)); 
+        });
         
         /* SOCKET EVENT HANDLERS */
         //var socket = io.connect('http://52.28.143.209:3000');      
@@ -99,16 +110,19 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // on mobile connection event from the server 
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (clientData) {
-            var popup = $('#popup').clone().show();
-            var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
-            var marker = $('#marker');
+            //var popup = $('#popup').clone().show();
+            //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
+            //var marker = $('#marker');
             var icon = $('#location_marker');
             var overlay = new ol.Overlay({
                 element: icon,
                 positioning: 'bottom-center',
                 stopEvent: false
             });
+            
+            // adding new overlay into the array
             map.addOverlay(overlay);
+            // adding new overlay on the map to make it visible
             mapOverlays.push(overlay);
             console.log('mobile connect');
             console.log('Devices online: ' + mapOverlays.length.toString());
@@ -124,27 +138,4 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             console.log(mapOverlays.length);
         });
 
-
-        //var i;
-        //var overlay, overlay2;
-        //var position;
-
-        //Location.GetLocation('', function (res) {
-            
-        //    for (i = 0; i < res.length; i++) {
-        //        var position = ol.proj.fromLonLat([res[i].longitude, res[i].latitude]);
-        //        var popup = $('#popup').clone().show();//find('#popup-content').html('<p>Hello World!</p>').
-        //        var popupContent = $(popup).find('#popup-content').html('<p>' + res[i].description +'</p>');
-
-        //        overlay = new ol.Overlay({
-        //            position: position,
-        //            element: popup
-        //        });
-
-        //        map.addOverlay(overlay);
-
-        //        view.setCenter(position);
-        //    };    
-        //});    
-        
 }]);
