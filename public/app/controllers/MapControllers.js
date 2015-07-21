@@ -72,7 +72,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         
         // show popup when click on a cab icon 
-        $('#location_marker').click(function () {
+        $('.location_marker').click(function () {
             var i;
             for (i = 0; i < mapOverlays.length; i++) {
                 var overlay = mapOverlays[i].overlay;
