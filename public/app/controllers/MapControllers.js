@@ -76,6 +76,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var i;
             for (i = 0; i < mapOverlays.length; i++) {
                 var overlay = mapOverlays[i].overlay;
+                console.log(mapOverlays[i]);
+                console.log(overlay.getElement());
                 if (overlay.getElement() == $(this)) {
                     console.log(mapOverlays[i].name);
                 }
