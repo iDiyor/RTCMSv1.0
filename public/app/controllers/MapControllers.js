@@ -132,7 +132,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
-            var overlay = mapOverlays[0];
+            var overlay = mapOverlays[0].overlay;
             map.removeOverlay(overlay);
             var index = mapOverlays.indexOf(overlay);
             if (index !== -1) {
