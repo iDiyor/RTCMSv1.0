@@ -80,7 +80,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
                     console.log('true');
-                    
+                    // popover
+                    $('[data-toggle="popover"]').popover();
                 } else {
                     console.log('false');
                 }
@@ -122,8 +123,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 stopEvent: false
             });
             
-            //init popover
-            $('[data-toggle="popover"]').popover();
+            
+           
             var object = { name: 'android', overlay: overlay };
 
             // adding new overlay into the array
