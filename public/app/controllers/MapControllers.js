@@ -80,9 +80,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
                     console.log('true');
-                    var popup = $('#popup').clone().show();
-                    var popupContent = $(popup).find('#popup-content').html('<p>' + mapOverlays[i].name + '</p>');
-
+                    $('[data-toggle="popover"]').popover();
                 } else {
                     console.log('false');
                 }
