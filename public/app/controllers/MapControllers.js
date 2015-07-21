@@ -9,7 +9,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         $scope.viewTitle = 'MapView';    
         
         // array to store icons/markers on the map
-        var mapOverlays = [];
+        var mapLocationMarkersArray = [];
         
         // convert radians to degrees
         function radToDeg(rad) {
@@ -59,8 +59,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             $scope.latitude = position[1];
             $scope.heading = Math.round(radToDeg(heading));
 
-            if (mapOverlays.length > 0) {
-                var overlay = mapOverlays[0].overlay;
+            if (mapLocationMarkersArray.length > 0) {
+                var overlay = mapLocationMarkersArray[0].overlay;
                 overlay.setPosition(position);
                 view.setCenter(position);
             }
@@ -74,15 +74,15 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // show popup when click on a cab icon 
         $('.location_marker').click(function () {
             var i;
-            for (i = 0; i < mapOverlays.length; i++) {
-                var overlay = mapOverlays[i].overlay;
+            for (i = 0; i < mapLocationMarkersArray.length; i++) {
+                var overlay = mapLocationMarkersArray[i].overlay;
                 //console.log(mapOverlays[i]);
                 //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
                     console.log('true');
                     // popover
                     $('[data-toggle="popover"]').popover({
-                    content: 'Name: ' + mapOverlays[i].name});
+                    content: 'Name: ' + mapLocationMarkersArray[i].name});
                 } else {
                     console.log('false');
                 }
@@ -117,34 +117,53 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //var popup = $('#popup').clone().show();
             //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             //var marker = $('#marker');
-            var icon = $('.location_marker').clone(true); // clone(true) -> fixes click event on icon 
+            var locationMarkerIcon = $('.location_marker').clone(true); // clone(true) -> fixes click event on icon 
             var overlay = new ol.Overlay({
-                element: icon,
+                element: locationMarkerIcon,
                 positioning: 'bottom-center',
                 stopEvent: false
             });
             
-            
-           
-            var object = { name: 'android', overlay: overlay };
+            // name should be unique for each connected device -> username of the driver
+            var locationMarkerObject = { name: 'android', overlay: overlay };
 
             // adding new overlay into the array
             map.addOverlay(overlay);
             // adding new overlay on the map to make it visible
-            mapOverlays.push(object);
+            mapLocationMarkersArray.push(locationMarkerObject);
             console.log('mobile connect');
-            console.log('Devices online: ' + mapOverlays.length.toString());
+            console.log('Devices online: ' + mapLocationMarkersArray.length.toString());
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
-            var object = mapOverlays[0];
-            var overlay = object.overlay;
-            map.removeOverlay(overlay);
-            var index = mapOverlays.indexOf(object);
-            if (index !== -1) {
-                mapOverlays.splice(index, 1);
+            // get the name of the disconnected device and remove from the array using that name
+            //  var clientName = clientData.name;
+            var clientName = 'android';
+
+            var i;
+            if (mapLocationMarkersArray.length > 0) {
+                for (i = 0; i < mapLocationMarkersArray.length; i++) {
+                    var locationMarkerObject = mapLocationMarkersArray[i];
+                    
+                    if (clientName == locationMarkerObject.name) {
+                        //remove the the map
+                        map.removeOverlay(locationMarkerObject.overlay);
+                        // remove from the array
+                        mapLocationMarkersArray.splice(i, 1);
+                    }
+                }
             }
-            console.log(mapOverlays.length);
+            
+            console.log(mapLocationMarkersArray.length);
+
+            //var object = mapOverlays[0];
+            //var overlay = object.overlay;
+            //map.removeOverlay(overlay);
+            //var index = mapOverlays.indexOf(object);
+            //if (index !== -1) {
+            //    mapOverlays.splice(index, 1);
+            //}
+            //console.log(mapOverlays.length);
         });
 
 }]);
