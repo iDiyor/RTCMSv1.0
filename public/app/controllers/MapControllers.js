@@ -60,7 +60,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             $scope.heading = Math.round(radToDeg(heading));
 
             if (mapOverlays.length > 0) {
-                var overlay = mapOverlays[0];
+                var overlay = mapOverlays[0].overlay;
                 overlay.setPosition(position);
                 view.setCenter(position);
             }
@@ -70,19 +70,16 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             alert('geolocation error');
             // FIXME we should remove the coordinates in positions
         });
-
-        map.on('click', function (evt) {
-            var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-                return feature;
-            });
-
-            if (feature) {
-                console.log(feature);
-            }
-        });
         
+        // show popup when click on a cab icon 
         $('#location_marker').click(function () {
-            console.log($(this)); 
+            var i;
+            for (i = 0; i < mapOverlays.length; i++) {
+                var overlay = mapOverlays[i].overlay;
+                if (overlay.getElement() === $(this)) {
+                    console.log(mapOverlays[i].name);
+                }
+            }
         });
         
         /* SOCKET EVENT HANDLERS */
@@ -120,10 +117,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 stopEvent: false
             });
             
+            var object = { name: 'android', overlay: overlay };
+
             // adding new overlay into the array
             map.addOverlay(overlay);
             // adding new overlay on the map to make it visible
-            mapOverlays.push(overlay);
+            mapOverlays.push(object);
             console.log('mobile connect');
             console.log('Devices online: ' + mapOverlays.length.toString());
         });
