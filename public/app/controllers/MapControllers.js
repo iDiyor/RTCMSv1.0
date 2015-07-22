@@ -117,7 +117,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //var popup = $('#popup').clone().show();
             //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             //var marker = $('#marker');
-            var locationMarkerIcon = $('.location_marker').clone(true); // clone(true) -> fixes click event on icon 
+            var locationMarkerIcon = $('.location_marker').clone(true, true); // clone(true) -> fixes click event on icon 
             var overlay = new ol.Overlay({
                 element: locationMarkerIcon,
                 positioning: 'bottom-center',
