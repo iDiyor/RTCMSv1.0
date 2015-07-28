@@ -122,7 +122,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.set('heading', degToRad(clientData.bearing));
                     // TODO geolocation service same as openlayers -> with changed, on, ... events
                     geolocation.changed();
-                    $scope.$emit('LocationUpdate', clientData.user);
+                    $scope.$emit('LocationUpdate', { user: clientData.user });
                     
                     
 
@@ -134,9 +134,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //$scope.$emit('LocationUpdate');
         });
         
-        $scope.$on('LocationUpdate', function (data) {
+        $scope.$on('LocationUpdate', function (event, args) {
             // line below never called
-            console.log(data);
+            console.log(args.user);
             //if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
             //    for (var i = 0; i < userGeolocationDataArray.length; i++) {
             //        var userGeolocationObject = userGeolocationDataArray[i];
