@@ -105,7 +105,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         Socket.On('server:location', function (clientData) {
             //$scope.longitude = data.longitude;
             //$scope.latitude = data.latitude;
-            var mobileLocation = [data.longitude, data.latitude];
+            var mobileLocation = [clientData.longitude, clientData.latitude];
             var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
             
             for (var userGeolocationObject in userGeolocationDataArray) {
