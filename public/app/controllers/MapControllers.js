@@ -105,14 +105,16 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         Socket.On('server:location', function (clientData) {
             //$scope.longitude = data.longitude;
             //$scope.latitude = data.latitude;
-            var mobileLocation = [clientData.longitude, clientData.latitude];
-            var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
+            
             
             for (var i = 0; i < userGeolocationDataArray.length; i++) {
                 var userGeolocationObject = userGeolocationDataArray[i];
                 
                 // find the user who sent location from the array and update
                 if (userGeolocationObject.user == clientData.user) {
+                    var mobileLocation = [clientData.longitude, clientData.latitude];
+                    var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
+
                     var geolocation = userGeolocationObject.geolocation;
                     geolocation.set('position', projectedLocation);
                     geolocation.set('accuracy', clientData.accuracy);
@@ -140,8 +142,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     $scope.heading = Math.round(radToDeg(heading));
                     
                     if (userLocationMarkersArray.length > 0) {
-                        for (var i = 0; i < userLocationMarkersArray.length; i++) {
-                            var userLocationMarkerObject = userLocationMarkersArray[i];
+                        for (var j = 0; j < userLocationMarkersArray.length; j++) {
+                            var userLocationMarkerObject = userLocationMarkersArray[j];
                             if (userLocationMarkerObject.user == user) {
                                 var overlay = userLocationMarkerObject.overlay;
                                 overlay.setPosition(position);
@@ -189,6 +191,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             console.log('mobile connect');
             console.log('Devices online: ' + userLocationMarkersArray.length.toString());
+            console.log('Geolocation online: ' + userGeolocationDataArray.length.toString());
+            console.log(geolocation);
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
@@ -221,8 +225,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 }
             }
             
-            console.log('User Location Marker #: ' + userLocationMarkersArray.length);
-            console.log('User Geolocation #: ' + userGeolocationDataArray.length);
+            console.log('User Location Marker #: ' + userLocationMarkersArray.length.toString());
+            console.log('User Geolocation #: ' + userGeolocationDataArray.length.toString());
 
             //var object = mapOverlays[0];
             //var overlay = object.overlay;
