@@ -119,7 +119,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.set('speed', clientData.speed);
                     geolocation.set('heading', degToRad(clientData.bearing));
                     geolocation.changed();
-                    console.log(data);
+                    console.log(clientData);
                 }
             }
         });
