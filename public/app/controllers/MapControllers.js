@@ -135,37 +135,37 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         
         $scope.$on('LocationUpdate', function () {
-            console.log('LOCATION UPDATE ON SCOPE EVENT'); 
+            // line below never called
+            if (userGeolocationDataArray.length > 0) {
+                for (var i = 0; i < userGeolocationDataArray.length; i++) {
+                    var userGeolocationObject = userGeolocationDataArray[i];
+                    var geolocation = userGeolocationObject.geolocation;
+                    var user = userGeolocationObject.user;
+                    console.log('BEFORE GEO CHANGE');
+                    geolocation.on('change', function (evt) {
+                        var position = geolocation.getPosition();
+                        var heading = geolocation.getHeading();
+                        console.log(position);
+                        $scope.longitude = position[0];
+                        $scope.latitude = position[1];
+                        $scope.heading = Math.round(radToDeg(heading));
+                        console.log('IN GEO CHANGE');
+                        if (userLocationMarkersArray.length > 0) {
+                            for (var j = 0; j < userLocationMarkersArray.length; j++) {
+                                var userLocationMarkerObject = userLocationMarkersArray[j];
+                                if (userLocationMarkerObject.user == user) {
+                                    var overlay = userLocationMarkerObject.overlay;
+                                    overlay.setPosition(position);
+                                    view.setCenter(position);
+                                }
+                            }
+                        }
+                    })
+                }
+            }
         });
 
-        // line below never called
-        if (userGeolocationDataArray.length > 0) {
-            for (var i = 0; i < userGeolocationDataArray.length; i++) {
-                var userGeolocationObject = userGeolocationDataArray[i];             
-                var geolocation = userGeolocationObject.geolocation;
-                var user = userGeolocationObject.user;
-                console.log('BEFORE GEO CHANGE');
-                geolocation.on('change', function (evt) {
-                    var position = geolocation.getPosition();
-                    var heading = geolocation.getHeading();
-                    console.log(position);
-                    $scope.longitude = position[0];
-                    $scope.latitude = position[1];
-                    $scope.heading = Math.round(radToDeg(heading));
-                    console.log('IN GEO CHANGE');
-                    if (userLocationMarkersArray.length > 0) {
-                        for (var j = 0; j < userLocationMarkersArray.length; j++) {
-                            var userLocationMarkerObject = userLocationMarkersArray[j];
-                            if (userLocationMarkerObject.user == user) {
-                                var overlay = userLocationMarkerObject.overlay;
-                                overlay.setPosition(position);
-                                view.setCenter(position);
-                            }                           
-                        }
-                    }
-                })
-             }
-        }
+        
         
         // on mobile connection event from the server 
         // creates a popup for this mobile
