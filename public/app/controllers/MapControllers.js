@@ -83,12 +83,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 //console.log(mapOverlays[i]);
                 //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
-                    //console.log('true');
+                    console.log('true');
                     // popover
                     $(overlay.getElement()).popover({
                     content: 'User: ' + userLocationMarkersArray[i].user});
                 } else {
-                    //console.log('false');
+                    console.log('false');
                 }
             }
         });
@@ -124,8 +124,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.changed();
                     $scope.$emit('LocationUpdate', { user: clientData.user });
                     
-                    
-
                     //console.log(clientData);
                     // check set of var
                     //console.log(geolocation);

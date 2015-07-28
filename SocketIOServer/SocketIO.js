@@ -9,6 +9,7 @@ io.on('connection', function (socket) {
         if (clientData.type == 'mobile') {
             // this will inform web app about mobile device connection and creates a popup for it
             socket.broadcast.emit('server:mobile:connection', clientData);
+            console.log('client:connection');
         }
         else if (clientData.type == 'web') {
             // this will inform other clients about web client connection
@@ -20,6 +21,7 @@ io.on('connection', function (socket) {
     socket.on('mobile:location', function (clientData) {
         // broadcast the data from mobile to desktop web app client
         socket.broadcast.emit('server:location', clientData);
+        console.log('mobile:location');
     });
 
     socket.on('client:disconnection', function (clientData) {
