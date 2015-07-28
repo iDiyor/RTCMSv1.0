@@ -122,13 +122,14 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     // TODO geolocation service same as openlayers -> with changed, on, ... events
                     geolocation.changed();
                     
-                    $scope.$emit('LocationUpdate');
+                    
 
                     //console.log(clientData);
                     // check set of var
                     //console.log(geolocation);
                 }
             }
+            $scope.$emit('LocationUpdate');
         });
         
         $scope.$on('LocationUpdate', function () {
