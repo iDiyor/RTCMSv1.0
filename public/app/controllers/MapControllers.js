@@ -76,22 +76,22 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         //});
         
         // show popup when click on a cab icon 
-        //$('.location_marker').click(function () {
+        $('.location_marker').click(function () {
             
-        //    for (var i = 0; i < userLocationMarkersArray.length; i++) {
-        //        var overlay = userLocationMarkersArray[i].overlay;
-        //        //console.log(mapOverlays[i]);
-        //        //console.log(overlay.getElement());
-        //        if (overlay.getElement().is($(this))) {
-        //            console.log('true');
-        //            // popover
-        //            $(overlay.getElement()).popover({
-        //            content: 'User: ' + userLocationMarkersArray[i].user});
-        //        } else {
-        //            console.log('false');
-        //        }
-        //    }
-        //});
+            for (var i = 0; i < userLocationMarkersArray.length; i++) {
+                var overlay = userLocationMarkersArray[i].overlay;
+                //console.log(mapOverlays[i]);
+                //console.log(overlay.getElement());
+                if (overlay.getElement().is($(this))) {
+                    console.log('true');
+                    // popover
+                    $(overlay.getElement()).popover({
+                    content: 'User: ' + userLocationMarkersArray[i].user});
+                } else {
+                    console.log('false');
+                }
+            }
+        });
         
         /* SOCKET EVENT HANDLERS */
         //var socket = io.connect('http://52.28.143.209:3000');      
@@ -198,7 +198,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //var popup = $('#popup').clone().show();
             //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             //var marker = $('#marker');
-            var locationMarkerIcon = $('.location_marker').clone(true, true); // clone(true) -> fixes click event on icon 
+            //var locationMarkerIcon = $('.location_marker').clone(true, true); // clone(true) -> fixes click event on icon 
+            var locationMarkerIcon = $('#location_marker_group').append('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />'); // clone(true) -> fixes click event on icon 
             var overlay = new ol.Overlay({
                 element: locationMarkerIcon,
                 positioning: 'bottom-center'
