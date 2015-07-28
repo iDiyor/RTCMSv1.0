@@ -111,7 +111,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 
                 // find the user who sent location from the array and update
                 if (userGeolocationObject.user == clientData.user) {
-                    console.log('GEOLOCATION NAME MATCH');
+                    //console.log('GEOLOCATION NAME MATCH');
                     var mobileLocation = [clientData.longitude, clientData.latitude];
                     var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
 
@@ -136,6 +136,15 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         $scope.$on('LocationUpdate', function () {
             // line below never called
             console.log('LOCATION UPDATE EVENT');
+            if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
+                var userGeolocationObject = userGeolocationDataArray[i];
+                for (var j = 0; j < userLocationMarkersArray.length; j++) {
+                    var userLocationMarkerObject = userLocationMarkersArray[j];
+                    if (userGeolocationObject.user == userLocationMarkerObject.user) {
+                        console.log('GEOLOCATION NAME MATCH');
+                    }
+                }
+            }
             //if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
             //    for (var i = 0; i < userGeolocationDataArray.length; i++) {
             //        var userGeolocationObject = userGeolocationDataArray[i];
