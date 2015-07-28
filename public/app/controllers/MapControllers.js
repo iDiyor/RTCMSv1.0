@@ -122,7 +122,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.changed();
                     console.log(clientData);
                     // check set of var
-                    //console.log(userGeolocationObject);
+                    console.log(userGeolocationObject);
                 }
             }
         });
@@ -169,7 +169,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             // name should be unique for each connected device -> username of the driver
             var userLocationMarkerObject = { user: clientData.user , overlay: overlay };
-            console.log(userLocationMarkerObject);         
+            //console.log(userLocationMarkerObject);         
             // adding new overlay into the array
             map.addOverlay(overlay);
             // adding new overlay on the map to make it visible
@@ -186,7 +186,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             //geolocation.set("user", clientData.user);
             var userGeolocationObject = { user: clientData.user, geolocation: geolocation };
-            console.log(userGeolocationObject);
+            //console.log(userGeolocationObject);
             // adding new user geolocation var into the array
             userGeolocationDataArray.push(userGeolocationObject);
             
