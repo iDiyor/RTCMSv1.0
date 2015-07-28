@@ -119,7 +119,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.set('accuracy', clientData.accuracy);
                     geolocation.set('speed', clientData.speed);
                     geolocation.set('heading', degToRad(clientData.bearing));
-                    geolocation.changed();
+                    // TODO geolocation service same as openlayers -> with changed, on, ... events
+                    //geolocation.changed();
                     
                     $scope.$emit('LocationUpdate');
 
