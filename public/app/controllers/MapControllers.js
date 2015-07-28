@@ -203,8 +203,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var locationMarkerIcon = $('.location_marker').clone(true, true); // clone(true) -> fixes click event on icon 
             var overlay = new ol.Overlay({
                 element: locationMarkerIcon,
-                positioning: 'bottom-center',
-                stopEvent: false
+                positioning: 'bottom-center'
             });
             
             // name should be unique for each connected device -> username of the driver
