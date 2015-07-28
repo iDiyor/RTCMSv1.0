@@ -135,32 +135,33 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.$on('LocationUpdate', function () {
             // line below never called
-            if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
-                for (var i = 0; i < userGeolocationDataArray.length; i++) {
-                    var userGeolocationObject = userGeolocationDataArray[i];
-                    var user = userGeolocationObject.user;
-                    for (var j = 0; j < userLocationMarkersArray.length; j++) {
-                        var userLocationMarkerObject = userLocationMarkersArray[j];
-                        if (userLocationMarkerObject.user == user) {
-                            var geolocation = userGeolocationObject.geolocation;
-                            var user = userGeolocationObject.user;
-                            var position = geolocation.getPosition();
-                            var heading = geolocation.getHeading();
-                            var overlay = userLocationMarkerObject.overlay;
+            console.log('LOCATION UPDATE EVENT');
+            //if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
+            //    for (var i = 0; i < userGeolocationDataArray.length; i++) {
+            //        var userGeolocationObject = userGeolocationDataArray[i];
+            //        var user = userGeolocationObject.user;
+            //        for (var j = 0; j < userLocationMarkersArray.length; j++) {
+            //            var userLocationMarkerObject = userLocationMarkersArray[j];
+            //            if (userLocationMarkerObject.user == user) {
+            //                var geolocation = userGeolocationObject.geolocation;
+            //                var user = userGeolocationObject.user;
+            //                var position = geolocation.getPosition();
+            //                var heading = geolocation.getHeading();
+            //                var overlay = userLocationMarkerObject.overlay;
                             
 
-                            overlay.setPosition(position);
-                            view.setCenter(position);
+            //                overlay.setPosition(position);
+            //                view.setCenter(position);
 
                             
-                            console.log(position);
-                            $scope.longitude = position[0];
-                            $scope.latitude = position[1];
-                            $scope.heading = Math.round(radToDeg(heading));
-                        }
-                    }
-                }
-            }
+            //                console.log(position);
+            //                $scope.longitude = position[0];
+            //                $scope.latitude = position[1];
+            //                $scope.heading = Math.round(radToDeg(heading));
+            //            }
+            //        }
+            //    }
+            //}
         });
 
         
