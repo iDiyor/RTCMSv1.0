@@ -183,13 +183,14 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     timeout: 600000
                 }
             });
-            geolocation.set("user", clientData.user);
+            //geolocation.set("user", clientData.user);
             var userGeolocationObject = { user: clientData.user, geolocation: geolocation };
             // adding new user geolocation var into the array
             userGeolocationDataArray.push(userGeolocationObject);
             
             console.log('mobile connect');
             console.log('Devices online: ' + userLocationMarkersArray.length.toString());
+            console.log(userLocationMarkerObject);
             console.log('Geolocation online: ' + userGeolocationDataArray.length.toString());
             console.log(userGeolocationObject);
         });
