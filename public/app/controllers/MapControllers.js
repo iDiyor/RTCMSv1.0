@@ -137,11 +137,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             // line below never called
             console.log('LOCATION UPDATE EVENT');
             if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
-                var userGeolocationObject = userGeolocationDataArray[i];
-                for (var j = 0; j < userLocationMarkersArray.length; j++) {
-                    var userLocationMarkerObject = userLocationMarkersArray[j];
-                    if (userGeolocationObject.user == userLocationMarkerObject.user) {
-                        console.log('GEOLOCATION NAME MATCH');
+                for (var i = 0; i < userGeolocationDataArray.length; i++) {
+                    var userGeolocationObject = userGeolocationDataArray[i];
+                    for (var j = 0; j < userLocationMarkersArray.length; j++) {
+                        var userLocationMarkerObject = userLocationMarkersArray[j];
+                        if (userGeolocationObject.user == userLocationMarkerObject.user) {
+                            console.log('GEOLOCATION NAME MATCH');
+                        }
                     }
                 }
             }
