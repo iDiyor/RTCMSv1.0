@@ -136,7 +136,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.$on('LocationUpdate', function (event, args) {
             // line below never called
-            console.log(args.user);
             if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
                 // user geolocation array
                 for (var i = 0; i < userGeolocationDataArray.length; i++) {
@@ -146,9 +145,20 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                         for (var j = 0; j < userLocationMarkersArray.length; j++) {
                             if (userLocationMarkersArray[j].user == args.user) {
                                 console.log('GEOLOCATION NAME MATCH');
+                                var position = geolocation.getPosition();
+                                var heading = geolocation.getHeading();
+
+                                var overlay = userLocationMarkerObject.overlay;
+                            
+                                overlay.setPosition(position);
+                                view.setCenter(position);
+
+                                console.log(position);
+                                $scope.longitude = position[0];
+                                $scope.latitude = position[1];
+                                $scope.heading = Math.round(radToDeg(heading));
                             }
-                        }
-                        
+                        } 
                     }
                 }
             }
