@@ -143,7 +143,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     var geolocation = userGeolocationObject.geolocation;
                     var user = userGeolocationObject.user;
                     console.log('BEFORE GEO CHANGE');
-                    geolocation.on('change', function (evt) {
+                    //geolocation.on('change', function (evt) {
                         var position = geolocation.getPosition();
                         var heading = geolocation.getHeading();
                         console.log(position);
@@ -161,7 +161,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                                 }
                             }
                         }
-                    })
+                    //})
                 }
             }
         });
