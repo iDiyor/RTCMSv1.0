@@ -148,7 +148,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                                 var position = geolocation.getPosition();
                                 var heading = geolocation.getHeading();
 
-                                var overlay = userLocationMarkerObject.overlay;
+                                var overlay = userLocationMarkersArray[j].overlay;
                             
                                 overlay.setPosition(position);
                                 view.setCenter(position);
