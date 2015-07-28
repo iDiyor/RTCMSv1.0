@@ -79,12 +79,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 //console.log(mapOverlays[i]);
                 //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
-                    console.log('true');
+                    //console.log('true');
                     // popover
                     $(overlay.getElement()).popover({
                     content: 'Name: ' + mapLocationMarkersArray[i].name});
                 } else {
-                    console.log('false');
+                    //console.log('false');
                 }
             }
         });
@@ -125,7 +125,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             
             // name should be unique for each connected device -> username of the driver
-            var locationMarkerObject = { name: 'android', overlay: overlay };
+            var locationMarkerObject = { name: clientData.name , overlay: overlay };
 
             // adding new overlay into the array
             map.addOverlay(overlay);
@@ -138,7 +138,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         Socket.On('server:mobile:disconnection', function (clientData) {
             // get the name of the disconnected device and remove from the array using that name
             //  var clientName = clientData.name;
-            var clientName = 'android';
+            var clientName = clientData.name;
 
             var i;
             if (mapLocationMarkersArray.length > 0) {
