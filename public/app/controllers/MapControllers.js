@@ -127,11 +127,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             }
         });
         
+        // line below never called
         if (userGeolocationDataArray.length > 0) {
             for (var i = 0; i < userGeolocationDataArray.length; i++) {
                 var userGeolocationObject = userGeolocationDataArray[i];             
                 var geolocation = userGeolocationObject.geolocation;
                 var user = userGeolocationObject.user;
+                console.log('BEFORE GEO CHANGE');
                 geolocation.on('change', function (evt) {
                     var position = geolocation.getPosition();
                     var heading = geolocation.getHeading();
@@ -139,7 +141,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     $scope.longitude = position[0];
                     $scope.latitude = position[1];
                     $scope.heading = Math.round(radToDeg(heading));
-                    console.log('GEO CHANGE');
+                    console.log('IN GEO CHANGE');
                     if (userLocationMarkersArray.length > 0) {
                         for (var j = 0; j < userLocationMarkersArray.length; j++) {
                             var userLocationMarkerObject = userLocationMarkersArray[j];
