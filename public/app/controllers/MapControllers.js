@@ -9,7 +9,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         $scope.viewTitle = 'MapView';    
         
         // array to store icons/markers on the map
-        var mapLocationMarkersArray = [];
+        var userLocationMarkersArray = [];
+        var userGeolocationDataArray = [];
         
         // convert radians to degrees
         function radToDeg(rad) {
@@ -42,47 +43,50 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             view: view
         });    
         
-        var geolocation = new ol.Geolocation({
-            projection: view.getProjection(),      
-            trackingOptions: {
-                maximumAge: 10000,
-                enableHighAccuracy: true,
-                timeout: 600000
-            }      
-        });
+        //var geolocation = new ol.Geolocation({
+        //    projection: view.getProjection(),      
+        //    trackingOptions: {
+        //        maximumAge: 10000,
+        //        enableHighAccuracy: true,
+        //        timeout: 600000
+        //    }      
+        //});
         
-        geolocation.on('change', function (evt) {
-            var position = geolocation.getPosition();
-            var heading = geolocation.getHeading();
+        //geolocation.on('change', function (evt) {
+        //    var position = geolocation.getPosition();
+        //    var heading = geolocation.getHeading();
 
-            $scope.longitude = position[0];
-            $scope.latitude = position[1];
-            $scope.heading = Math.round(radToDeg(heading));
+        //    $scope.longitude = position[0];
+        //    $scope.latitude = position[1];
+        //    $scope.heading = Math.round(radToDeg(heading));
 
-            if (mapLocationMarkersArray.length > 0) {
-                var overlay = mapLocationMarkersArray[0].overlay;
-                overlay.setPosition(position);
-                view.setCenter(position);
-            }
-        });
+        //    if (userLocationMarkersArray.length > 0) {
+        //        for (var i = 0; i < userLocationMarkersArray.length; i++) {
+        //            var overlay = userLocationMarkersArray[i].overlay;
+        //            overlay.setPosition(position);
+        //            view.setCenter(position);
+        //        }
+                
+        //    }
+        //});
         
-        geolocation.on('error', function () {
-            alert('geolocation error');
-            // FIXME we should remove the coordinates in positions
-        });
+        //geolocation.on('error', function () {
+        //    alert('geolocation error');
+        //    // FIXME we should remove the coordinates in positions
+        //});
         
         // show popup when click on a cab icon 
         $('.location_marker').click(function () {
             var i;
-            for (i = 0; i < mapLocationMarkersArray.length; i++) {
-                var overlay = mapLocationMarkersArray[i].overlay;
+            for (i = 0; i < userLocationMarkersArray.length; i++) {
+                var overlay = userLocationMarkersArray[i].overlay;
                 //console.log(mapOverlays[i]);
                 //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
                     //console.log('true');
                     // popover
                     $(overlay.getElement()).popover({
-                    content: 'Name: ' + mapLocationMarkersArray[i].name});
+                    content: 'User: ' + userLocationMarkersArray[i].user});
                 } else {
                     //console.log('false');
                 }
@@ -98,18 +102,50 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         
         // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB
-        Socket.On('server:location', function (data) {
+        Socket.On('server:location', function (clientData) {
             //$scope.longitude = data.longitude;
             //$scope.latitude = data.latitude;
             var mobileLocation = [data.longitude, data.latitude];
             var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
-            geolocation.set('position', projectedLocation);
-            geolocation.set('accuracy', data.accuracy);
-            geolocation.set('speed', data.speed);
-            geolocation.set('heading', degToRad(data.bearing));
-            geolocation.changed();
-            console.log(data);
+            
+            for (var userGeolocationObject in userGeolocationDataArray) {
+                // find the user who sent location from the array and update
+                if (userGeolocationObject.user == clientData.user) {
+                    var geolocation = userGeolocationObject.geolocation;
+                    geolocation.set('position', projectedLocation);
+                    geolocation.set('accuracy', data.accuracy);
+                    geolocation.set('speed', data.speed);
+                    geolocation.set('heading', degToRad(data.bearing));
+                    geolocation.changed();
+                    console.log(data);
+                }
+            }
         });
+        
+        if (userGeolocationDataArray.length > 0) {
+            for (var userGeolocationObject in userGeolocationDataArray) {
+                var geolocation = userGeolocationDataArray.geolocatoin;
+                var user = userGeolocationDataArray.user;
+                geolocation.on('change', function (evt) {
+                    var position = geolocation.getPosition();
+                    var heading = geolocation.getHeading();
+                    
+                    $scope.longitude = position[0];
+                    $scope.latitude = position[1];
+                    $scope.heading = Math.round(radToDeg(heading));
+                    
+                    if (userLocationMarkersArray.length > 0) {
+                        for (var userLocationMarkerObject in userLocationMarkersArray) {
+                            if (userLocationMarkerObject.user == user) {
+                                var overlay = userLocationMarkerObject.overlay;
+                                overlay.setPosition(position);
+                                view.setCenter(position);
+                            }                           
+                        }
+                    }
+                })
+             }
+        }
         
         // on mobile connection event from the server 
         // creates a popup for this mobile
@@ -125,36 +161,63 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             
             // name should be unique for each connected device -> username of the driver
-            var locationMarkerObject = { name: clientData.name , overlay: overlay };
-
+            var userLocationMarkerObject = { user: clientData.user , overlay: overlay };          
             // adding new overlay into the array
             map.addOverlay(overlay);
             // adding new overlay on the map to make it visible
-            mapLocationMarkersArray.push(locationMarkerObject);
+            userLocationMarkersArray.push(userLocationMarkerObject);
+            
+            // user geolocation data
+            var geolocation = new ol.Geolocation({
+                projection: view.getProjection(),      
+                trackingOptions: {
+                    maximumAge: 10000,
+                    enableHighAccuracy: true,
+                    timeout: 600000
+                }
+            });
+            geolocation.set("user", clientData.user);
+            var userGeolocationObject = { user: clientData.user, geolocation: geolocation };
+            // adding new user geolocation var into the array
+            userGeolocationDataArray.push(userGeolocationObject);
+            
             console.log('mobile connect');
-            console.log('Devices online: ' + mapLocationMarkersArray.length.toString());
+            console.log('Devices online: ' + userLocationMarkersArray.length.toString());
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
             // get the name of the disconnected device and remove from the array using that name
             //  var clientName = clientData.name;
-            var clientName = clientData.name;
+            var user = clientData.user;
 
             var i;
-            if (mapLocationMarkersArray.length > 0) {
-                for (i = 0; i < mapLocationMarkersArray.length; i++) {
-                    var locationMarkerObject = mapLocationMarkersArray[i];
+            // remove user marker from the map
+            if (userLocationMarkersArray.length > 0) {
+                for (i = 0; i < userLocationMarkersArray.length; i++) {
+                    var userLocationMarkerObject = userLocationMarkersArray[i];
                     
-                    if (clientName == locationMarkerObject.name) {
+                    if (user == userLocationMarkerObject.user) {
                         //remove the the map
-                        map.removeOverlay(locationMarkerObject.overlay);
+                        map.removeOverlay(userLocationMarkerObject.overlay);
                         // remove from the array
-                        mapLocationMarkersArray.splice(i, 1);
+                        userLocationMarkersArray.splice(i, 1);
+                    }
+                }
+            }
+            // remove user geolocation from the array
+            if (userGeolocationDataArray.length > 0) {
+                for (i = 0; i < userGeolocationDataArray.length; i++) {
+                    var userGeolocationObject = userGeolocationDataArray[i];
+                    
+                    if (user == userGeolocationObject.user) {
+                        // remove from the array
+                        userGeolocationDataArray.splice(i, 1);
                     }
                 }
             }
             
-            console.log(mapLocationMarkersArray.length);
+            console.log('User Location Marker #: ' + userLocationMarkersArray.length);
+            console.log('User Geolocation #: ' + userGeolocationDataArray.length);
 
             //var object = mapOverlays[0];
             //var overlay = object.overlay;
