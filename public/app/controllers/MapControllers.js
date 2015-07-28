@@ -77,8 +77,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         // show popup when click on a cab icon 
         $('.location_marker').click(function () {
-            var i;
-            for (i = 0; i < userLocationMarkersArray.length; i++) {
+            
+            for (var i = 0; i < userLocationMarkersArray.length; i++) {
                 var overlay = userLocationMarkersArray[i].overlay;
                 //console.log(mapOverlays[i]);
                 //console.log(overlay.getElement());
@@ -124,13 +124,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     
                     $scope.$emit('LocationUpdate');
 
-                    console.log(clientData);
+                    //console.log(clientData);
                     // check set of var
-                    console.log(geolocation);
-
-                    geolocation.on('change', function (evt) {
-                        console.log('IN GEO CHANGE');
-                    });
+                    //console.log(geolocation);
                 }
             }
         });
@@ -142,7 +138,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     var userGeolocationObject = userGeolocationDataArray[i];
                     var geolocation = userGeolocationObject.geolocation;
                     var user = userGeolocationObject.user;
-                    console.log('BEFORE GEO CHANGE');
+                    //console.log('BEFORE GEO CHANGE');
                     //geolocation.on('change', function (evt) {
                         var position = geolocation.getPosition();
                         var heading = geolocation.getHeading();
@@ -150,7 +146,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                         $scope.longitude = position[0];
                         $scope.latitude = position[1];
                         $scope.heading = Math.round(radToDeg(heading));
-                        console.log('IN GEO CHANGE');
+                        //console.log('IN GEO CHANGE');
                         if (userLocationMarkersArray.length > 0) {
                             for (var j = 0; j < userLocationMarkersArray.length; j++) {
                                 var userLocationMarkerObject = userLocationMarkersArray[j];
