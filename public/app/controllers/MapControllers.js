@@ -105,8 +105,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         Socket.On('server:location', function (clientData) {
             //$scope.longitude = data.longitude;
             //$scope.latitude = data.latitude;
-            
-            
+                        
             for (var i = 0; i < userGeolocationDataArray.length; i++) {
                 var userGeolocationObject = userGeolocationDataArray[i];
                 
@@ -123,7 +122,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.changed();
                     console.log(clientData);
                     // check set of var
-                    console.log('userGeolocationObject : ' + userGeolocationObject);
+                    console.log(userGeolocationObject);
                 }
             }
         });
@@ -140,7 +139,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     $scope.longitude = position[0];
                     $scope.latitude = position[1];
                     $scope.heading = Math.round(radToDeg(heading));
-                    
+                    console.log('GEO CHANGE');
                     if (userLocationMarkersArray.length > 0) {
                         for (var j = 0; j < userLocationMarkersArray.length; j++) {
                             var userLocationMarkerObject = userLocationMarkersArray[j];
@@ -184,7 +183,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     timeout: 600000
                 }
             });
-            //geolocation.set("user", clientData.user);
+            geolocation.set("user", clientData.user);
             var userGeolocationObject = { user: clientData.user, geolocation: geolocation };
             // adding new user geolocation var into the array
             userGeolocationDataArray.push(userGeolocationObject);
@@ -192,7 +191,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             console.log('mobile connect');
             console.log('Devices online: ' + userLocationMarkersArray.length.toString());
             console.log('Geolocation online: ' + userGeolocationDataArray.length.toString());
-            console.log(geolocation);
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
