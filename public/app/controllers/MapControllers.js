@@ -122,7 +122,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.changed();
                     console.log(clientData);
                     // check set of var
-                    console.log(userGeolocationObject);
+                    console.log(geolocation);
                 }
             }
         });
