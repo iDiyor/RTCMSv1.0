@@ -110,7 +110,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             for (var i = 0; i < userGeolocationDataArray.length; i++) {
                 var userGeolocationObject = userGeolocationDataArray[i];
-                console.log('userGeolocationObject : ' + userGeolocationObject);
+                
                 // find the user who sent location from the array and update
                 if (userGeolocationObject.user == clientData.user) {
                     var geolocation = userGeolocationObject.geolocation;
@@ -120,14 +120,17 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.set('heading', degToRad(clientData.bearing));
                     geolocation.changed();
                     console.log(clientData);
+                    // check set of var
+                    console.log('userGeolocationObject : ' + userGeolocationObject);
                 }
             }
         });
         
         if (userGeolocationDataArray.length > 0) {
-            for (var userGeolocationObject in userGeolocationDataArray) {              
-                var geolocation = userGeolocationDataArray.geolocation;
-                var user = userGeolocationDataArray.user;
+            for (var i = 0; i < userGeolocationDataArray.length; i++) {
+                var userGeolocationObject = userGeolocationDataArray[i];             
+                var geolocation = userGeolocationObject.geolocation;
+                var user = userGeolocationObject.user;
                 geolocation.on('change', function (evt) {
                     var position = geolocation.getPosition();
                     var heading = geolocation.getHeading();
@@ -137,7 +140,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     $scope.heading = Math.round(radToDeg(heading));
                     
                     if (userLocationMarkersArray.length > 0) {
-                        for (var userLocationMarkerObject in userLocationMarkersArray) {
+                        for (var i = 0; i < userLocationMarkersArray.length; i++) {
+                            var userLocationMarkerObject = userLocationMarkersArray[i];
                             if (userLocationMarkerObject.user == user) {
                                 var overlay = userLocationMarkerObject.overlay;
                                 overlay.setPosition(position);
