@@ -113,9 +113,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 if (userGeolocationObject.user == clientData.user) {
                     var geolocation = userGeolocationObject.geolocation;
                     geolocation.set('position', projectedLocation);
-                    geolocation.set('accuracy', data.accuracy);
-                    geolocation.set('speed', data.speed);
-                    geolocation.set('heading', degToRad(data.bearing));
+                    geolocation.set('accuracy', clientData.accuracy);
+                    geolocation.set('speed', clientData.speed);
+                    geolocation.set('heading', degToRad(clientData.bearing));
                     geolocation.changed();
                     console.log(data);
                 }
@@ -124,7 +124,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         if (userGeolocationDataArray.length > 0) {
             for (var userGeolocationObject in userGeolocationDataArray) {
-                var geolocation = userGeolocationDataArray.geolocatoin;
+                var geolocation = userGeolocationDataArray.geolocation;
                 var user = userGeolocationDataArray.user;
                 geolocation.on('change', function (evt) {
                     var position = geolocation.getPosition();
@@ -176,7 +176,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     timeout: 600000
                 }
             });
-            geolocation.set("user", clientData.user);
+            //geolocation.set("user", clientData.user);
             var userGeolocationObject = { user: clientData.user, geolocation: geolocation };
             // adding new user geolocation var into the array
             userGeolocationDataArray.push(userGeolocationObject);
