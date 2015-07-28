@@ -137,17 +137,21 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         $scope.$on('LocationUpdate', function (event, args) {
             // line below never called
             console.log(args.user);
-            //if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
-            //    for (var i = 0; i < userGeolocationDataArray.length; i++) {
-            //        var userGeolocationObject = userGeolocationDataArray[i];
-            //        for (var j = 0; j < userLocationMarkersArray.length; j++) {
-            //            var userLocationMarkerObject = userLocationMarkersArray[j];
-            //            if (userGeolocationObject.user == userLocationMarkerObject.user) {
-            //                console.log('GEOLOCATION NAME MATCH');
-            //            }
-            //        }
-            //    }
-            //}
+            if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
+                // user geolocation array
+                for (var i = 0; i < userGeolocationDataArray.length; i++) {
+                    if (userGeolocationDataArray[i].user == args.user) {
+                        var geolocation = userGeolocationDataArray[i].geolocation;
+                        // user makers array
+                        for (var j = 0; j < userLocationMarkersArray.length; j++) {
+                            if (userLocationMarkersArray[j].user == args.user) {
+                                console.log('GEOLOCATION NAME MATCH');
+                            }
+                        }
+                        
+                    }
+                }
+            }
 
 
             //if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
