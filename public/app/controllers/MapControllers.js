@@ -108,7 +108,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             var mobileLocation = [clientData.longitude, clientData.latitude];
             var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
             
-            for (var userGeolocationObject in userGeolocationDataArray) {
+            for (var i = 0; i < userGeolocationDataArray.length; i++) {
+                var userGeolocationObject = userGeolocationDataArray[i];
+                console.log('userGeolocationObject : ' + userGeolocationObject);
                 // find the user who sent location from the array and update
                 if (userGeolocationObject.user == clientData.user) {
                     var geolocation = userGeolocationObject.geolocation;
@@ -123,7 +125,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         
         if (userGeolocationDataArray.length > 0) {
-            for (var userGeolocationObject in userGeolocationDataArray) {
+            for (var userGeolocationObject in userGeolocationDataArray) {              
                 var geolocation = userGeolocationDataArray.geolocation;
                 var user = userGeolocationDataArray.user;
                 geolocation.on('change', function (evt) {
@@ -190,10 +192,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //  var clientName = clientData.name;
             var user = clientData.user;
 
-            var i;
             // remove user marker from the map
             if (userLocationMarkersArray.length > 0) {
-                for (i = 0; i < userLocationMarkersArray.length; i++) {
+                for (var i = 0; i < userLocationMarkersArray.length; i++) {
                     var userLocationMarkerObject = userLocationMarkersArray[i];
                     
                     if (user == userLocationMarkerObject.user) {
@@ -206,7 +207,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             }
             // remove user geolocation from the array
             if (userGeolocationDataArray.length > 0) {
-                for (i = 0; i < userGeolocationDataArray.length; i++) {
+                for (var i = 0; i < userGeolocationDataArray.length; i++) {
                     var userGeolocationObject = userGeolocationDataArray[i];
                     
                     if (user == userGeolocationObject.user) {
