@@ -135,7 +135,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 geolocation.on('change', function (evt) {
                     var position = geolocation.getPosition();
                     var heading = geolocation.getHeading();
-                    
+                    console.log(position);
                     $scope.longitude = position[0];
                     $scope.latitude = position[1];
                     $scope.heading = Math.round(radToDeg(heading));
