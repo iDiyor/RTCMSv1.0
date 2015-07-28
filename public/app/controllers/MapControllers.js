@@ -168,7 +168,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             
             // name should be unique for each connected device -> username of the driver
-            var userLocationMarkerObject = { user: clientData.user , overlay: overlay };          
+            var userLocationMarkerObject = { user: clientData.user , overlay: overlay };
+            console.log(userLocationMarkerObject);         
             // adding new overlay into the array
             map.addOverlay(overlay);
             // adding new overlay on the map to make it visible
@@ -185,14 +186,14 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             //geolocation.set("user", clientData.user);
             var userGeolocationObject = { user: clientData.user, geolocation: geolocation };
+            console.log(userGeolocationObject);
             // adding new user geolocation var into the array
             userGeolocationDataArray.push(userGeolocationObject);
             
             console.log('mobile connect');
-            console.log('Devices online: ' + userLocationMarkersArray.length.toString());
-            console.log(userLocationMarkerObject);
+            console.log('Devices online: ' + userLocationMarkersArray.length.toString());           
             console.log('Geolocation online: ' + userGeolocationDataArray.length.toString());
-            console.log(userGeolocationObject);
+            
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
