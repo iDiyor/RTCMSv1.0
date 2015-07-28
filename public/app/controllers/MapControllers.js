@@ -123,6 +123,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     console.log(clientData);
                     // check set of var
                     console.log(geolocation);
+
+                    geolocation.on('change', function (evt) {
+                                        
+                    });
                 }
             }
         });
