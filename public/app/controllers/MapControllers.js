@@ -120,17 +120,24 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.set('speed', clientData.speed);
                     geolocation.set('heading', degToRad(clientData.bearing));
                     geolocation.changed();
+                    
+                    $scope.$emit('LocationUpdate');
+
                     console.log(clientData);
                     // check set of var
                     console.log(geolocation);
 
                     geolocation.on('change', function (evt) {
-                                        
+                        console.log('IN GEO CHANGE');
                     });
                 }
             }
         });
         
+        $scope.$on('LocationUpdate', function () {
+            console.log('LOCATION UPDATE ON SCOPE EVENT'); 
+        });
+
         // line below never called
         if (userGeolocationDataArray.length > 0) {
             for (var i = 0; i < userGeolocationDataArray.length; i++) {
