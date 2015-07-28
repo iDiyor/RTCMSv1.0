@@ -111,6 +111,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 
                 // find the user who sent location from the array and update
                 if (userGeolocationObject.user == clientData.user) {
+                    console.log('GEOLOCATION NAME MATCH');
                     var mobileLocation = [clientData.longitude, clientData.latitude];
                     var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
 
