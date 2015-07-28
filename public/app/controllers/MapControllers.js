@@ -122,7 +122,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.changed();
                     console.log(clientData);
                     // check set of var
-                    console.log(userGeolocationObject);
+                    //console.log(userGeolocationObject);
                 }
             }
         });
@@ -191,6 +191,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             console.log('mobile connect');
             console.log('Devices online: ' + userLocationMarkersArray.length.toString());
             console.log('Geolocation online: ' + userGeolocationDataArray.length.toString());
+            console.log(userGeolocationObject);
         });
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
