@@ -279,20 +279,21 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
 
         // popover click handler
         $('#location_marker_group').on('click', '.location_marker' ,function () {
-            for (var i = 0; i < userLocationMarkersArray.length; i++) {
-                var overlay = userLocationMarkersArray[i].overlay;
-                //console.log(mapOverlays[i]);
-                //console.log(overlay.getElement());
-                if (overlay.getElement().is($(this))) {
-                    console.log('true');
-                    // popover
-                    $(overlay.getElement()).popover({
-                        content: 'User: ' + userLocationMarkersArray[i].user
-                    });
-                } else {
-                    console.log('false');
-                }
-            }
+            console.log('CLICK CLICK');
+            //for (var i = 0; i < userLocationMarkersArray.length; i++) {
+            //    var overlay = userLocationMarkersArray[i].overlay;
+            //    //console.log(mapOverlays[i]);
+            //    //console.log(overlay.getElement());
+            //    if (overlay.getElement().is($(this))) {
+            //        console.log('true');
+            //        // popover
+            //        $(overlay.getElement()).popover({
+            //            content: 'User: ' + userLocationMarkersArray[i].user
+            //        });
+            //    } else {
+            //        console.log('false');
+            //    }
+            //}
         }); 
 
 }]);
