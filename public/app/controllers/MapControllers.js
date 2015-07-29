@@ -179,34 +179,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     }
                 }
             }
-
-
-            //if (userGeolocationDataArray.length > 0 && userLocationMarkersArray.length > 0) {
-            //    for (var i = 0; i < userGeolocationDataArray.length; i++) {
-            //        var userGeolocationObject = userGeolocationDataArray[i];
-            //        var user = userGeolocationObject.user;
-            //        for (var j = 0; j < userLocationMarkersArray.length; j++) {
-            //            var userLocationMarkerObject = userLocationMarkersArray[j];
-            //            if (userLocationMarkerObject.user == user) {
-            //                var geolocation = userGeolocationObject.geolocation;
-            //                var user = userGeolocationObject.user;
-            //                var position = geolocation.getPosition();
-            //                var heading = geolocation.getHeading();
-            //                var overlay = userLocationMarkerObject.overlay;
-                            
-
-            //                overlay.setPosition(position);
-            //                view.setCenter(position);
-
-                            
-            //                console.log(position);
-            //                $scope.longitude = position[0];
-            //                $scope.latitude = position[1];
-            //                $scope.heading = Math.round(radToDeg(heading));
-            //            }
-            //        }
-            //    }
-            //}
         });
 
         
@@ -218,8 +190,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             //var marker = $('#marker');
             //var locationMarkerIcon = $('.location_marker').clone(true, true); // clone(true) -> fixes click event on icon 
-            var locationMarkerIcon = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />').appendTo('.location_marker_group'); // 
-            //var locationMarkerIcon = $('.location_marker_group').append('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
+            
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var marker = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
+            marker.click(markerClick);
+            //var locationMarkerIcon = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />').appendTo('.location_marker_group'); // 
+            var locationMarkerIcon = $('.location_marker_group').append(marker);
             var overlay = new ol.Overlay({
                 element: locationMarkerIcon,
                 positioning: 'bottom-center'
@@ -296,6 +272,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //}
             //console.log(mapOverlays.length);
         });
+        
+        var markerClick = function () {
+            console.log("Marker CLICK");
+        }
 
         $(document).on("click", ".location_marker" , function () {
             console.log("Marker CLICK");
