@@ -112,6 +112,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //}
         });
         
+        /**
+        * Add a click handler to the map to render the popup.
+        */
+        map.on('singleclick', function (evt) {
+            console.log('MAP CLICK');
+        });
+        
         /* SOCKET EVENT HANDLERS */
         //var socket = io.connect('http://52.28.143.209:3000');      
         //var socket = io.connect('http://localhost:3000');
