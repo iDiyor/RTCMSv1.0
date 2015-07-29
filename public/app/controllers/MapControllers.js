@@ -193,7 +193,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             var marker = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
-            marker.click(markerClick);
+            marker.click(onUserMarkerClick);
             var locationMarkerIcon = marker.appendTo('.location_marker_group');
             var overlay = new ol.Overlay({
                 element: locationMarkerIcon,
@@ -272,18 +272,14 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //console.log(mapOverlays.length);
         });
         
-        var markerClick = function () {
+        var onUserMarkerClick = function () {
             for (var i = 0; i < userLocationMarkersArray.length; i++) {
                 var overlay = userLocationMarkersArray[i].overlay;
-                //console.log(mapOverlays[i]);
-                //console.log(overlay.getElement());
                 if (overlay.getElement().is($(this))) {
-                    console.log('true');
+                    //console.log('true');
                     // popover
                     $(overlay.getElement()).popover({
                     content: 'User: ' + userLocationMarkersArray[i].user});
-                } else {
-                    console.log('false');
                 }
             }
         }
