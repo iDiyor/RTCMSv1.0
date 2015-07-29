@@ -94,23 +94,23 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         //});
         
         // popover click handler
-        $('.location_marker_group').on('click', '.location_marker', function () {
-            console.log('CLICK CLICK');
-            //for (var i = 0; i < userLocationMarkersArray.length; i++) {
-            //    var overlay = userLocationMarkersArray[i].overlay;
-            //    //console.log(mapOverlays[i]);
-            //    //console.log(overlay.getElement());
-            //    if (overlay.getElement().is($(this))) {
-            //        console.log('true');
-            //        // popover
-            //        $(overlay.getElement()).popover({
-            //            content: 'User: ' + userLocationMarkersArray[i].user
-            //        });
-            //    } else {
-            //        console.log('false');
-            //    }
-            //}
-        });
+        //$('.location_marker_group').on('click', '.location_marker', function () {
+        //    console.log('CLICK CLICK');
+        //    //for (var i = 0; i < userLocationMarkersArray.length; i++) {
+        //    //    var overlay = userLocationMarkersArray[i].overlay;
+        //    //    //console.log(mapOverlays[i]);
+        //    //    //console.log(overlay.getElement());
+        //    //    if (overlay.getElement().is($(this))) {
+        //    //        console.log('true');
+        //    //        // popover
+        //    //        $(overlay.getElement()).popover({
+        //    //            content: 'User: ' + userLocationMarkersArray[i].user
+        //    //        });
+        //    //    } else {
+        //    //        console.log('false');
+        //    //    }
+        //    //}
+        //});
         
         /* SOCKET EVENT HANDLERS */
         //var socket = io.connect('http://52.28.143.209:3000');      
@@ -297,6 +297,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //console.log(mapOverlays.length);
         });
 
-         
+        $(document).on("click", ".location_marker" , function () {
+            console.log("Marker CLICK");
+        });
 
 }]);
