@@ -199,7 +199,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //var popupContent = $(popup).find('#popup-content').html('<p>' + clientData.name + '</p>');
             //var marker = $('#marker');
             //var locationMarkerIcon = $('.location_marker').clone(true, true); // clone(true) -> fixes click event on icon 
-            var locationMarkerIcon = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />').appendTo('#location_marker_group'); // clone(true) -> fixes click event on icon 
+            var locationMarkerIcon = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />').appendTo('#location_marker_group'); // 
             var overlay = new ol.Overlay({
                 element: locationMarkerIcon,
                 positioning: 'bottom-center'
@@ -276,5 +276,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             //}
             //console.log(mapOverlays.length);
         });
+
+        // popover click handler
+        $('.location_marker').on('click', function () {
+            
+        }); 
 
 }]);
