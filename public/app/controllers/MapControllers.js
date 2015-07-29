@@ -94,7 +94,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         //});
         
         // popover click handler
-        $('.location_marker').on('click', function () {
+        $('#location_marker_group').on('click', '.location_marker', function () {
             console.log('CLICK CLICK');
             //for (var i = 0; i < userLocationMarkersArray.length; i++) {
             //    var overlay = userLocationMarkersArray[i].overlay;
