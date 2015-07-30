@@ -194,4 +194,24 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 }
             }
         }
+
+        $scope.onAvailableButtonClick = function () {
+
+        }
+
+        $scope.soonToClearButtonClick = function () {
+
+        }
+
+        $scope.onJobButtonClick = function () {
+
+        }
+
+        $scope.onBreakButtonClick = function () {
+
+        }
+
+        $scope.onEmergencyButtonClick = function () {
+
+        }
 }]);

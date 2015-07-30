@@ -3,8 +3,24 @@
     <!--<div ng-include="'app/views/NavigationView.html'"></div>-->
     <!--Page Content-->
     <div>
+        <!--MAP PANEL-->
         <div class="panel panel-default content-panel">
-            <div class="content-panel-heading"><p>Map</p></div>
+            <div class="content-panel-heading">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Map | Vehicles: {{vehiclesNumberOnMap}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-align-right">
+                            <button class="btn-available" ng-click="onAvailableButtonClick()">Available</button>
+                            <button class="btn-soon-to-clear" ng-click="soonToClearButtonClick()">Soon To Clear</button>
+                            <button class="btn-on-job" ng-click="onJobButtonClick()">On Job</button>
+                            <button class="btn-break" ng-click="onBreakButtonClick()">Break</button>
+                            <button class="btn-emergency" ng-click="onEmergencyButtonClick()">Emergency</button>
+                        </div>
+                    </div>
+                </div>  
+            </div>
             <div class="panel-body">
                 <!--Map-->
                 <div id="map" class="map">
@@ -20,13 +36,13 @@
                         <a href="#" id="popup-closer" class="ol-popup-closer"></a>
                         <div id="popup-content"></div>
                     </div>
-                </div>-->
-                <div>
-                    <h3>Vehicles #: {{vehiclesNumberOnMap}}</h3>
-                    <p>Longitude: {{longitude}}</p>
-                    <p>Latitude: {{latitude}}</p>
-                    <p>Heading: {{heading}} deg</p>
-                </div>
+                </div>-->  
+            </div>
+        </div>
+        <!-- INFO PANEL-->
+        <div class="panel panel-default content-panel">
+            <div class="content-panel-heading"><p>Info</p></div>
+            <div class="panel-body">
             </div>
         </div>
     </div>

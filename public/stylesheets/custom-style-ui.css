@@ -21,12 +21,12 @@
     border-radius: 0px;
     background: #34495E;
     position: fixed;
-    width: 220px;
+    width: 180px;
     height: 100%;
 }
 /* content */
 .col-content {
-  margin: 0 0 0 220px;
+  margin: 0 0 0 180px;
   height: 100%;
   background: #ECF0F1;
 
@@ -37,6 +37,12 @@
     height: 36px;
     background-color: #FFFFFF;
 }
+
+/* used in map view to align filter buttons */
+.col-align-right {
+    margin-left: 70px;
+}
+
 /* Nav bar*/
 .navbar {
   border: 0;
@@ -71,15 +77,13 @@
   vertical-align: middle;
 }
 
-
-
 /* Left side panel */
 .left-side-panel {
     border: 0; 
     border-radius: 0px;
     background: #34495E;
     position: fixed;
-    width: 220px;
+    width: 180px;
     height: 100%;
 }
 /* Left side panel heading*/
@@ -188,4 +192,5 @@
 .rect-modal-content input {
     border-radius: 0px;
 }
-/* for delete modal dialog */
+
+
