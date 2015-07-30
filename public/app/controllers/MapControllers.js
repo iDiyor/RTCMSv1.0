@@ -5,13 +5,12 @@
 var mapControllers = angular.module('mapControllers', ['socketServices']);
 
 mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function ($scope, Location, Socket) {
-            
+        
+        $scope.vehiclesNumberOnMap = 0;  
                 
         // array to store icons/markers on the map
         var userLocationMarkersArray = [];
         var userGeolocationDataArray = [];
-        
-        $scope.vehiclesNumberOnMap = userGeolocationDataArray.length;   
         
         // convert radians to degrees
         function radToDeg(rad) {
@@ -145,6 +144,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             console.log('mobile connect');
             console.log('Devices online: ' + userLocationMarkersArray.length.toString());           
             console.log('Geolocation online: ' + userGeolocationDataArray.length.toString());
+
+            $scope.vehiclesNumberOnMap = userGeolocationDataArray.length;
             
         });
         // on mobile disconnection event from the server
