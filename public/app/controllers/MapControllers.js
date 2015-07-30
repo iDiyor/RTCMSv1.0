@@ -24,7 +24,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // view
         var view = new ol.View({
             center: [0,0],
-            zoom: 10
+            zoom: 2
         });    
         // layer with OpenStreetMap
         var layer = new ol.layer.Tile({
@@ -93,6 +93,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                             
                                 overlay.setPosition(position);
                                 view.setCenter(position);
+                                view.setZoom(10);
 
                                 console.log(position);
                                 $scope.longitude = position[0];
