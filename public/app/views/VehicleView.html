@@ -2,10 +2,8 @@
     <!--Navigation-->
     <!--<div ng-include="'app/views/NavigationView.html'"></div>-->
     <!--Page Content-->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Vehicle Tab</h3>
-        </div>
+    <div class="panel panel-default content-panel">
+        <div class="content-panel-heading"><p>Vehicles' List</p></div>
         <div class="panel-body">
             <div>
                 <table class="table table-bordered">
@@ -28,16 +26,22 @@
                             <td>{{vehicle.make}}</td>
                             <td>{{vehicle.model}}</td>
                             <td>{{vehicle.passenger_seat_number}}</td>
-                            <td><button type="button" class="btn btn-default" ng-click="onShowEditDialog($index)">Edit</button>
-                                <button type="button" class="btn btn-default" ng-click="onShowRemoveDialog($index)">Delete</button></td>
+                            <td>
+                                <button type="button" class="btn-edit" ng-click="onShowEditDialog($index)">Edit</button>
+                                <button type="button" class="btn-delete" ng-click="onShowRemoveDialog($index)">Delete</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!--Control buttons-->
             <div>
-                <button type="button" class="btn btn-primary" ng-click="onShowAddDialog('add')">Add</button>
+                <button type="button" class="btn-add" ng-click="onShowAddDialog('add')">Add</button>
             </div>
+        </div>
+        
+    </div>
+            
             <!--Modal Edit Dialog-->
             <div class="modal fade" id="editModalDialog" role="dialog">
                 <div class="modal-dialog">
@@ -190,7 +194,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+
 
 </div>

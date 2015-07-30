@@ -1,65 +1,40 @@
-﻿<div>
-    <!--Header - Navbar view-->
-    <!--<div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span2">
-                <nav class="navbar navbar-default" role="navigation">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" ui-sref="app.driver">RTCMS</a>
+﻿<div class="container-fluid">
+                <!--Nav bar - header-->
+                <div class="row">
+                    <div class="col-navbar">
+                        <nav class="navbar navbar-default navbar-fixed-top">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <a href="/">RTCMS v1.0 Admin</a>
+                                    
+                                </div>
+                                <p>User: {{username}}</p>
+                            </div>
+                        </nav>
                     </div>
-                    <div>
-                        <ul class="nav navbar-nav">
-                            <li role="presentation" data-toggle="tab" class="active" ng-click="onTabClicked('driver')"><a ui-sref="app.driver">Drivers</a></li>
-                            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('vehicle')"><a ui-sref="app.vehicle">Vehicles</a></li>
-                            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('map')"><a ui-sref="app.map">Map</a></li>
-                            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('message')"><a ui-sref="app.message">Messages</a></li>
-                        </ul>
-                        <p class="navbar-text navbar-right">Signed in as Mark Otto</p>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>-->
-
-    <div class="container-fluid">
-        <!--Nav bar - header-->
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="/">RTCMS v1.0 Admin</a>
+                </div>
+                <!--Side bar and content views-->
+                <div class="row">
+                    <div class="col-nav-panel">
+                        <!--Sidebar panel-->
+                        <div class="panel panel-default left-side-panel">
+                            <div class="left-side-panel-heading"><p>Sidebar</p></div>
+                            <div class="panel-body">
+                                <!--Sidebar itself-->
+                                <ul class="nav nav-stacked">
+                                    <li role="presentation" data-toggle="tab" class="active" ng-click="onTabClicked('driver')"><a ui-sref="app.driver">Drivers</a></li>
+                                    <li role="presentation" data-toggle="tab" ng-click="onTabClicked('vehicle')"><a ui-sref="app.vehicle">Vehicles</a></li>
+                                    <li role="presentation" data-toggle="tab" ng-click="onTabClicked('map')"><a ui-sref="app.map">Map</a></li>
+                                    <li role="presentation" data-toggle="tab" ng-click="onTabClicked('message')"><a ui-sref="app.message">Messages</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <p class="navbar-text navbar-right">Signed in as {{username}}</p>
-                    </div>
-                </nav>
-            </div>
-        </div>
-        <!--Side bar view-->
-        <div class="row">
-            <div class="col-md-2">
-                <!--Sidebar panel-->
-                <div class="panel panel-default">
-                    <div class="panel-heading">Sidebar</div>
-                    <div class="panel-body">
-                        <!--Sidebar itself-->
-                        <ul class="nav nav-stacked">
-                            <li role="presentation" data-toggle="tab" class="active" ng-click="onTabClicked('driver')"><a ui-sref="app.driver">Drivers</a></li>
-                            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('vehicle')"><a ui-sref="app.vehicle">Vehicles</a></li>
-                            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('map')"><a ui-sref="app.map">Map</a></li>
-                            <li role="presentation" data-toggle="tab" ng-click="onTabClicked('message')"><a ui-sref="app.message">Messages</a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-            </div>
-            <!--Content view-->
-            <div class="col-md-10">
-                <div ui-view>
 
+                    </div>
+                    <!--Content view-->
+                    <div class="col-content ">
+                        <div class="col-content-bar"></div>
+                        <div ui-view></div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    
 </div>
