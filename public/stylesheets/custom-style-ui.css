@@ -111,7 +111,7 @@
     background-color: #FFFFFF;
     position: relative;
     height: 100%;
-    color: #7F8C8D;
+    color: #34495E; /* effects to the tables as well */
 }
 /* Content panel heading*/
 .content-panel-heading {
@@ -125,7 +125,7 @@
     font-size: 16px;
     text-align: left;
     font-weight: bold;
-    color: #7F8C8D;
+    color: #34495E;
 }
 
 .btn-add {
@@ -178,3 +178,14 @@
     border: 1px solid transparent;
     border-radius: 0px;
 }
+
+/* Modal Dialog Content  */
+.rect-modal-content {
+    border-radius: 0px;
+    background-color: #ECF0F1;
+}
+
+.rect-modal-content input {
+    border-radius: 0px;
+}
+/* for delete modal dialog */

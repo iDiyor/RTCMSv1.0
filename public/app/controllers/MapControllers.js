@@ -5,12 +5,13 @@
 var mapControllers = angular.module('mapControllers', ['socketServices']);
 
 mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function ($scope, Location, Socket) {
-        
-        $scope.viewTitle = 'MapView';    
-        
+            
+                
         // array to store icons/markers on the map
         var userLocationMarkersArray = [];
         var userGeolocationDataArray = [];
+        
+        $scope.vehiclesNumberOnMap = userGeolocationDataArray.length;   
         
         // convert radians to degrees
         function radToDeg(rad) {

@@ -44,107 +44,107 @@
     </div>
             
             <!--Modal Edit Dialog-->
-            <div class="modal fade" id="editModalDialog" role="dialog">
-                <div class="modal-dialog">
-                    <!--Edit modal dialog content-->
-                    <div class="modal-content">
-                        <!--Modal Header-->
-                        <div class="modal-header">
-                            <!--X button top-right-->
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Enter new details of the driver</h4>
-                        </div>
-                        <!--Modal Body-->
-                        <div class="modal-body">
-                            <!--Driver ID-->
-                            <div class="form-group">
-                                <label for="editDriverId">Driver ID</label>
-                                <p class="form-control-static" id="editDriverId"></p>
-                            </div>
-                            <!--Driver First Name-->
-                            <div class="form-group">
-                                <label for="editFirstNameId">First name</label>
-                                <input type="text" class="form-control" id="editFirstNameId" placeholder="First Name" />
-                            </div>
-                            <!--Driver Middle Name-->
-                            <div class="form-group">
-                                <label for="editMiddleNameId">Middle name</label>
-                                <input type="text" class="form-control" id="editMiddleNameId" placeholder="Middle Name" />
-                            </div>
-                            <!--Driver Last Name-->
-                            <div class="form-group">
-                                <label for="editLastNameId">Last name</label>
-                                <input type="text" class="form-control" id="editLastNameId" placeholder="Last Name" />
-                            </div>
-                            <!--Driver Data of Birth-->
-                            <div class="form-group">
-                                <label for="editBODId">Birth of date</label>
-                                <input type="text" class="form-control" id="editBODId" placeholder="Birth of date" />
-                            </div>
-                            <!--Driver Post Code-->
-                            <div class="form-group">
-                                <label for="editPostCodeId">Postcode</label>
-                                <input type="text" class="form-control" id="editPostCodeId" placeholder="Postcode" />
-                            </div>
-                            <!--Driver House Number-->
-                            <div class="form-group">
-                                <label for="editHouseNumberId">House number</label>
-                                <input type="text" class="form-control" id="editHouseNumberId" placeholder="House number" />
-                            </div>
-                            <!--Driver Address line 1-->
-                            <div class="form-group">
-                                <label for="editAddressLine1Id">Address Line 1</label>
-                                <input type="text" class="form-control" id="editAddressLine1Id" placeholder="Address Line 1" />
-                            </div>
-                            <!--Driver Address line 2-->
-                            <div class="form-group">
-                                <label for="editAddressLine2Id">Address Line 2</label>
-                                <input type="text" class="form-control" id="editAddressLine2Id" placeholder="Address Line 2" />
-                            </div>
-                            <!--Driver Phone Number-->
-                            <div class="form-group">
-                                <label for="editPhoneNumberId">Phone number</label>
-                                <input type="text" class="form-control" id="editPhoneNumberId" placeholder="Phone number" />
-                            </div>
-                            <!--Driver Email-->
-                            <div class="form-group">
-                                <label for="editEmailId">Email</label>
-                                <input type="text" class="form-control" id="editEmailId" placeholder="Email" />
-                            </div>
-                            <!--Driver Driving Licence number-->
-                            <div class="form-group">
-                                <label for="editDrivingLicenceNumberId">Driving Licence</label>
-                                <input type="text" class="form-control" id="editDrivingLicenceNumberId" placeholder="Driving Licence" />
-                            </div>
-                            <!--Registration numbers in dropdown -->
-                            <!--<div>
-                                <label for="editRegistrationNumberDropdownMenuId">Vehicel registration number</label>
-                                <div class="dropdown" id="registrationNumberDropdownMenuId">
-                                    <button class="btn btn-default" data-toggle="dropdown"><span id="dropdownTitle">Select a registration number</span><span class="caret"></span></button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="editDropdownRegistrationNumber">
-                                        <li ng-repeat="vehicle in vehicles">
-                                            <a ng-click="onDropdownMenuSelected($index)">{{vehicle.id_registration_number}}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            -->
-                        </div>
-                    </div>
-                    <!--Modal Footer-->
-                    <div class="modal-footer">
-                        <!-- Save Changes Button -->
-                        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="onSaveChangesButtonClicked('')">Save Changes</button>
-                        <!-- Cancel Button -->
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    </div>
+    <div class="modal fade" id="editModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Edit modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--X button top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Enter new details of the driver</h4>
                 </div>
-            </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <!--Driver ID-->
+                    <div class="form-group">
+                        <label for="editDriverId">Driver ID</label>
+                        <p class="form-control-static" id="editDriverId"></p>
+                    </div>
+                    <!--Driver First Name-->
+                    <div class="form-group">
+                        <label for="editFirstNameId">First name</label>
+                        <input type="text" class="form-control" id="editFirstNameId" placeholder="First Name" />
+                    </div>
+                    <!--Driver Middle Name-->
+                    <div class="form-group">
+                        <label for="editMiddleNameId">Middle name</label>
+                        <input type="text" class="form-control" id="editMiddleNameId" placeholder="Middle Name" />
+                    </div>
+                    <!--Driver Last Name-->
+                    <div class="form-group">
+                        <label for="editLastNameId">Last name</label>
+                        <input type="text" class="form-control" id="editLastNameId" placeholder="Last Name" />
+                    </div>
+                    <!--Driver Data of Birth-->
+                    <div class="form-group">
+                        <label for="editBODId">Birth of date</label>
+                        <input type="text" class="form-control" id="editBODId" placeholder="Birth of date" />
+                    </div>
+                    <!--Driver Post Code-->
+                    <div class="form-group">
+                        <label for="editPostCodeId">Postcode</label>
+                        <input type="text" class="form-control" id="editPostCodeId" placeholder="Postcode" />
+                    </div>
+                    <!--Driver House Number-->
+                    <div class="form-group">
+                        <label for="editHouseNumberId">House number</label>
+                        <input type="text" class="form-control" id="editHouseNumberId" placeholder="House number" />
+                    </div>
+                    <!--Driver Address line 1-->
+                    <div class="form-group">
+                        <label for="editAddressLine1Id">Address Line 1</label>
+                        <input type="text" class="form-control" id="editAddressLine1Id" placeholder="Address Line 1" />
+                    </div>
+                    <!--Driver Address line 2-->
+                    <div class="form-group">
+                        <label for="editAddressLine2Id">Address Line 2</label>
+                        <input type="text" class="form-control" id="editAddressLine2Id" placeholder="Address Line 2" />
+                    </div>
+                    <!--Driver Phone Number-->
+                    <div class="form-group">
+                        <label for="editPhoneNumberId">Phone number</label>
+                        <input type="text" class="form-control" id="editPhoneNumberId" placeholder="Phone number" />
+                    </div>
+                    <!--Driver Email-->
+                    <div class="form-group">
+                        <label for="editEmailId">Email</label>
+                        <input type="text" class="form-control" id="editEmailId" placeholder="Email" />
+                    </div>
+                    <!--Driver Driving Licence number-->
+                    <div class="form-group">
+                        <label for="editDrivingLicenceNumberId">Driving Licence</label>
+                        <input type="text" class="form-control" id="editDrivingLicenceNumberId" placeholder="Driving Licence" />
+                    </div>
+                    <!--Registration numbers in dropdown -->
+                    <!--<div>
+                <label for="editRegistrationNumberDropdownMenuId">Vehicel registration number</label>
+                <div class="dropdown" id="registrationNumberDropdownMenuId">
+                    <button class="btn btn-default" data-toggle="dropdown"><span id="dropdownTitle">Select a registration number</span><span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="editDropdownRegistrationNumber">
+                        <li ng-repeat="vehicle in vehicles">
+                            <a ng-click="onDropdownMenuSelected($index)">{{vehicle.id_registration_number}}</a>
+                        </li>
+                    </ul>
+                </div>
+            -->
+                </div>
+                <!--Modal Footer-->
+                <div class="modal-footer">
+                    <!-- Save Changes Button -->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onSaveChangesButtonClicked('')">Save Changes</button>
+                    <!-- Cancel Button -->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>            
+        </div>
+    </div>
 
         <!--Modal Add Dialog-->
         <div class="modal fade" id="addModalDialog" role="dialog">
             <div class="modal-dialog">
                 <!--Add modal dialog content-->
-                <div class="modal-content">
+                <div class="modal-content rect-modal-content">
                     <!--Modal Header-->
                     <div class="modal-header">
                         <!--Dismiss (X) button on top-right-->
@@ -231,9 +231,9 @@
                     <!-- Modal Footer-->
                     <div class="modal-footer">
                         <!--Add button-->
-                        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="onAddButtonClicked('')">Add</button>
+                        <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onAddButtonClicked('')">Add</button>
                         <!--Close dialog button-->
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -242,7 +242,7 @@
         <div class="modal fade" id="removeModalDialog" role="dialog">
             <div class="modal-dialog">
                 <!--Add modal dialog content-->
-                <div class="modal-content">
+                <div class="modal-content rect-modal-content">
                     <!--Modal Header-->
                     <div class="modal-header">
                         <!--Dismiss (X) button on top-right-->
@@ -320,9 +320,9 @@
                     <!--Modal Footer-->
                     <div class="modal-footer">
                         <!-- Save Changes Button -->
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="onRemoveButtonClicked('')">Remove</button>
+                        <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onRemoveButtonClicked('')">Delete</button>
                         <!-- Cancel Button -->
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>

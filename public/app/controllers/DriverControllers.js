@@ -64,6 +64,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', function ($scope
             $('#phoneNumberId').text($scope.drivers[index].phone_number);
             $('#emailId').text($scope.drivers[index].email);
             $('#drivingLicenceNumberId').text($scope.drivers[index].driving_licence_number);
+            $('#registrationNumberId').text($scope.drivers[index].vehicle.id_registration_number);
             //$('#registrationNumberId').text($scope.drivers[index].vehicle_registration_number_fk);
             
             $scope.rowIndex = index;
