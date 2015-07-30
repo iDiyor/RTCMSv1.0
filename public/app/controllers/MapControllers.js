@@ -24,7 +24,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // view
         var view = new ol.View({
             center: [0,0],
-            zoom: 2
+            zoom: 10
         });    
         // layer with OpenStreetMap
         var layer = new ol.layer.Tile({
