@@ -181,6 +181,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
           
             console.log('User Location Marker #: ' + userLocationMarkersArray.length.toString());
             console.log('User Geolocation #: ' + userGeolocationDataArray.length.toString());
+
+            $scope.vehiclesNumberOnMap = userGeolocationDataArray.length;
         });
         
         // user marker popup click handler
