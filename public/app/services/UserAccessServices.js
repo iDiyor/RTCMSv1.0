@@ -18,6 +18,18 @@ userAccessServices.factory('UserAuthenticateSrvc', ['$resource', '$http', functi
                 callback(data); // server - REST API response with 500 HTTP status
             });
         };
+        
+        services.DriverRegistration = function (username, password, callback) {
+            $http.post('/api/access/users', { username: username, password: password })
+            .success(function (res) {
+                callback(res);
+            })
+            .error(function (data, status) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                callback(data); // server - REST API response with 500 HTTP status
+            });
+        };
 
         return services;
 }]);

@@ -2,10 +2,10 @@
 
 /* Controllers */
 
-var driverControllers = angular.module('driverControllers', ['vehicleServices']);
+var driverControllers = angular.module('driverControllers', ['vehicleServices', 'userAccessServices']);
 
 // Admin tab
-driverControllers.controller('DriverCtrl', ['$scope', 'Driver', function ($scope, Driver) {
+driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticateSrvc', function ($scope, Driver, UserAuthenticateSrvc) {
         $scope.drivers = Driver.query();
         
        
@@ -88,6 +88,9 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', function ($scope
             var email = $('#addEmailId').val();
             var drivingLicenceNumber = $('#addDrivingLicenceNumberId').val();
             //var vehicleRegistrationNumber = $scope.registrataionNumber;
+            var username = $('#addUsernameId').val();
+            var password = $('#addPasswordId').val();
+            
 
             //var newDriver = {
             //    'first_name': firstName,
@@ -104,23 +107,26 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', function ($scope
             //    'vehicle_registration_number_fk': vehicleRegistrationNumber
             //};
             
-            
-            var newDriver = {
-                first_name: firstName,
-                middle_name: middleName,
-                last_name: lastName,
-                date_of_birth: dateOfBirth,
-                post_code: postcode,
-                house_number: houseNumber,
-                address_line_1: addressLine1,
-                address_line_2: addressLine2,
-                phone_number: phoneNumber,
-                email: email,
-                driving_licence_number: drivingLicenceNumber,
+            UserAuthenticateSrvc.DriverRegistration(username, password, function (feedback) {
+                var newDriver = {
+                    first_name: firstName,
+                    middle_name: middleName,
+                    last_name: lastName,
+                    date_of_birth: dateOfBirth,
+                    post_code: postcode,
+                    house_number: houseNumber,
+                    address_line_1: addressLine1,
+                    address_line_2: addressLine2,
+                    phone_number: phoneNumber,
+                    email: email,
+                    driving_licence_number: drivingLicenceNumber,
+                    id_driver_group: feedback.id_driver_group
                 //vehicle_registration_number_fk: vehicleRegistrationNumber
-            };
-            // create a new driver 
-            Driver.create(newDriver);
+                };
+                // create a new driver 
+                Driver.create(newDriver);
+            });
+
             // registration number nill for next reuse
             //$scope.registrataionNumber = null;
             // hide the dialog

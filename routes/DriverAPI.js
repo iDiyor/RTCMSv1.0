@@ -48,11 +48,12 @@ router.post('/', function (req, res) {
         phone_number: req.body.phone_number,
         email: req.body.email,
         driving_licence_number: req.body.driving_licence_number,
+        id_driver_group: req.body.id_driver_group
         //vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
     })
-    .save()
+    .save(null, { method: 'insert' })
     .then(function (driver) {
-        res.json({ error: false, data: { id: driver.get('id_driver') } });
+        res.json({ error: false, data: { id_driver: driver.get('id_driver') } });
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
@@ -91,7 +92,7 @@ router.put('/:id_driver', function (req, res) {
             phone_number: req.body.phone_number,
             email: req.body.email,
             driving_licence_number: req.body.driving_licence_number,
-            vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
+            //vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
         })
         .then(function () {
             res.json({ error: false, message: 'Record updated' });

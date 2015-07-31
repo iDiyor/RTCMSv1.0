@@ -16,6 +16,7 @@ var ConnectionStatus = UserAccess.ConnectionStatus;
 var SupportedUserType = ['admin', 'driver'];
 var userType;
 
+// checks username and login while sign in process
 router.post('/authenticate', function (req, res) {
     UserLogin.forge({
         username: req.body.username,
@@ -48,6 +49,57 @@ router.post('/authenticate', function (req, res) {
     });
     
 });
+
+router.post('/users', function (req, res) {
+    // get username, password and user type from params
+    // and save them accordingly userLogin - userType - driverTypeGroup/adminTypeGroup - driver/admin
+    UserLogin.forge({
+        username: req.body.username,
+        password: req.body.password
+    })
+    .save(null, { method: 'insert' })
+    .then(function (userLogin) {
+        // get the id and insert into userType
+        insertNewDriverIntoUserType(userLogin, function (feedback) {
+            res.json(feedback);
+        });
+
+    })
+    .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
+    });
+});
+
+var insertNewDriverIntoUserType = function (userLogin, callback) {
+    if (userLogin) {
+        UserType.forge({
+            type: 'driver',
+            id_user: userLogin.get('id_user')
+        })
+        .save(null, { method: 'insert' })
+        .then(function (userType) {
+            insertNewDriverIntoDriverTypeGroup(userType, function (feedback) {
+                callback(feedback);
+            });
+        })
+        .catch(function (error) {
+            res.status(500).json({ error: true, data: { message: error.message } }); 
+        });  
+    }
+}
+
+var insertNewDriverIntoDriverTypeGroup = function (userType, callback) {
+    if (userType) {
+        DriverTypeGroup.forge({ id_user_type: userType.get('id_user_type') })
+        .save(null, { method: 'insert' })
+        .then(function (driverUserType) {
+            callback(driverUserType);
+        })
+        .catch(function (error) {
+            res.status(500).json({ error: true, data: { message: error.message } }); 
+        });
+    }
+}
 
 var checkForUserType = function(user, callback) {
     if (user) {
