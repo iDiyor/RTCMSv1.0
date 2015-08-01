@@ -79,7 +79,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             var firstName = $('#addFirstNameId').val();
             var middleName = $('#addMiddleNameId').val();
             var lastName = $('#addLastNameId').val();
-            var dateOfBirth = $('#addBODId').val();
+            var dateOfBirth = new Date(1992,1,1);//$('#addBODId').val();
             var postcode = $('#addPostCodeId').val();
             var houseNumber = $('#addHouseNumberId').val();
             var addressLine1 = $('#addAddressLine1Id').val();
@@ -107,6 +107,8 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             //    'vehicle_registration_number_fk': vehicleRegistrationNumber
             //};
             
+            console.log(dateOfBirth);
+            console.log(dateOfBirth.getTime());
             UserAuthenticateSrvc.DriverRegistration(username, password, function (feedback) {
                 var newDriver = {
                     first_name: firstName,
@@ -130,9 +132,9 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             // registration number nill for next reuse
             //$scope.registrataionNumber = null;
             // hide the dialog
-            $('#addModalDialog').on('hidden.bs.modal', function () {
-                location.reload();
-            })
+            //$('#addModalDialog').on('hidden.bs.modal', function () {
+            //    location.reload();
+            //})
         };
         
         
