@@ -107,6 +107,40 @@
     font-size: 16px;
     color: #BDC3C7;
 }
+
+/* Left side panel */
+.left-side-user-list-panel {
+    padding-bottom: 100px;
+    border: 0; 
+    border-radius: 0px;
+    background: #34495E;
+    position: absolute;
+    width: 180px;
+    height: 100%;
+    overflow-y: scroll;
+}
+/* Left side panel heading*/
+.left-side-user-list-panel-heading {
+    padding: 10px 15px;
+    border-bottom: 0px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    background-color: #34495E;
+    border-color: #34495E;
+}
+/* Left side panel heading title*/
+.left-side-user-list-panel p {
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    color: #BDC3C7;
+}
+/* links (Button) inside left side bar */
+.left-side-user-list-panel a {
+    font-size: 16px;
+    color: #BDC3C7;
+}
+
 /* Content panel to view tables inside*/
 .content-panel {
     border: 0px; 

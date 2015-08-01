@@ -1,15 +1,22 @@
 ﻿<div>
-    <!--Navigation-->
-    <!--<div ng-include="'app/views/NavigationView.html'"></div>-->
-    <!--Page Content-->
-    <!--<div id="header">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
+    <div class="row">
+        <div class="col-nav-panel">
+            <!--Mailbox control side panel-->
+            <div class="panel panel-default left-side-user-list-panel">
+                <div class="left-side-user-list-panel-heading"><p>Active Drivers</p></div>
+                <div class="panel-body">
+                    <!--Side control panel-->
+                    <ul class="nav nav-stacked" ng-repeat="driver in drivers track by $index">
+                        <li role="presentation" data-toggle="tab" ng-click="goSomewhere($index)"><a>{{driver.first_name + ' ' + driver.last_name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--Message Content view-->
+        <div class="col-content ">
+            <div ui-view>
 
             </div>
-        </nav>
-    </div>-->
-
-
-
+        </div>
+    </div>
 </div>

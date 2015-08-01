@@ -2,19 +2,22 @@
 
 /* Controllers */
 
-var messageControllers = angular.module('messageControllers', []);
+var messageControllers = angular.module('messageControllers', ['driverServices']);
 
-messageControllers.controller('MessageCtrl', ['$scope', function ($scope) {
+messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', function ($scope, $stateParams, $state, Driver) {
+        $scope.drivers = Driver.query();    
+
+        $scope.goSomewhere = function (index) {
+            $state.go('app.message.compose', { id_driver: $scope.drivers[index].id_driver });
+        }
+}]);
+
+messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', 'Driver', function ($scope, $stateParams, Driver) {
         
-    $scope.title = 'Message View';    
+        $scope.driver = Driver.get({ id_driver: $stateParams.id_driver });
 
-        console.log('MessageControllers');    
-
-    var socket = io.connect('http://52.28.143.209:3000/');
+        $scope.title = 'Message View';
         
-    //var socket = io.connect('http://localhost:3000/');
-    socket.on('server:message', function (data) {
-        console.log(data);
-        socket.emit('my other event', {my: 'data'});
-        });
-}]); 
+        console.log('MessageInboxControllers');
+
+}]);
