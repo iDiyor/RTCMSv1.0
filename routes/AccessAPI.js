@@ -3,22 +3,20 @@
 var express = require('express');
 var router = express.Router();
 
-var Driver = require('./../models/DriverModel.js');
-var Admin = require('./../models/AdminModel.js');
 var UserAccess = require('./../models/UserAccessModel.js');
+var UserProfile = require('./../models/UserProfile.js');
+var Document = require('./../models/DocumentModel.js');
 
-var UserLogin = UserAccess.UserLogin;
-var UserType = UserAccess.UserType;
-var DriverTypeGroup = UserAccess.DriverTypeGroup;
-var AdminTypeGroup = UserAccess.AdminTypeGroup;
-var ConnectionStatus = UserAccess.ConnectionStatus;
+var User = UserAccess.User;
+var UserRole = UserAccess.UserRole;
+var UserStatus = UserAccess.UserStatus;
 
 var SupportedUserType = ['admin', 'driver'];
 var userType;
 
 // checks username and login while sign in process
 router.post('/authenticate', function (req, res) {
-    UserLogin.forge({
+    User.forge({
         username: req.body.username,
         password: req.body.password
     })
@@ -26,14 +24,14 @@ router.post('/authenticate', function (req, res) {
     .then(function (user) {
         
         // use user id to redirect to specific page or operation
-        checkForUserType(user, function (data) {
+        checkForUserRole(user, function (data) {
             var resJSON = {
                 responseStatus: 'success',
-                responseBody: {
-                    userName: data.userProfile.first_name,
-                    userType: data.userType,
-                    userProfile: data.userProfile
-                }
+                responseBody: data
+                    //userName: data.userProfile.first_name,
+                    //userType: data.userType,
+                    //userProfile: data.userProfile
+                //}
             };
             res.json(resJSON);
         });
@@ -101,86 +99,67 @@ var insertNewDriverIntoDriverTypeGroup = function (userType, callback) {
     }
 }
 
-var checkForUserType = function(user, callback) {
+var checkForUserRole = function (user, callback) {
     if (user) {
-        UserType.forge({ id_user: user.get('id_user') })
+        UserRole.forge({ id_user: user.get('id_user') })
         .fetch({ require: true })
-        .then(function (userType) {
-            fetchUserDataForUserType(userType, function (data) {
-                callback(data);
+        .then(function (userRole) {
+            getUserProfileForUserRole(userRole, function (feedback) {
+                callback(feedback);
             });
+        })
+        .catch(function (error) {
+            console.error(error);
+        }); 
+    }   
+}
+var getUserProfileForUserRole = function (userRole, callback) {
+    if (userRole) {
+        UserProfile.forge({ id_role: userRole.get('id_role') })
+        .fetch({ require: true })
+        .then(function (userProfile) {
+            if (userRole.get('role') == 'driver') { // create a json for driver role user and fetch other data required for this type of user profile (driving licence, ...)
+                getDocumentForUserProfile(userProfile, function (feedback) {
+                    var json = {
+                        userRole: 'driver',
+                        userProfile: userProfile,
+                        document: feedback
+                    };
+                    callback(json);
+                });
+            }
+            else if (userRole.get('role') == 'admin') { // create a json for admin role user
+                var json = {
+                    userRole: 'admin',
+                    userProfile: userProfile,
+                    document: null
+                };
+                callback(json);
+            }
         })
         .catch(function (error) {
             console.error(error);
         });
     }
-};
+}
 
-function updateConnectionStatus(user, isActive, callback) {
+// fetch documents if available for that user
+var getDocumentForUserProfile = function (userProfile, callback) {
+    if (userProfile) {
+        Document.forge({ id_user_profile: userProfile.get('id_user_profile') })
+        .fetch({ require: true })
+        .then(function (document) {
+            callback(document);
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }   
+}
+
+
+function updateStatus(user, isActive, callback) {
     
-}
-
-function fetchUserDataForUserType(userType, callback) {
-    if (userType) {
-        if (userType.get('type') == SupportedUserType[0]) { //admin
-            AdminTypeGroup.forge({id_user_type: userType.get('id_user_type')})
-            .fetch()
-            .then(function (adminGroup) {
-                getAdminDataByAdminGroupId(adminGroup, function (data) {
-                    callback(data);
-                });
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
-        }
-        else if (userType.get('type') == SupportedUserType[1]) { //driver
-            DriverTypeGroup.forge({id_user_type: userType.get('id_user_type')})
-            .fetch()
-            .then(function (driverGroup) {
-                getDriverDataByDriverGroupId(driverGroup, function (data) {
-                    callback(data);
-                });
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
-        }
-    }
-}
-
-function getDriverDataByDriverGroupId(driverGroup, callback) {
-    if (driverGroup) {
-        Driver.forge({id_driver_group: driverGroup.get('id_driver_group')})
-        .fetch()
-        .then(function (driver) {
-            var driverData = {
-                userType: 'driver',
-                userProfile: driver.toJSON()
-            };
-            callback(driverData);
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-    }
-}
-
-function getAdminDataByAdminGroupId(adminGroup, callback) {
-    if (adminGroup) {
-        Admin.forge({ id_admin: adminGroup.get('id_admin_group') })
-        .fetch()
-        .then(function (admin) {
-            var adminData = {
-                userType: 'admin',
-                userProfile: admin.toJSON()
-            };
-            callback(adminData);
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-    }
 }
 
 module.exports = router;
