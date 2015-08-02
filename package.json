@@ -25,6 +25,7 @@
     "sqlite3":  "^3.0.1",
     "bookshelf": "^0.8.0",
     "knex" :  "^0.8.0",
-    "socket.io":  "^1.3.0"
+    "socket.io":  "^1.3.0",
+    "async":  "^1.4.0"
   }
 }

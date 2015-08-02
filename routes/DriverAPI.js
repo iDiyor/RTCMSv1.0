@@ -1,36 +1,57 @@
 ﻿'use strict';
 
 var express = require('express');
+var async = require('async');
 var router = express.Router();
 
-//var bookshelf = require('./../models/BookshelfConnector');
-var Driver = require('./../models/DriverModel.js');
+var UserProfile = require('./../models/UserProfileModel.js');
+var UserAccess = require('./../models/UserAccessModel.js');
+var Document = require('./../models/DocumentModel.js');
+
+var UserRole = UserAccess.UserRole;
+
 
 // get all drivers list
 router.get('/', function (req, res) {
-    //Driver.forge()
-    //.fetchAll()
-    //.then(function (driverCollection) {
-    //    res.json(driverCollection.toJSON());
-    //})
-    //.catch(function (error) {
-    //    console.log(error);
-    //    res.send('An error occured');
-    //});
     
-    Driver.forge()
+    // arrays
+    var driverUserProfilesArray = [];
+    var driverUserProfilesWithDocumentsArray = [];
+    
+    // forging user profiles
+    UserRole.forge()
     .fetchAll()
-    .then(function (driver) {
-        driver
-        .load(['vehicle'])
+    .then(function (userRole) {
+
+        userRole.load(['userProfile'])
         .then(function (model) {
-            res.json(model.toJSON());
+
+            for (var i = 0; i < model.length; i++) {
+                if (model.at(i).get('role') == 'driver') {
+                    driverUserProfilesArray.push(model.at(i).related('userProfile').toJSON());   
+                }
+            }
+            // async call on each found user profiles and pushing into the array
+            async.each(driverUserProfilesArray, function(userProfile, callback) {
+                getDocumentForUserProfile(userProfile, function (feedback) {
+                    // driver`s user profile and documents
+                    var json = {
+                        userProfile: userProfile,
+                        document: feedback
+                    }
+                    driverUserProfilesWithDocumentsArray.push(json);
+                    callback();
+                });
+                
+            }, function (error) {
+                if (error) res.status(500).json({ error: true, data: { message: error.message } });
+                // all task are done and response the success
+                res.json(driverUserProfilesWithDocumentsArray);
+            });
         });
-        
     })
     .catch(function (error) {
-        console.log(error);
-        res.send('An error occured');
+        res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
 
@@ -115,5 +136,19 @@ router.delete('/:id_driver', function (req, res) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
+
+// fetch documents if available for that user
+var getDocumentForUserProfile = function (userProfile, callback) {
+    if (userProfile) {
+        Document.forge({ id_user_profile: userProfile.id_user_profile })
+        .fetch({ require: true })
+        .then(function (document) {
+            callback(document.toJSON());
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+}
 
 module.exports = router;

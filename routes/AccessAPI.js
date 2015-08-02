@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 var UserAccess = require('./../models/UserAccessModel.js');
-var UserProfile = require('./../models/UserProfile.js');
+var UserProfile = require('./../models/UserProfileModel.js');
 var Document = require('./../models/DocumentModel.js');
 
 var User = UserAccess.User;
@@ -21,13 +21,12 @@ router.post('/authenticate', function (req, res) {
         password: req.body.password
     })
     .fetch({ require: true }) // require true -> when forge parameters not match sends error
-    .then(function (user) {
-        
+    .then(function (user) {       
         // use user id to redirect to specific page or operation
-        checkForUserRole(user, function (data) {
+        checkForUserRole(user, function (feedback) {
             var resJSON = {
                 responseStatus: 'success',
-                responseBody: data
+                responseBody: feedback
                     //userName: data.userProfile.first_name,
                     //userType: data.userType,
                     //userProfile: data.userProfile

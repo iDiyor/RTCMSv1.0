@@ -4,7 +4,7 @@
 
 var driverServices = angular.module('driverServices', ['ngResource']);
 
-driverServices.factory('Driver', ['$resource', function ($resource) {
+driverServices.factory('DriverProfile', ['$resource', function ($resource) {
         return $resource('api/drivers/:id_driver', {}, {
             query: { method: 'GET', params: { id_driver: '' }, isArray: true },
             get: { method: 'GET', params: { id_driver: '@id_driver' }, isArray: false },

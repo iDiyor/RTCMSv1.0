@@ -3,6 +3,8 @@
 var bookshelf = require('./BookshelfConnector.js');
 bookshelf.plugin('registry');
 
+var UserProfile = require('./UserProfileModel.js');
+
 var Document = bookshelf.Model.extend({
     tableName: 'document',
     idAttribute: 'id_document',

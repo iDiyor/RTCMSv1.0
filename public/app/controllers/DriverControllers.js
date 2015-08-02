@@ -8,6 +8,10 @@ var driverControllers = angular.module('driverControllers', ['vehicleServices', 
 driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticateSrvc', function ($scope, Driver, UserAuthenticateSrvc) {
         $scope.drivers = Driver.query();
         
+        Driver.query(function (data) {
+            console.log(data[0].document);
+        });
+        
        
         // temp variables
         $scope.rowIndex = -1;
@@ -227,12 +231,4 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
                 location.reload();
             })
         };
-
-
-        /* DROPDOWN MENU SELECT */
-        /* Saves selected value of the dropdown menu */
-        //$scope.onDropdownMenuSelected = function (index) {
-        //    $('#dropdownTitle').text($scope.vehicles[index].registration_number);
-        //    $scope.registrataionNumber = $scope.vehicles[index].registration_number;
-        //};
 }]);
