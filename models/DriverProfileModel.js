@@ -7,21 +7,18 @@ var UserProfile = require('./UserProfileModel.js');
 var Document = require('./DocumentModel.js');
 var Vehicle = require('./VehicleModel.js');
 
-var Driver = bookshelf.Model.extend({
+var DriverProfile = bookshelf.Model.extend({
     tableName: 'driver_profile',
     idAttribute: 'id_driver',
     userProfile: function () {
-        return this.hasOne('UserProfile', 'id_user_profile');
+        return this.belongsTo('UserProfile', 'id_user_profile');
     },
     document: function () {
-        return this.hasOne('Document', 'id_document');
+        return this.hasOne('Document', 'id_driver');
     },
     vehicle: function () {
-        /* hasOne ==> driver[index].vehicle.make
-         * hasMany ==> driver[index].vehicle[index].make */
-        return this.hasOne('Vehicle', 'id_registration_number');
+        return this.hasOne('Vehicle', 'id_driver');
     }
-
 });
 
-module.exports = bookshelf.model('Driver', Driver);
+module.exports = bookshelf.model('DriverProfile', DriverProfile);

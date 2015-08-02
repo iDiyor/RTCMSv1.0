@@ -7,12 +7,7 @@ var driverControllers = angular.module('driverControllers', ['vehicleServices', 
 // Admin tab
 driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticateSrvc', function ($scope, Driver, UserAuthenticateSrvc) {
         $scope.drivers = Driver.query();
-        
-        Driver.query(function (data) {
-            console.log(data[0].document);
-        });
-        
-       
+
         // temp variables
         $scope.rowIndex = -1;
         //$scope.registrataionNumber = null;

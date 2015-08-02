@@ -8,51 +8,104 @@ var UserProfile = require('./../models/UserProfileModel.js');
 var UserAccess = require('./../models/UserAccessModel.js');
 var Document = require('./../models/DocumentModel.js');
 
+var DriverProfile = require('./../models/DriverProfileModel.js');
+
 var UserRole = UserAccess.UserRole;
 
 
 // get all drivers list
 router.get('/', function (req, res) {
-    
-    // arrays
-    var driverUserProfilesArray = [];
-    var driverUserProfilesWithDocumentsArray = [];
-    
-    // forging user profiles
-    UserRole.forge()
+    var drivers = [];
+
+    DriverProfile.forge()
     .fetchAll()
-    .then(function (userRole) {
-
-        userRole.load(['userProfile'])
-        .then(function (model) {
-
-            for (var i = 0; i < model.length; i++) {
-                if (model.at(i).get('role') == 'driver') {
-                    driverUserProfilesArray.push(model.at(i).related('userProfile').toJSON());   
-                }
-            }
-            // async call on each found user profiles and pushing into the array
-            async.each(driverUserProfilesArray, function(userProfile, callback) {
-                getDocumentForUserProfile(userProfile, function (feedback) {
-                    // driver`s user profile and documents
-                    var json = {
-                        userProfile: userProfile,
-                        document: feedback
-                    }
-                    driverUserProfilesWithDocumentsArray.push(json);
+    .then(function (driverProfiles) {
+        // async
+        async.eachSeries(driverProfiles.toJSON(), function (driverProfile, callback) {
+            // user profile
+            UserProfile.forge({ id_user_profile: driverProfile.id_user_profile })
+                .fetch( { require: true } )
+                .then(function (userProfile) {
+                // get document
+                getDocumentForUserProfile(driverProfile, function (document) {
+                    // build json response
+                    var jsonData = {
+                        driverProfile: userProfile,
+                        driverDocument: document
+                    };
+                    drivers.push(jsonData);
                     callback();
                 });
-                
-            }, function (error) {
-                if (error) res.status(500).json({ error: true, data: { message: error.message } });
-                // all task are done and response the success
-                res.json(driverUserProfilesWithDocumentsArray);
+                   
+            })
+            .catch(function (error) {
+                callback(error);
             });
+        },
+        function (error) {
+            if (error) res.status(500).json({ error: true, data: { message: error.message } });;
+            
+            res.json(drivers); 
         });
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
+
+        
+
+
+        
+    //async.waterfall([
+    //    //load driver profile
+    //    function (callback) {
+    //        DriverProfile.forge()
+    //        .fetchAll()
+    //        .then(function (driverProfile) {
+
+    //            callback(null, driverProfile.toJSON());
+    //        })
+    //        .catch(function (error) {
+    //            callback(error);
+    //        });
+    //    },
+    //    // load user profile
+    //    // arg1 - DriverProfile
+    //    function (arg1, callback) {
+    //        var drivers = [];
+    //        // loop throug each driver profiles and fetch user profiles 
+    //        async.each(arg1, function (driverProfile, lowCallback) {
+    //            // user profile
+    //            UserProfile.forge({ id_user_profile: driverProfile.id_user_profile })
+    //            .fetch()
+    //            .then(function (userProfile) {
+    //                var jsonData = null;
+    //                // get document
+    //                getDocumentForUserProfile(driverProfile, function (document) {
+    //                    // build json response
+    //                    jsonData = {
+    //                        driverProfile: userProfile,
+    //                        driverDocument: document
+    //                    };
+    //                    drivers.push(jsonData);
+    //                    lowCallback();
+    //                });
+                   
+    //            })
+    //            .catch(function (error) {
+    //                callback(error);
+    //            });
+    //        }, 
+    //        function (error) {
+    //            callback(error, drivers); 
+    //        });
+    //    }
+    //],
+    //function (error, results) {
+    //    if (error) res.status(500).json({ error: true, data: { message: error.message } });
+    //    // all tasks are done and response = 200
+    //    res.json(results);
+    //});
 });
 
 // create a new driver and insert into the database
@@ -138,9 +191,9 @@ router.delete('/:id_driver', function (req, res) {
 });
 
 // fetch documents if available for that user
-var getDocumentForUserProfile = function (userProfile, callback) {
-    if (userProfile) {
-        Document.forge({ id_user_profile: userProfile.id_user_profile })
+var getDocumentForUserProfile = function (driverProfile, callback) {
+    if (driverProfile) {
+        Document.forge({ id_driver: driverProfile.id_driver })
         .fetch({ require: true })
         .then(function (document) {
             callback(document.toJSON());
