@@ -14,7 +14,7 @@ var User = bookshelf.Model.extend( {
 
 var UserRole = bookshelf.Model.extend({
     tableName: 'user_role',
-    idAttribute: 'id_user',
+    idAttribute: 'id_role',
     userProfile: function () { // !IMPORTANT! - name of function should be same as load attribute -> load(['function_name']);
         return this.hasOne('UserProfile', 'id_role');
     }
