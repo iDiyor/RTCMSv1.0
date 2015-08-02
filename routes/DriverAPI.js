@@ -28,15 +28,15 @@ router.get('/', function (req, res) {
                 .then(function (userProfile) {
                 // get document
                 getDocumentForUserProfile(driverProfile, function (document) {
-                    // build json response
+                    // build json response    
                     var jsonData = {
-                        driverProfile: userProfile,
+                        id_driver: driverProfile.id_driver,
+                        driverProfile: userProfile.toJSON(),
                         driverDocument: document
                     };
                     drivers.push(jsonData);
                     callback();
-                });
-                   
+                });    
             })
             .catch(function (error) {
                 callback(error);
@@ -51,61 +51,6 @@ router.get('/', function (req, res) {
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
-
-        
-
-
-        
-    //async.waterfall([
-    //    //load driver profile
-    //    function (callback) {
-    //        DriverProfile.forge()
-    //        .fetchAll()
-    //        .then(function (driverProfile) {
-
-    //            callback(null, driverProfile.toJSON());
-    //        })
-    //        .catch(function (error) {
-    //            callback(error);
-    //        });
-    //    },
-    //    // load user profile
-    //    // arg1 - DriverProfile
-    //    function (arg1, callback) {
-    //        var drivers = [];
-    //        // loop throug each driver profiles and fetch user profiles 
-    //        async.each(arg1, function (driverProfile, lowCallback) {
-    //            // user profile
-    //            UserProfile.forge({ id_user_profile: driverProfile.id_user_profile })
-    //            .fetch()
-    //            .then(function (userProfile) {
-    //                var jsonData = null;
-    //                // get document
-    //                getDocumentForUserProfile(driverProfile, function (document) {
-    //                    // build json response
-    //                    jsonData = {
-    //                        driverProfile: userProfile,
-    //                        driverDocument: document
-    //                    };
-    //                    drivers.push(jsonData);
-    //                    lowCallback();
-    //                });
-                   
-    //            })
-    //            .catch(function (error) {
-    //                callback(error);
-    //            });
-    //        }, 
-    //        function (error) {
-    //            callback(error, drivers); 
-    //        });
-    //    }
-    //],
-    //function (error, results) {
-    //    if (error) res.status(500).json({ error: true, data: { message: error.message } });
-    //    // all tasks are done and response = 200
-    //    res.json(results);
-    //});
 });
 
 // create a new driver and insert into the database

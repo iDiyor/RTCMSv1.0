@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="driver in drivers">
-                            <td>{{$index+1}}</td>
+                            <td>{{driver.id_driver}}</td>
                             <td>{{driver.driverProfile.first_name + " " + driver.driverProfile.last_name}}</td>
                             <td>{{driver.driverProfile.phone_number}}</td>
                             <td>{{driver.driverProfile.email}}</td>

@@ -18,7 +18,6 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             console.log(mode + ' Button Clicked');
             $('#addModalDialog').modal('show');
             
-            console.log($scope.drivers[0].first_name);
         };
         
         /* SHOW EDIT DIALOG */
@@ -26,19 +25,19 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
         $scope.onShowEditDialog = function (index) {
             $('#editModalDialog').modal('show');
             
-            $('h4.modal-title').text('Editing ' + $scope.drivers[index].registration_number);
+            $('h4.modal-title').text('Editing ' + $scope.drivers[index].driverProfile.first_name);
             $('#editDriverId').text($scope.drivers[index].id_driver);
-            $('#editFirstNameId').val($scope.drivers[index].first_name);
-            $('#editMiddleNameId').val($scope.drivers[index].middle_name);
-            $('#editLastNameId').val($scope.drivers[index].last_name);
-            $('#editBODId').val($scope.drivers[index].date_of_birth);
-            $('#editPostCodeId').val($scope.drivers[index].post_code);
-            $('#editHouseNumberId').val($scope.drivers[index].house_number);
-            $('#editAddressLine1Id').val($scope.drivers[index].address_line_1);
-            $('#editAddressLine2Id').val($scope.drivers[index].address_line_2);
-            $('#editPhoneNumberId').val($scope.drivers[index].phone_number);
-            $('#editEmailId').val($scope.drivers[index].email);
-            $('#editDrivingLicenceNumberId').val($scope.drivers[index].driving_licence_number);
+            $('#editFirstNameId').val($scope.drivers[index].driverProfile.first_name);
+            $('#editMiddleNameId').val($scope.drivers[index].driverProfile.middle_name);
+            $('#editLastNameId').val($scope.drivers[index].driverProfile.last_name);
+            $('#editBODId').val($scope.drivers[index].driverProfile.date_of_birth);
+            $('#editPostCodeId').val($scope.drivers[index].driverProfile.post_code);
+            $('#editHouseNumberId').val($scope.drivers[index].driverProfile.house_number);
+            $('#editAddressLine1Id').val($scope.drivers[index].driverProfile.address_line_1);
+            $('#editAddressLine2Id').val($scope.drivers[index].driverProfile.address_line_2);
+            $('#editPhoneNumberId').val($scope.drivers[index].driverProfile.phone_number);
+            $('#editEmailId').val($scope.drivers[index].driverProfile.email);
+            $('#editDrivingLicenceNumberId').val($scope.drivers[index].driverDocument.driving_licence_number);
             //$('#editRegistrationNumberId').val($scope.drivers[index].vehicle_registration_number_fk);
             
             $scope.rowIndex = index;
@@ -52,17 +51,17 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             $('#removeModalDialog').modal('show');
             
             $('#driverId').text($scope.drivers[index].id_driver);
-            $('#firstNameId').text($scope.drivers[index].first_name);
-            $('#middleNameId').text($scope.drivers[index].middle_name);
-            $('#lastNameId').text($scope.drivers[index].last_name);
-            $('#BODId').text($scope.drivers[index].date_of_birth);
-            $('#postCodeId').text($scope.drivers[index].post_code);
-            $('#houseNumberId').text($scope.drivers[index].house_number);
-            $('#addressLine1Id').text($scope.drivers[index].address_line_1);
-            $('#addressLine2Id').text($scope.drivers[index].address_line_2);
-            $('#phoneNumberId').text($scope.drivers[index].phone_number);
-            $('#emailId').text($scope.drivers[index].email);
-            $('#drivingLicenceNumberId').text($scope.drivers[index].driving_licence_number);
+            $('#firstNameId').text($scope.drivers[index].driverProfile.first_name);
+            $('#middleNameId').text($scope.drivers[index].driverProfile.middle_name);
+            $('#lastNameId').text($scope.drivers[index].driverProfile.last_name);
+            $('#BODId').text($scope.drivers[index].driverProfile.date_of_birth);
+            $('#postCodeId').text($scope.drivers[index].driverProfile.post_code);
+            $('#houseNumberId').text($scope.drivers[index].driverProfile.house_number);
+            $('#addressLine1Id').text($scope.drivers[index].driverProfile.address_line_1);
+            $('#addressLine2Id').text($scope.drivers[index].driverProfile.address_line_2);
+            $('#phoneNumberId').text($scope.drivers[index].driverProfile.phone_number);
+            $('#emailId').text($scope.drivers[index].driverProfile.email);
+            $('#drivingLicenceNumberId').text($scope.drivers[index].driverDocument.driving_licence_number);
             $('#registrationNumberId').text($scope.drivers[index].vehicle.id_registration_number);
             //$('#registrationNumberId').text($scope.drivers[index].vehicle_registration_number_fk);
             
