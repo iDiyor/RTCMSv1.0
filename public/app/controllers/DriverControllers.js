@@ -158,23 +158,9 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             //var vehicleRegistrationNumber = null;
             //if ($scope.registrataionNumber != null)
             //    vehicleRegistrationNumber = $scope.registrataionNumber;
+           
             
-            //var updatedDriver = {
-            //    'first_name': firstName,
-            //    'middle_name': middleName,
-            //    'last_name': lastName,
-            //    'date_of_birth': dateOfBirth,
-            //    'post_code': postcode,
-            //    'house_number': houseNumber,
-            //    'address_line_1': addressLine1,
-            //    'address_line_2': addressLine2,
-            //    'phone_number': phoneNumber,
-            //    'email': email,
-            //    'driving_licence_number': drivingLicenceNumber,
-            //    'vehicle_registration_number_fk': vehicleRegistrationNumber
-            //};
-            
-            var updatedDriver = {
+            var updatedDriverProfile = {
                 first_name: firstName,
                 middle_name: middleName,
                 last_name: lastName,
@@ -186,30 +172,23 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
                 phone_number: phoneNumber,
                 email: email,
                 driving_licence_number: drivingLicenceNumber,
-                //vehicle_registration_number_fk: vehicleRegistrationNumber
             };
             
-            //Vehicle.update({ registration_number: registrationNumber } , updatedVehicle);
-            
-            // check if there is any changes then reload the page
             if ($scope.rowIndex != -1) {
-                //if ($scope.drivers[$scope.rowIndex].make != make || 
-                //$scope.vehicles[$scope.rowIndex].model != model || 
-                //$scope.vehicles[$scope.rowIndex].passenger_seat_number != passengerSeatNumber) {
-                    // update the record
-                    Driver.update({ id_driver: driverId } , updatedDriver);
-                    // set $scope.registrationNumber to null for next use
-                    $scope.registrataionNumber = null;
-                    // reset the temp variable
-                    $scope.rowIndex = -1;
-                    // on dialog hidden reload the page to show the changes
-                    $('#editModalDialog').on('hidden.bs.modal', function () {
-                        location.reload();
-                    })
-                //}
+                Driver.update({ id_driver: driverId } , updatedDriverProfile, function (response) {
+                    //console.log(response);
+                    //if (response.responseStatus == 'success') {
+                    //    alert('Record has been updated successfully');
+                    //}
+                });
+                $scope.rowIndex = -1;
+
+                $('#editModalDialog').on('hidden.bs.modal', function () {
+                    location.reload();
+                })
             }
             
-            
+            //Vehicle.update({ registration_number: registrationNumber } , updatedVehicle);
             
             console.log('Save changes');
         }
