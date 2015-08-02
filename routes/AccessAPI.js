@@ -47,18 +47,19 @@ router.post('/authenticate', function (req, res) {
     
 });
 
-router.post('/users', function (req, res) {
+router.post('/registration', function (req, res) {
     // get username, password and user type from params
     // and save them accordingly userLogin - userType - driverTypeGroup/adminTypeGroup - driver/admin
-    UserLogin.forge({
+    User.forge({
         username: req.body.username,
         password: req.body.password
     })
     .save(null, { method: 'insert' })
-    .then(function (userLogin) {
+    .then(function (user) {
         // get the id and insert into userType
-        insertNewDriverIntoUserType(userLogin, function (feedback) {
+        insertNewUserRole(user, req.body.role, function (feedback) {
             res.json(feedback);
+            console.log('registration success');
         });
 
     })
@@ -66,6 +67,22 @@ router.post('/users', function (req, res) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
+
+var insertNewUserRole = function (user, role, callback) {
+    if (user) {
+        UserRole.forge({
+            role: role,
+            id_user: user.get('id_user')
+        })
+        .save(null, { method: 'insert' })
+        .then(function (userRole) {
+            callback(userRole.toJSON());
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+};
 
 var insertNewDriverIntoUserType = function (userLogin, callback) {
     if (userLogin) {

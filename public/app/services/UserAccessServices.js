@@ -19,8 +19,8 @@ userAccessServices.factory('UserAuthenticateSrvc', ['$resource', '$http', functi
             });
         };
         
-        services.DriverRegistration = function (username, password, callback) {
-            $http.post('/api/access/users', { username: username, password: password })
+        services.DriverRegistration = function (username, password, role, callback) {
+            $http.post('/api/access/registration', { username: username, password: password , role: role})
             .success(function (res) {
                 callback(res);
             })

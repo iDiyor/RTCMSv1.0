@@ -15,37 +15,18 @@ var UserRole = UserAccess.UserRole;
 
 // get all drivers list
 router.get('/', function (req, res) {
-    var drivers = [];
 
     DriverProfile.forge()
     .fetchAll()
     .then(function (driverProfiles) {
-        // async
-        async.eachSeries(driverProfiles.toJSON(), function (driverProfile, callback) {
-            // user profile
-            UserProfile.forge({ id_user_profile: driverProfile.id_user_profile })
-                .fetch( { require: true } )
-                .then(function (userProfile) {
-                // get document
-                getDocumentForUserProfile(driverProfile, function (document) {
-                    // build json response    
-                    var jsonData = {
-                        id_driver: driverProfile.id_driver,
-                        driverProfile: userProfile.toJSON(),
-                        driverDocument: document
-                    };
-                    drivers.push(jsonData);
-                    callback();
-                });    
-            })
-            .catch(function (error) {
-                callback(error);
-            });
-        },
-        function (error) {
-            if (error) res.status(500).json({ error: true, data: { message: error.message } });;
-            
-            res.json(drivers); 
+        
+        driverProfiles
+        .load(['vehicle', 'document', 'userProfile'])
+        .then(function (driverProfilesWithVehicle) {
+            res.json(driverProfilesWithVehicle.toJSON());
+        })
+        .catch(function (error) {
+            console.error(error);
         });
     })
     .catch(function (error) {
@@ -55,7 +36,7 @@ router.get('/', function (req, res) {
 
 // create a new driver and insert into the database
 router.post('/', function (req, res) {
-    Driver.forge({
+    UserProfile.forge({
         first_name: req.body.first_name,
         middle_name: req.body.middle_name,
         last_name: req.body.last_name,
@@ -66,17 +47,72 @@ router.post('/', function (req, res) {
         address_line_2: req.body.address_line_2,
         phone_number: req.body.phone_number,
         email: req.body.email,
-        driving_licence_number: req.body.driving_licence_number,
-        id_driver_group: req.body.id_driver_group
-        //vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
+        //driving_licence_number: req.body.driving_licence_number,
+        id_role: req.body.id_role
     })
     .save(null, { method: 'insert' })
-    .then(function (driver) {
-        res.json({ error: false, data: { id_driver: driver.get('id_driver') } });
+    .then(function (userProfile) {
+        
+        async.waterfall([
+            // insert a driver
+            function (callback) {
+                DriverProfile.forge({ id_user_profile: userProfile.get('id_user_profile') })
+                .save(null, { method: 'insert' })
+                .then(function (driverProfile) {
+                    callback(null, driverProfile.toJSON());
+                })
+                .catch(function (error) {
+                    callback(error);           
+                });
+            },
+            // insert a document
+            function (arg1, callback) {
+                Document.forge({
+                    driving_licence_number: req.body.driving_licence_number,
+                    id_driver: arg1.id_driver
+                })
+                .save(null, { method: 'insert' })
+                .then(function (document) {
+                    callback(null, 'success');
+                    console.log('success driver');
+                })
+                .catch(function (error) {
+                    callback(error);
+                });                 
+            }
+        ], 
+        function (error, result) {
+            if (error) res.status(500).json({ error: true, data: { message: error.message } });
+
+            res.json(result);
+        });
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
+    
+    //Driver.forge({
+    //    first_name: req.body.first_name,
+    //    middle_name: req.body.middle_name,
+    //    last_name: req.body.last_name,
+    //    date_of_birth: req.body.date_of_birth,
+    //    post_code: req.body.post_code,
+    //    house_number: req.body.house_number,
+    //    address_line_1: req.body.address_line_1,
+    //    address_line_2: req.body.address_line_2,
+    //    phone_number: req.body.phone_number,
+    //    email: req.body.email,
+    //    driving_licence_number: req.body.driving_licence_number,
+    //    id_driver_group: req.body.id_driver_group
+    //    //vehicle_registration_number_fk: req.body.vehicle_registration_number_fk,
+    //})
+    //.save(null, { method: 'insert' })
+    //.then(function (driver) {
+    //    res.json({ error: false, data: { id_driver: driver.get('id_driver') } });
+    //})
+    //.catch(function (error) {
+    //    res.status(500).json({ error: true, data: { message: error.message } });
+    //});
 });
 
 // get a driver by id

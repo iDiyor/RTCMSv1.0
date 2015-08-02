@@ -22,11 +22,11 @@
                     <tbody>
                         <tr ng-repeat="driver in drivers">
                             <td>{{driver.id_driver}}</td>
-                            <td>{{driver.driverProfile.first_name + " " + driver.driverProfile.last_name}}</td>
-                            <td>{{driver.driverProfile.phone_number}}</td>
-                            <td>{{driver.driverProfile.email}}</td>
-                            <td>{{driver.driverProfile.post_code}}</td>
-                            <td>{{driver.driverDocument.driving_licence_number}}</td>
+                            <td>{{driver.userProfile.first_name + " " + driver.userProfile.last_name}}</td>
+                            <td>{{driver.userProfile.phone_number}}</td>
+                            <td>{{driver.userProfile.email}}</td>
+                            <td>{{driver.userProfile.post_code}}</td>
+                            <td>{{driver.document.driving_licence_number}}</td>
                             <td>{{driver.vehicle.id_registration_number + " - " + driver.vehicle.make}}</td>
                             <td>
                                 <button type="button" class="btn-edit" ng-click="onShowEditDialog($index)">Edit</button>
