@@ -98,14 +98,32 @@ router.get('/:id_driver', function (req, res) {
     /* req.params - An object containing properties mapped to the named route “ parameters”.For example, 
     if youhavethe route /user/:name, thenthe“name” property is available as req.params.name.
     This object defaults to { }.*/
-    Driver.forge({ id_driver: req.params.id_driver })      
-   .fetch()
-   .then(function (driverData) {
-        res.json(driverData.toJSON());
+
+    DriverProfile.forge({ id_driver: req.params.id_driver })
+    .fetch()
+    .then(function (driverProfile) {
+        driverProfile
+        .load(['vehicle', 'document', 'userProfile'])
+        .then(function (model) {
+            res.json(model.toJSON());
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+  
     })
-   .catch(function (error) {
+    .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
+
+   // Driver.forge({ id_driver: req.params.id_driver })      
+   //.fetch()
+   //.then(function (driverData) {
+   //     res.json(driverData.toJSON());
+   // })
+   //.catch(function (error) {
+   //     res.status(500).json({ error: true, data: { message: error.message } });
+   // });
 });
 
 router.put('/:id_driver', function (req, res) {
