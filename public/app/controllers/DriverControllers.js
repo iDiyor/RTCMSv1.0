@@ -155,10 +155,6 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             var phoneNumber = $('#editPhoneNumberId').val();
             var email = $('#editEmailId').val();
             var drivingLicenceNumber = $('#editDrivingLicenceNumberId').val();
-            //var vehicleRegistrationNumber = null;
-            //if ($scope.registrataionNumber != null)
-            //    vehicleRegistrationNumber = $scope.registrataionNumber;
-           
             
             var updatedDriverProfile = {
                 first_name: firstName,
@@ -187,10 +183,6 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
                     location.reload();
                 })
             }
-            
-            //Vehicle.update({ registration_number: registrationNumber } , updatedVehicle);
-            
-            console.log('Save changes');
         }
         
         
@@ -202,8 +194,8 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             
             Driver.delete({ id_driver: driverId });
             
-            $('#removeModalDialog').on('hidden.bs.modal', function () {
-                location.reload();
-            })
+            //$('#removeModalDialog').on('hidden.bs.modal', function () {
+            //    location.reload();
+            //})
         };
 }]);
