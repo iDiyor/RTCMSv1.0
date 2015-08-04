@@ -5,7 +5,7 @@
 var driverControllers = angular.module('driverControllers', ['vehicleServices', 'userAccessServices']);
 
 // Admin tab
-driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticateSrvc', function ($scope, Driver, UserAuthenticateSrvc) {
+driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticateService', function ($scope, Driver, UserAuthenticateService) {
         $scope.drivers = Driver.query();
 
         // temp variables
@@ -107,7 +107,7 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             
             console.log(dateOfBirth);
             console.log(dateOfBirth.getTime());
-            UserAuthenticateSrvc.DriverRegistration(username, password, 'driver', function (feedback) {
+            UserAuthenticateService.DriverRegistration(username, password, 'driver', function (feedback) {
                
                 var newUserProfile = {
                     first_name: firstName,

@@ -17,8 +17,6 @@ vehicleControllers.controller('VehicleCtrl', ['$scope', 'Vehicle', 'Driver', fun
         $scope.onShowAddDialog = function (mode) {
             console.log(mode + ' Button Clicked');
             $('#addModalDialog').modal('show');
-
-            console.log($scope.vehicles[0].driver.first_name);
         };
         
         /* SHOW EDIT DIALOG */
@@ -66,13 +64,6 @@ vehicleControllers.controller('VehicleCtrl', ['$scope', 'Vehicle', 'Driver', fun
             var passengerSeatNumber = $('#addPassengerSeatId').val();
             var driverIdVar = $scope.driverId;
             
-            //var newVehicle = {
-            //    'registration_number': registrationNumber,
-            //    'make' : make,
-            //    'model' : model,
-            //    'passenger_seat_number' : passengerSeatNumber
-            //};
-            
             var newVehicle = {
                 id_registration_number: registrationNumber,
                 make : make,
@@ -100,21 +91,13 @@ vehicleControllers.controller('VehicleCtrl', ['$scope', 'Vehicle', 'Driver', fun
             var model = $('#editModelId').val();
             var passengerSeatNumber = $('#editPassengerSeatId').val();
             var driverIdVar = $scope.driverId;
-            
-            //var updatedVehicle = {
-            //    'make' : make,
-            //    'model' : model,
-            //    'passenger_seat_number' : passengerSeatNumber
-            //};
-            
+
             var updatedVehicle = {
                 make: make,
                 model: model,
                 passenger_seat_number: passengerSeatNumber,
                 id_driver: driverIdVar
             };
-
-            //Vehicle.update({ registration_number: registrationNumber } , updatedVehicle);
             
             // check if there is any changes then reload the page
             //if ($scope.rowIndex != -1) {
@@ -158,10 +141,10 @@ vehicleControllers.controller('VehicleCtrl', ['$scope', 'Vehicle', 'Driver', fun
             if (mode == 'add') {
                 /* need to use $scope.drivers (instead vehicles[index].driver.first_name) 
                 because dropdown will select only vehicles with drivesalready assigned not other available drivers */
-                $('#addDropdownTitle').text($scope.drivers[index].first_name); 
+                $('#addDropdownTitle').text($scope.drivers[index].userProfile.first_name); 
             }
             else if (mode == 'edit') {
-                $('#editDropdownTitle').text($scope.drivers[index].first_name);
+                $('#editDropdownTitle').text($scope.drivers[index].userProfile.first_name);
             }
             $scope.driverId = $scope.drivers[index].id_driver;
             console.log('dropdown title ' + index  + ' ' + $scope.driverId );

@@ -1,3 +1,19 @@
 ﻿<div>
-    <p>{{driver}}</p>
+    <div>
+        <div class="messages">
+            <ul>
+                <li ng-repeat="message in messages">{{message.content}}</li>
+            </ul>
+        </div>
+        <!--Input and send button-->
+        <div class="message-controller">
+            <div class="input-group">
+                <input type="text" class="form-control message-input" placeholder="Message">
+                <span class="input-group-btn">
+                    <button class="btn-add" type="button">Send</button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+    
 </div>

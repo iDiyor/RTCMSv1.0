@@ -1,16 +1,17 @@
 ﻿'use strict'
 
 /* App controllers */
-var appControllers = angular.module('appControllers', []);
+var appControllers = angular.module('appControllers', ['adminServices']);
 
-appControllers.controller('AppCtrl', ['$scope', '$location',function ($scope, $location) {
+appControllers.controller('AppCtrl', ['$scope', '$location', 'AdminService', function ($scope, $location, AdminService) {
 
         $scope.viewTitle = 'App View';
         
 
         $location.path('app/driver');
-
-        $scope.username = 'Diyor';
+        
+        var adminProfile = AdminService.GetProfile();
+        $scope.user = adminProfile.userProfile.first_name;
 
         
 

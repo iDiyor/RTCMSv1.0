@@ -3,41 +3,16 @@
 var express = require('express');
 var router = express.Router();
 
-//var bookshelf = require('./../models/BookshelfConnector');
 var Vehicle = require('./../models/VehicleModel.js');
-
-//var Vehicle = bookshelf.Model.extend( {
-//    tableName: 'vehicle',
-//    idAttribute: 'registration_number' // this line helped to implement update(HTTP->PUT) of a record
-//    //vehicle : function () {
-//    //    return this.belongsTo(Driver
-//    //};
-//});
 
 // get a list of all vehicles
 router.get('/', function (req, res) {
-    //Vehicle.forge()
-    //.fetchAll()
-    //.then(function (vehicle) {
-    //    res.json(vehicle.toJSON());
-    //})
-    //.catch(function (error) {
-    //    console.log(error);
-    //    res.send('An error occuered while retrieving vehicles data');
-    //});
-    // #2
-    //Vehicle.forge()
-    //.fetch({ withRelated: ['driver'] })
-    //.then(function (data) {
-    //    res.json(data.related('driver'));
-    //});
 
-    //#3
     Vehicle.forge()
     .fetchAll()
     .then(function (vehicle) {
         vehicle
-        .load(['driver'])
+        .load(['driver', 'driver.userProfile'])
         .then(function (model) {
             res.json(model.toJSON());
         });

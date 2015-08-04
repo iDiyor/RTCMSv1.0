@@ -2,22 +2,25 @@
 
 /* Controllers */
 
-var messageControllers = angular.module('messageControllers', ['driverServices']);
+var messageControllers = angular.module('messageControllers', ['driverServices', 'messageServices']);
 
 messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', function ($scope, $stateParams, $state, Driver) {
-        $scope.drivers = Driver.query();    
+        // should be an array of online drivers only
+        $scope.onlineDrivers = Driver.query();    
 
         $scope.goSomewhere = function (index) {
-            $state.go('app.message.compose', { id_driver: $scope.drivers[index].id_driver });
+            $state.go('app.message.compose', { id_driver: $scope.onlineDrivers[index].id_driver });
         }
 }]);
 
-messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', 'Driver', function ($scope, $stateParams, Driver) {
-        
-        $scope.driver = Driver.get({ id_driver: $stateParams.id_driver });
+messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', 'Driver', 'Message', function ($scope, $stateParams, Driver, Message) {
+       
+        Driver.get({ id_driver: $stateParams.id_driver }, function (res) {
+            var fromUser = res.id_user_profile;
 
-        $scope.title = 'Message View';
-        
-        console.log('MessageInboxControllers');
-
+            $scope.messages = Message.MessagesTo(1, fromUser, function (res) {
+                $scope.messages = res;
+            });
+        });
+       
 }]);

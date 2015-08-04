@@ -4,8 +4,9 @@ var express = require('express');
 var async = require('async');
 var router = express.Router();
 
+
 var UserProfile = require('./../models/UserProfileModel.js');
-var UserAccess = require('./../models/UserAccessModel.js');
+var UserAccess = require('./../models/UserModel.js');
 var Document = require('./../models/DocumentModel.js');
 
 var DriverProfile = require('./../models/DriverProfileModel.js');
@@ -287,6 +288,7 @@ router.delete('/:id_driver', function (req, res) {
    //     res.status(500).json({ error: true, data: { message: error.message } });
    // });
 });
+
 
 // fetch documents if available for that user
 var getDocumentForUserProfile = function (driverProfile, callback) {

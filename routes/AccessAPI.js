@@ -1,9 +1,12 @@
 ﻿'use strict'
 
 var express = require('express');
+var jwt = require('jsonwebtoken');
 var router = express.Router();
 
-var UserAccess = require('./../models/UserAccessModel.js');
+var app = express();
+
+var UserAccess = require('./../models/UserModel.js');
 var UserProfile = require('./../models/UserProfileModel.js');
 var Document = require('./../models/DocumentModel.js');
 
@@ -16,25 +19,47 @@ var userType;
 
 // checks username and login while sign in process
 router.post('/authenticate', function (req, res) {
+    /**
+     * username
+     * password
+     * role
+     */   
     User.forge({
         username: req.body.username,
         password: req.body.password
     })
     .fetch({ require: true }) // require true -> when forge parameters not match sends error
-    .then(function (user) {       
-        // use user id to redirect to specific page or operation
-        checkForUserRole(user, function (feedback) {
-            var resJSON = {
-                responseStatus: 'success',
-                responseBody: feedback
-                    //userName: data.userProfile.first_name,
-                    //userType: data.userType,
-                    //userProfile: data.userProfile
-                //}
-            };
-            res.json(resJSON);
+    .then(function (user) {
+        user
+        .load(['userRole', 'userRole.userProfile'])
+        .then(function (userWithUserRoleAndUserProfile) {
+            
+            var userRole = userWithUserRoleAndUserProfile.related('userRole');
+            userRole
+            .query('where', 'role', '=', req.body.role)
+            .fetch({ require:true })
+            .then(function (responseUserData) {
+                res.json({
+                    responseStatus: 'success',
+                    responseBody: responseUserData // token
+                });
+            })
+            .catch(function (error) {
+                res.status(500).json({
+                    responseStatus: 'failure',
+                    responseBody: {
+                        message: error.message
+                    }
+                });
+            });
+            //var token = jwt.sign(model, 'secretmessage', { expireInMinutes: 1440 });
+            
+            //res.json({
+            //    responseStatus: 'success',
+            //    responseBody: userData.related('userRole').toJSON() // token
+            //});
         });
-        
+        // use user id to redirect to specific page or operation        
     })
     .catch(function(error) {
         res.status(500).json({
@@ -83,37 +108,6 @@ var insertNewUserRole = function (user, role, callback) {
         });
     }
 };
-
-var insertNewDriverIntoUserType = function (userLogin, callback) {
-    if (userLogin) {
-        UserType.forge({
-            type: 'driver',
-            id_user: userLogin.get('id_user')
-        })
-        .save(null, { method: 'insert' })
-        .then(function (userType) {
-            insertNewDriverIntoDriverTypeGroup(userType, function (feedback) {
-                callback(feedback);
-            });
-        })
-        .catch(function (error) {
-            res.status(500).json({ error: true, data: { message: error.message } }); 
-        });  
-    }
-}
-
-var insertNewDriverIntoDriverTypeGroup = function (userType, callback) {
-    if (userType) {
-        DriverTypeGroup.forge({ id_user_type: userType.get('id_user_type') })
-        .save(null, { method: 'insert' })
-        .then(function (driverUserType) {
-            callback(driverUserType);
-        })
-        .catch(function (error) {
-            res.status(500).json({ error: true, data: { message: error.message } }); 
-        });
-    }
-}
 
 var checkForUserRole = function (user, callback) {
     if (user) {

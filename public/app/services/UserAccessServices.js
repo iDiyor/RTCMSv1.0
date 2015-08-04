@@ -4,11 +4,11 @@
 
 var userAccessServices = angular.module('userAccessServices', ['ngResource']);
 
-userAccessServices.factory('UserAuthenticateSrvc', ['$resource', '$http', function ($resource, $http) {
+userAccessServices.factory('UserAuthenticateService', ['$resource', '$http', function ($resource, $http) {
         var services = {};
 
-        services.Authenticate = function (username, password, callback) {
-            $http.post('/api/access/authenticate', { username: username, password: password })
+        services.Authenticate = function (username, password, role, callback) {
+            $http.post('/api/user/authenticate', { username: username, password: password, role: role })
             .success(function (res) {
                 callback(res);
             })
@@ -20,7 +20,7 @@ userAccessServices.factory('UserAuthenticateSrvc', ['$resource', '$http', functi
         };
         
         services.DriverRegistration = function (username, password, role, callback) {
-            $http.post('/api/access/registration', { username: username, password: password , role: role})
+            $http.post('/api/user/registration', { username: username, password: password , role: role})
             .success(function (res) {
                 callback(res);
             })
