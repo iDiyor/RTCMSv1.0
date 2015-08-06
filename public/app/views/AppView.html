@@ -7,7 +7,17 @@
                                 <div class="navbar-header">
                                     <a href="/">RTCMS v1.0 Admin</a>
                                 </div>
-                                <p>User: {{username}}</p>
+                                <!--Admin Profile and Sign Out-->
+                                <div>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown admin-dropdown">
+                                            <a href="" class="dropdown-toggle admin-dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User: {{user}}<span class="caret"></span></a>
+                                            <ul class="dropdown-menu admin-dropdown-menu">
+                                                <li><a ng-click="onSignOutButtonClicked()">Sign Out</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>   
                             </div>
                         </nav>
                     </div>

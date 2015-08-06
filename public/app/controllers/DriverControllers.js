@@ -7,10 +7,9 @@ var driverControllers = angular.module('driverControllers', ['vehicleServices', 
 // Admin tab
 driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticateService', function ($scope, Driver, UserAuthenticateService) {
         $scope.drivers = Driver.query();
-
+        
         // temp variables
-        $scope.rowIndex = -1;
-        //$scope.registrataionNumber = null;
+        var tempElementId = -1;
         
         /* SHOW ADD DIALOG */
         /* shows add modal dialog */
@@ -18,6 +17,54 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             console.log(mode + ' Button Clicked');
             $('#addModalDialog').modal('show');
             
+        };
+        
+        /* ADD ROW */
+        /* add function invoked by Add button inside addModalDialog */
+        $scope.onAddButtonClicked = function (data) {
+            // get the user input
+            var firstName = $('#addFirstNameId').val();
+            var middleName = $('#addMiddleNameId').val();
+            var lastName = $('#addLastNameId').val();
+            var dateOfBirth = $('#addBODId').val();
+            var postcode = $('#addPostCodeId').val();
+            var houseNumber = $('#addHouseNumberId').val();
+            var addressLine1 = $('#addAddressLine1Id').val();
+            var addressLine2 = $('#addAddressLine2Id').val();
+            var phoneNumber = $('#addPhoneNumberId').val();
+            var email = $('#addEmailId').val();
+            var drivingLicenceNumber = $('#addDrivingLicenceNumberId').val();
+            
+            
+            var username = $('#addUsernameId').val();
+            var password = $('#addPasswordId').val();
+            
+            
+            UserAuthenticateService.UserRegistration(username, password, 'driver', function (feedback) {
+                
+                var newUserProfile = {
+                    first_name: firstName,
+                    middle_name: middleName,
+                    last_name: lastName,
+                    date_of_birth: dateOfBirth,
+                    post_code: postcode,
+                    house_number: houseNumber,
+                    address_line_1: addressLine1,
+                    address_line_2: addressLine2,
+                    phone_number: phoneNumber,
+                    email: email,
+                    driving_licence_number: drivingLicenceNumber,
+                    id_role: feedback.id_role
+                
+                };
+                // create a new driver 
+                Driver.create(newUserProfile);
+            });
+            
+            // hide the dialog
+            $('#addModalDialog').on('hidden.bs.modal', function () {
+                updateDrivers();
+            })
         };
         
         /* SHOW EDIT DIALOG */
@@ -38,105 +85,10 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
             $('#editPhoneNumberId').val($scope.drivers[index].userProfile.phone_number);
             $('#editEmailId').val($scope.drivers[index].userProfile.email);
             $('#editDrivingLicenceNumberId').val($scope.drivers[index].document.driving_licence_number);
-            //$('#editRegistrationNumberId').val($scope.drivers[index].vehicle_registration_number_fk);
             
             $scope.rowIndex = index;
             
-            console.log('Editing row: ' + index);
         };
-        
-        /* SHOW REMOVE ALERT DIALOG */
-        /* shows remove alert modal dialog */
-        $scope.onShowRemoveDialog = function (index) {
-            $('#removeModalDialog').modal('show');
-            
-            $('#driverId').text($scope.drivers[index].id_driver);
-            $('#firstNameId').text($scope.drivers[index].userProfile.first_name);
-            $('#middleNameId').text($scope.drivers[index].userProfile.middle_name);
-            $('#lastNameId').text($scope.drivers[index].userProfile.last_name);
-            $('#BODId').text($scope.drivers[index].userProfile.date_of_birth);
-            $('#postCodeId').text($scope.drivers[index].userProfile.post_code);
-            $('#houseNumberId').text($scope.drivers[index].userProfile.house_number);
-            $('#addressLine1Id').text($scope.drivers[index].userProfile.address_line_1);
-            $('#addressLine2Id').text($scope.drivers[index].userProfile.address_line_2);
-            $('#phoneNumberId').text($scope.drivers[index].userProfile.phone_number);
-            $('#emailId').text($scope.drivers[index].userProfile.email);
-            $('#drivingLicenceNumberId').text($scope.drivers[index].document.driving_licence_number);
-            $('#registrationNumberId').text($scope.drivers[index].vehicle.id_registration_number);
-            //$('#registrationNumberId').text($scope.drivers[index].vehicle_registration_number_fk);
-            
-            $scope.rowIndex = index;
-            
-            console.log('Removing row: ' + index);
-        };
-        
-        /* ADD ROW */
-        /* add function invoked by Add button inside addModalDialog */
-        $scope.onAddButtonClicked = function (data) {
-            // get the user input
-            var firstName = $('#addFirstNameId').val();
-            var middleName = $('#addMiddleNameId').val();
-            var lastName = $('#addLastNameId').val();
-            var dateOfBirth = new Date(1992,1,1);//$('#addBODId').val();
-            var postcode = $('#addPostCodeId').val();
-            var houseNumber = $('#addHouseNumberId').val();
-            var addressLine1 = $('#addAddressLine1Id').val();
-            var addressLine2 = $('#addAddressLine2Id').val();
-            var phoneNumber = $('#addPhoneNumberId').val();
-            var email = $('#addEmailId').val();
-            var drivingLicenceNumber = $('#addDrivingLicenceNumberId').val();
-            //var vehicleRegistrationNumber = $scope.registrataionNumber;
-            var username = $('#addUsernameId').val();
-            var password = $('#addPasswordId').val();
-            
-
-            //var newDriver = {
-            //    'first_name': firstName,
-            //    'middle_name': middleName,
-            //    'last_name': lastName,
-            //    'date_of_birth': dateOfBirth,
-            //    'post_code': postcode,
-            //    'house_number': houseNumber,
-            //    'address_line_1': addressLine1,
-            //    'address_line_2': addressLine2,
-            //    'phone_number': phoneNumber,
-            //    'email': email,
-            //    'driving_licence_number': drivingLicenceNumber,
-            //    'vehicle_registration_number_fk': vehicleRegistrationNumber
-            //};
-            
-            console.log(dateOfBirth);
-            console.log(dateOfBirth.getTime());
-            UserAuthenticateService.DriverRegistration(username, password, 'driver', function (feedback) {
-               
-                var newUserProfile = {
-                    first_name: firstName,
-                    middle_name: middleName,
-                    last_name: lastName,
-                    date_of_birth: dateOfBirth,
-                    post_code: postcode,
-                    house_number: houseNumber,
-                    address_line_1: addressLine1,
-                    address_line_2: addressLine2,
-                    phone_number: phoneNumber,
-                    email: email,
-                    driving_licence_number: drivingLicenceNumber,
-                    id_role: feedback.id_role
-                
-                //vehicle_registration_number_fk: vehicleRegistrationNumber
-                };
-                // create a new driver 
-                Driver.create(newUserProfile);
-            });
-
-            // registration number nill for next reuse
-            //$scope.registrataionNumber = null;
-            // hide the dialog
-            $('#addModalDialog').on('hidden.bs.modal', function () {
-                location.reload();
-            })
-        };
-        
         
         /* SAVE CHANGES */
         /* A function invoked by Save Changes button inside Edit Modal Dialog */
@@ -170,32 +122,57 @@ driverControllers.controller('DriverCtrl', ['$scope', 'Driver', 'UserAuthenticat
                 driving_licence_number: drivingLicenceNumber,
             };
             
-            if ($scope.rowIndex != -1) {
-                Driver.update({ id_driver: driverId } , updatedDriverProfile, function (response) {
-                    //console.log(response);
-                    //if (response.responseStatus == 'success') {
-                    //    alert('Record has been updated successfully');
-                    //}
-                });
-                $scope.rowIndex = -1;
-
-                $('#editModalDialog').on('hidden.bs.modal', function () {
-                    location.reload();
-                })
-            }
+            
+            Driver.update({ id_driver: driverId } , updatedDriverProfile, function (response) {
+                if (response.responseStatus == 'success') {
+                    // do something when success
+                }
+            });
+            
+            $('#editModalDialog').on('hidden.bs.modal', function () {
+                updateDrivers();
+            })
         }
         
+        /* SHOW REMOVE ALERT DIALOG */
+        /* shows remove alert modal dialog */
+        $scope.onShowRemoveDialog = function (index) {
+            $('#removeModalDialog').modal('show');
+            
+            $('#driverId').text($scope.drivers[index].id_driver);
+            $('#firstNameId').text($scope.drivers[index].userProfile.first_name);
+            $('#middleNameId').text($scope.drivers[index].userProfile.middle_name);
+            $('#lastNameId').text($scope.drivers[index].userProfile.last_name);
+            $('#BODId').text($scope.drivers[index].userProfile.date_of_birth);
+            $('#postCodeId').text($scope.drivers[index].userProfile.post_code);
+            $('#houseNumberId').text($scope.drivers[index].userProfile.house_number);
+            $('#addressLine1Id').text($scope.drivers[index].userProfile.address_line_1);
+            $('#addressLine2Id').text($scope.drivers[index].userProfile.address_line_2);
+            $('#phoneNumberId').text($scope.drivers[index].userProfile.phone_number);
+            $('#emailId').text($scope.drivers[index].userProfile.email);
+            $('#drivingLicenceNumberId').text($scope.drivers[index].document.driving_licence_number);
+            $('#registrationNumberId').text($scope.drivers[index].vehicle.id_registration_number);
+            //$('#registrationNumberId').text($scope.drivers[index].vehicle_registration_number_fk);
+            
+            tempElementId = $scope.drivers[index].id_driver;
+            
+        };
         
         /* REMOVE ROW */
         /* A function invoked by Remove button inside Remove Modal Dialog */
         $scope.onRemoveButtonClicked = function (index) {
             
-            var driverId = $scope.drivers[$scope.rowIndex].id_driver;
+            console.log(tempElementId);
+            Driver.delete({ id_driver: tempElementId}, function (response) {
+                tempElementId = -1;
+            });
             
-            Driver.delete({ id_driver: driverId });
-            
-            //$('#removeModalDialog').on('hidden.bs.modal', function () {
-            //    location.reload();
-            //})
+            $('#removeModalDialog').on('hidden.bs.modal', function () {
+                updateDrivers();
+            })
         };
+
+        var updateDrivers = function () {
+            $scope.drivers = Driver.query();
+        } 
 }]);

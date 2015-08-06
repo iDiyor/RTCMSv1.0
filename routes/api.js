@@ -2,6 +2,7 @@
 var router = express.Router();
 
 var accessControll = require('./AccessAPI')
+var admin = require('./AdminAPI');
 var drivers = require('./DriverAPI');
 var vehicles = require('./VehicleAPI');
 var maps = require('./MapAPI');
@@ -13,6 +14,7 @@ router.get('/', function (req, res) {
     res.json({ hello: "api route" });
 });
 
+router.use('/admin', admin);
 router.use('/user', accessControll);
 router.use('/drivers', drivers);
 router.use('/vehicles', vehicles);

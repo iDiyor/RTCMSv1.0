@@ -1,4 +1,6 @@
-var app = angular.module('RTCMS', [/*'ngRoute',*/ 'ui.router', 
+var app = angular.module('RTCMS', [/*'ngRoute',*/ 'ui.router', 'ngStorage',
+                                    'adminControllers',
+                                    'adminServices',
                                     // user access - login
                                     'userAccessControllers',
                                     'userAccessServices',
@@ -17,9 +19,7 @@ var app = angular.module('RTCMS', [/*'ngRoute',*/ 'ui.router',
                                     'messageControllers',
                                     'messageServices',
                                     // socket services
-                                    'socketServices',
-                                    // admin service
-                                    'adminServices']);
+                                    'socketServices']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
@@ -59,6 +59,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: '/:id_driver',
             templateUrl: 'app/views/MessageComposeView.html',
             controller: 'MessageComposeCtrl'
+        })
+        .state('admin', {
+            url: '/admin',
+            templateUrl: 'app/views/AdminView.html',
+            controller: 'AdminCtrl'
+
     });
         
         

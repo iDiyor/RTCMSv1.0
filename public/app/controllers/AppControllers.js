@@ -3,16 +3,22 @@
 /* App controllers */
 var appControllers = angular.module('appControllers', ['adminServices']);
 
-appControllers.controller('AppCtrl', ['$scope', '$location', 'AdminService', function ($scope, $location, AdminService) {
-
-        $scope.viewTitle = 'App View';
+appControllers.controller('AppCtrl', ['$scope', '$location', '$localStorage', 'AdminService', function ($scope, $location, $localStorage, AdminService) {
+        
+        var adminProfile = $localStorage.adminProfile;
+        
+        if (adminProfile) {
+            $scope.user = adminProfile.userProfile.first_name;
+            $location.path('app/driver');
+        } else {
+            $scope.user = 'Guest';
+        }
+           
         
 
-        $location.path('app/driver');
-        
-        var adminProfile = AdminService.GetProfile();
-        $scope.user = adminProfile.userProfile.first_name;
-
-        
+        $scope.onSignOutButtonClicked = function () {
+            $localStorage.$reset();
+            $location.path('/');
+        };
 
 }]);

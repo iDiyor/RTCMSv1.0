@@ -10,7 +10,7 @@ driverServices.factory('Driver', ['$resource', function ($resource) {
             get: { method: 'GET', params: { id_driver: '@id_driver' }, isArray: false },
             update: { method: 'PUT', params: { id_driver: '@id_driver' }, isArray: false},
             create: { method: 'POST' }, 
-            delete: { method: 'DELETE', params: { id_driver: '@id_driver' }, isArray: false }
+            delete: { method: 'DELETE', params: { id_driver: '@id_driver' } }
         });
 }]);
 

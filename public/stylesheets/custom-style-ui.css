@@ -242,4 +242,21 @@
     border-radius: 0px;
 }
 
+/* Admin profile & Sign out */
+.admin-dropdown {
+    background-color: #1abc9c;
+    color: #e74c3c;
+}
+
+.admin-dropdown-menu {
+    background-color: #2ecc71;
+    color: #2ecc71;
+}
+
+.admin-dropdown-toggle {
+  color: #e74c3c;
+  background-color: #1abc9c;
+  border-color: #1abc9c;
+}
+
 

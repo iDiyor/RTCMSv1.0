@@ -19,7 +19,7 @@ userAccessServices.factory('UserAuthenticateService', ['$resource', '$http', fun
             });
         };
         
-        services.DriverRegistration = function (username, password, role, callback) {
+        services.UserRegistration = function (username, password, role, callback) {
             $http.post('/api/user/registration', { username: username, password: password , role: role})
             .success(function (res) {
                 callback(res);
@@ -30,6 +30,6 @@ userAccessServices.factory('UserAuthenticateService', ['$resource', '$http', fun
                 callback(data); // server - REST API response with 500 HTTP status
             });
         };
-
+       
         return services;
 }]);

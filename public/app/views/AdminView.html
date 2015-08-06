@@ -1,0 +1,301 @@
+﻿<div>
+    <!--Page Content-->
+    <div>
+        <p>{{username}}</p>
+    </div>
+    <div class="panel panel-default content-panel">
+        <div class="content-panel-heading"><p>Admin' list</p></div>
+        <div class="panel-body">
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone number</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="admin in admins">
+                            <td>{{$index+1}}</td>
+                            <td>{{admin.userProfile.first_name + " " + admin.userProfile.last_name}}</td>
+                            <td>{{admin.userProfile.phone_number}}</td>
+                            <td>{{admin.userProfile.email}}</td>
+                            <td>{{admin.userProfile.post_code}}</td>
+                            <td>
+                                <button type="button" class="btn-edit" ng-click="onShowEditDialog($index)">Edit</button>
+                                <button type="button" class="btn-delete" ng-click="onShowRemoveDialog($index)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--Control buttons-->
+            <div>
+                <button type="button" class="btn-add" ng-click="onShowAddDialog('')">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Edit Dialog-->
+    <div class="modal fade" id="editModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Edit modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--X button top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Enter new details of an admin</h4>
+                </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <!--Admin ID-->
+                    <div class="form-group">
+                        <label for="editAdminId">Admin ID</label>
+                        <p class="form-control-static" id="editAdminId"></p>
+                    </div>
+                    <!--Admin First Name-->
+                    <div class="form-group">
+                        <label for="editFirstNameId">First name</label>
+                        <input type="text" class="form-control" id="editFirstNameId" placeholder="First Name" />
+                    </div>
+                    <!--Admin Middle Name-->
+                    <div class="form-group">
+                        <label for="editMiddleNameId">Middle name</label>
+                        <input type="text" class="form-control" id="editMiddleNameId" placeholder="Middle Name" />
+                    </div>
+                    <!--Admin Last Name-->
+                    <div class="form-group">
+                        <label for="editLastNameId">Last name</label>
+                        <input type="text" class="form-control" id="editLastNameId" placeholder="Last Name" />
+                    </div>
+                    <!--Admin Data of Birth-->
+                    <div class="form-group">
+                        <label for="editBODId">Birth of date</label>
+                        <input type="text" class="form-control" id="editBODId" placeholder="Birth of date" />
+                    </div>
+                    <!--Admin Post Code-->
+                    <div class="form-group">
+                        <label for="editPostCodeId">Postcode</label>
+                        <input type="text" class="form-control" id="editPostCodeId" placeholder="Postcode" />
+                    </div>
+                    <!--Admin House Number-->
+                    <div class="form-group">
+                        <label for="editHouseNumberId">House number</label>
+                        <input type="text" class="form-control" id="editHouseNumberId" placeholder="House number" />
+                    </div>
+                    <!--Admin Address line 1-->
+                    <div class="form-group">
+                        <label for="editAddressLine1Id">Address Line 1</label>
+                        <input type="text" class="form-control" id="editAddressLine1Id" placeholder="Address Line 1" />
+                    </div>
+                    <!--Admin Address line 2-->
+                    <div class="form-group">
+                        <label for="editAddressLine2Id">Address Line 2</label>
+                        <input type="text" class="form-control" id="editAddressLine2Id" placeholder="Address Line 2" />
+                    </div>
+                    <!--Admin Phone Number-->
+                    <div class="form-group">
+                        <label for="editPhoneNumberId">Phone number</label>
+                        <input type="text" class="form-control" id="editPhoneNumberId" placeholder="Phone number" />
+                    </div>
+                    <!--Admin Email-->
+                    <div class="form-group">
+                        <label for="editEmailId">Email</label>
+                        <input type="text" class="form-control" id="editEmailId" placeholder="Email" />
+                    </div>
+                </div>
+                <!--Modal Footer-->
+                <div class="modal-footer">
+                    <!-- Save Changes Button -->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onSaveChangesButtonClicked('')">Save Changes</button>
+                    <!-- Cancel Button -->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Add Dialog-->
+    <div class="modal fade" id="addModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Add modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--Dismiss (X) button on top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Enter a new admin details</h4>
+                </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!--Admin First Name-->
+                            <div class="form-group">
+                                <label for="addFirstNameId">First name</label>
+                                <input type="text" class="form-control" id="addFirstNameId" placeholder="First Name" />
+                            </div>
+                            <!--Admin Middle Name-->
+                            <div class="form-group">
+                                <label for="addMiddleNameId">Middle name</label>
+                                <input type="text" class="form-control" id="addMiddleNameId" placeholder="Middle Name" />
+                            </div>
+                            <!--Admin Last Name-->
+                            <div class="form-group">
+                                <label for="addLastNameId">Last name</label>
+                                <input type="text" class="form-control" id="addLastNameId" placeholder="Last Name" />
+                            </div>
+                            <!--Admin Data of Birth-->
+                            <div class="form-group">
+                                <label for="addBODId">Birth of date</label>
+                                <input type="text" class="form-control" id="addBODId" placeholder="Birth of date" />
+                            </div>
+                            <!--Admin Post Code-->
+                            <div class="form-group">
+                                <label for="addPostCodeId">Postcode</label>
+                                <input type="text" class="form-control" id="addPostCodeId" placeholder="Postcode" />
+                            </div>
+                            <!--Admin House Number-->
+                            <div class="form-group">
+                                <label for="addHouseNumberId">House number</label>
+                                <input type="text" class="form-control" id="addHouseNumberId" placeholder="House number" />
+                            </div>
+                            <!--Admin Address line 1-->
+                            <div class="form-group">
+                                <label for="addAddressLine1Id">Address Line 1</label>
+                                <input type="text" class="form-control" id="addAddressLine1Id" placeholder="Address Line 1" />
+                            </div>
+                            <!--Admin Address line 2-->
+                            <div class="form-group">
+                                <label for="addAddressLine2Id">Address Line 2</label>
+                                <input type="text" class="form-control" id="addAddressLine2Id" placeholder="Address Line 2" />
+                            </div>
+                            <!--Admin Phone Number-->
+                            <div class="form-group">
+                                <label for="addPhoneNumberId">Phone number</label>
+                                <input type="text" class="form-control" id="addPhoneNumberId" placeholder="Phone number" />
+                            </div>
+                            <!--Admin Email-->
+                            <div class="form-group">
+                                <label for="addEmailId">Email</label>
+                                <input type="text" class="form-control" id="addEmailId" placeholder="Email" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!--Username-->
+                            <div class="form-group">
+                                <label for="addUsernameId">Username</label>
+                                <input type="text" class="form-control" id="addUsernameId" placeholder="Username" />
+                            </div>
+                            <!--Password-->
+                            <div class="form-group">
+                                <label for="addPasswordId">Password</label>
+                                <input type="text" class="form-control" id="addPasswordId" placeholder="Password" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Footer-->
+                <div class="modal-footer">
+                    <!--Add button-->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onAddButtonClicked('')">Add</button>
+                    <!--Close dialog button-->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal Remove Alert Dialog-->
+    <div class="modal fade" id="removeModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Add modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--Dismiss (X) button on top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Do you really want to remove this admin?</h4>
+                </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <!--Driver ID-->
+                    <div class="form-group">
+                        <label for="adminId">Admin ID</label>
+                        <p class="form-control-static" id="adminId"></p>
+                    </div>
+                    <!--Driver First Name-->
+                    <div class="form-group">
+                        <label for="name">First name</label>
+                        <p class="form-control-static" id="name"></p>
+                    </div>
+                    <!--Driver Middle Name-->
+                    <div class="form-group">
+                        <label for="middleNameId">Middle name</label>
+                        <p class="form-control-static" id="middleNameId"></p>
+                    </div>
+                    <!--Driver Last Name-->
+                    <div class="form-group">
+                        <label for="lastNameId">Last name</label>
+                        <p class="form-control-static" id="lastNameId"></p>
+                    </div>
+                    <!--Driver Data of Birth-->
+                    <div class="form-group">
+                        <label for="BODId">Birth of date</label>
+                        <p class="form-control-static" id="BODId"></p>
+                    </div>
+                    <!--Driver Post Code-->
+                    <div class="form-group">
+                        <label for="postCodeId">Postcode</label>
+                        <p class="form-control-static" id="postCodeId"></p>
+                    </div>
+                    <!--Driver House Number-->
+                    <div class="form-group">
+                        <label for="houseNumberId">House number</label>
+                        <p class="form-control-static" id="houseNumberId"></p>
+                    </div>
+                    <!--Driver Address line 1-->
+                    <div class="form-group">
+                        <label for="addressLine1Id">Address Line 1</label>
+                        <p class="form-control-static" id="addressLine1Id"></p>
+                    </div>
+                    <!--Driver Address line 2-->
+                    <div class="form-group">
+                        <label for="addressLine2Id">Address Line 2</label>
+                        <p class="form-control-static" id="addressLine2Id"></p>
+                    </div>
+                    <!--Driver Phone Number-->
+                    <div class="form-group">
+                        <label for="phoneNumberId">Phone number</label>
+                        <p class="form-control-static" id="phoneNumberId"></p>
+                    </div>
+                    <!--Driver Email-->
+                    <div class="form-group">
+                        <label for="emailId">Email</label>
+                        <p class="form-control-static" id="emailId"></p>
+                    </div>
+                </div>
+                <!--Modal Footer-->
+                <div class="modal-footer">
+                    <!-- Save Changes Button -->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onDeleteButtonClicked('')">Delete</button>
+                    <!-- Cancel Button -->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--<div id="header">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+
+        </div>
+    </nav>
+</div>-->

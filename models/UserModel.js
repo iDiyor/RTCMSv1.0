@@ -5,12 +5,11 @@ bookshelf.plugin('registry');
 
 var UserProfile = require('./UserProfileModel.js');
 
-
 var User = bookshelf.Model.extend( {
     tableName: 'user',
     idAttribute: 'id_user',
     userRole: function () {
-        return this.hasOne(UserRole, 'id_user');
+        return this.hasOne('UserRole', 'id_user');
     }
 
 });
@@ -32,8 +31,12 @@ var UserStatus = bookshelf.Model.extend({
 
 });
 
+module.exports = bookshelf.model('User', User);
+module.exports = bookshelf.model('UserRole', UserRole);
+module.exports = bookshelf.model('UserStatus', UserStatus);
+
 module.exports = {
-    User: User,
-    UserRole: UserRole,
+    User: User, 
+    UserRole: UserRole, 
     UserStatus: UserStatus
 };
