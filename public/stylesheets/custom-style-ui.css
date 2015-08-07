@@ -260,3 +260,74 @@
 }
 
 
+/* Messages and Chat */
+
+/* M E S S A G E S */
+
+.chat {
+    list-style: none;
+    background: none;
+    margin: 0;
+    padding: 0 0 50px 0;
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+.chat li {
+    padding: 0.5rem;
+    overflow: hidden;
+    display: flex;
+}
+
+.other .msg {
+    order: 1;
+    border-top-left-radius: 0px;
+    box-shadow: -1px 2px 0px #D4D4D4;
+}
+
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.self .msg {
+    order: 1;
+    border-bottom-right-radius: 0px;
+    box-shadow: 1px 2px 0px #D4D4D4;
+}
+
+.msg {
+    background: #FFFFFF;
+    min-width: 50px;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
+}
+
+.msg span {
+    color: #7F8C8D;
+    
+}
+.msg p {
+    font-size: 100%;
+    margin: 0 0 0.2rem 0;
+    color: #2C3E50;
+    font-weight: bold;
+}
+
+.msg time {
+    font-size: 90%;
+    color: #ccc;
+    margin-top: 3px;
+    float: right;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.msg time:before{
+    content:"\f017";
+    color: #ddd;
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: 4px;
+}

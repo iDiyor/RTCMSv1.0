@@ -3,13 +3,17 @@
 var bookshelf = require('./BookshelfConnector.js');
 bookshelf.plugin('registry');
 
-var MessageBox = require('./MessageBoxModel.js');
+var UserProfile = require('./UserProfileModel.js');
 
 var Message = bookshelf.Model.extend({
     tableName: 'message',
     idAttribute: 'id_message',
-    messagebox: function () {
-        return this.belongsTo('MessageBox', 'id_messagebox');
+    hasTimestamps: ['time'],
+    fromUser : function () {
+        return this.belongsTo('UserProfile', 'from_id_user_profile');
+    },
+    toUser : function () {
+        return this.belongsTo('UserProfile', 'to_id_user_profile');
     }
 });
 

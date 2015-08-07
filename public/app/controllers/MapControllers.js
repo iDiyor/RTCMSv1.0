@@ -119,7 +119,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 positioning: 'bottom-center'
             });
             
-            // name should be unique for each connected device -> username of the driver
+            // name should be unique for each connected device -> id of the driver
             var userLocationMarkerObject = { user: clientData.user , overlay: overlay };
      
             // adding new overlay into the array

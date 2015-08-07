@@ -56,7 +56,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             controller: 'MessageCtrl'
         })
         .state('app.message.compose', {
-            url: '/:id_driver',
+            url: '/:id_user_profile',
             templateUrl: 'app/views/MessageComposeView.html',
             controller: 'MessageComposeCtrl'
         })

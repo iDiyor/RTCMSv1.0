@@ -3,63 +3,116 @@
 var express = require('express');
 var router = express.Router();
 
-var MesssageBox = require('./../models/MessageBoxModel.js');
+var Message = require('./../models/MessageModel.js');
 
+// withRelated: [message] == model.load(['message])
+
+// all messages in the database
 router.get('/', function (req, res) {
-    MesssageBox.forge()
+    Message.forge()
     .fetchAll()
-    .then(function (messageboxes) {
-        messageboxes
-        .load(['message'])
-        .then(function (collection) {
-            res.json(collection.toJSON());
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
+    .then(function (messages) {
+        res.json(messages.toJSON());
+    })
+    .catch(function (error) {
+        res.status(500).json({ error: true, data: { message: error.message } });
+    });
+});
+// all messages to UserA
+router.get('/:to_id_user_profile', function (req, res) {
+    Message.forge({ to_id_user_profile: req.params.to_id_user_profile })
+    .fetchAll({ require: true })
+    .then(function (messages) {
+        res.json(messages.toJSON());
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
 });
 
-// all mesageboxes
-router.get('/messagebox', function (req, res) {
-    MesssageBox.forge()
-    .fetchAll()
-    .then(function (messagebox) {
-        res.json(messagebox.toJSON());
+// all messages to UserA from UserB
+router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
+    Message.forge({
+        to_id_user_profile: req.params.to_id_user_profile,
+        from_id_user_profile: req.params.from_id_user_profile,
     })
-    .catch(function (error) {
-        res.status(500).json({ error: true, data: { message: error.message } });
-    });
-    
-});
-// a messagebox by id
-router.get('/messagebox/:id_messagebox', function (req, res) {
-    
-    MesssageBox.forge({ id_messagebox: req.params.id_messagebox })
-    .fetch({ require: true })
-    .then(function (messagebox) {
-        messagebox.load(['message'])
-        .then(function (model) {
-            res.json(model.toJSON());
-        })
-        .catch(function (error) {
-            console.error(error);
+    .fetchAll({
+        //debug: true,
+        require: true,
+        withRelated: [{
+                'fromUser' : function (qb) {
+                    qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
+                },
+                'toUser' : function (qb) {
+                    qb.column('id_user_profile', 'first_name', 'last_name');
+                }
+            }]
+     })
+    .then(function (messages) {
+        messages
+        .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+        .fetch({ debug: true })
+        .then(function (sortedMessages) {
+            res.json(sortedMessages.toJSON());
         });
         
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
+    
+    
+    
+    
+    //Message.forge({
+    //    to_id_user_profile: req.params.to_id_user_profile,
+    //})
+    //.query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+    //.fetchAll({
+    //    withRelated: [{
+    //            'fromUser' : function (qb) {
+    //                qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
+    //            },
+    //            'toUser' : function (qb) {
+    //                qb.column('id_user_profile', 'first_name', 'last_name');
+    //            }
+    //        }]
+    //})
+    //.then(function (messages) {
+       
+    //    res.json(messages.toJSON());
+    //})
+    //.catch(function (error) {
+    //    res.status(500).json({ error: true, data: { message: error.message } });
+    //});
+
 });
 
-router.get('/user/:id_user_profile', function (req, res) {
-    MesssageBox.forge({ id_user_profile: req.params.id_user_profile })
-    .fetch({ withRelated: ['message']}) // withRelated: [message] == model.load(['message])
-    .then(function (messagebox) {
-        res.json(messagebox.toJSON());
+// new message to UserA
+router.post('/:to_id_user_profile', function (req, res) {
+    Message.forge({
+        to_id_user_profile: req.params.to_id_user_profile,
+        from_id_user_profile: req.body.from_id_user_profile,
+        content: req.body.content
+    })
+    .save(null, { method: 'insert' })
+    .then(function (message) {
+        
+        message.load([{
+                'fromUser' : function (qb) {
+                    qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
+                },
+                'toUser' : function (qb) {
+                    qb.column('id_user_profile', 'first_name', 'last_name');
+                }
+            }])
+        .then(function (messageWithExtraData) {
+            res.json({
+                responseTitle: 'Inserting a new message into the database',
+                responseStatus: 'success',
+                responseBody: message.toJSON()
+            });
+        });       
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });

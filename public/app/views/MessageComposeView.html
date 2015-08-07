@@ -1,19 +1,29 @@
 ﻿<div>
     <div>
-        <div class="messages">
-            <ul>
-                <li ng-repeat="message in messages">{{message.content}}</li>
-            </ul>
-        </div>
+        <!--<div class="panel panel-default content-panel">-->
+            <!--<div class="content-panel-heading"><p>Chat</p></div>-->
+            <!--<div class="panel-body">-->
+                <div class="messages">
+                    <ol class="chat">
+                        <li ng-class="{self: message.from_id_user_profile == adminId, other: message.to_id_user_profile == adminId}" ng-repeat="message in messages | orderBy:'time'">
+                            <div class="msg">
+                                <span>{{message.fromUser.first_name + ' ' + message.fromUser.last_name}}</span>
+                                <p>{{message.content}}</p>
+                                <time>{{message.time}}</time>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            <!--</div>-->
+        <!--</div>-->
         <!--Input and send button-->
         <div class="message-controller">
             <div class="input-group">
-                <input type="text" class="form-control message-input" placeholder="Message">
-                <span class="input-group-btn">
-                    <button class="btn-add" type="button">Send</button>
-                </span>
+            <input type="text" id="message_input" class="form-control message-input" placeholder="Message" ng-model="messageContent">
+            <span class="input-group-btn">
+                <button class="btn-add" type="button" ng-click="onSendButtonClicked()">Send</button>
+            </span>
             </div><!-- /input-group -->
         </div>
     </div>
-    
 </div>
