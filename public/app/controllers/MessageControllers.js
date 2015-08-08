@@ -31,7 +31,7 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
         
         $scope.messages = [];
 
-        console.log('AdminUserProfileID: ' + adminUserProfileId + ' | DriverProfileID: ' + driverUserProfileId);
+        //console.log('AdminUserProfileID: ' + adminUserProfileId + ' | DriverProfileID: ' + driverUserProfileId);
         
         Message.getMessageToFrom({ to_id_user_profile: adminUserProfileId, from_id_user_profile: driverUserProfileId }, function (res1) {
             var array1 = res1;

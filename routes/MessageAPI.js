@@ -51,7 +51,8 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
     .then(function (messages) {
         messages
         .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
-        .fetch({ debug: true })
+        .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+        .fetch(/*{ debug: true }*/)
         .then(function (sortedMessages) {
             res.json(sortedMessages.toJSON());
         });
@@ -59,33 +60,7 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
-    });
-    
-    
-    
-    
-    //Message.forge({
-    //    to_id_user_profile: req.params.to_id_user_profile,
-    //})
-    //.query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
-    //.fetchAll({
-    //    withRelated: [{
-    //            'fromUser' : function (qb) {
-    //                qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
-    //            },
-    //            'toUser' : function (qb) {
-    //                qb.column('id_user_profile', 'first_name', 'last_name');
-    //            }
-    //        }]
-    //})
-    //.then(function (messages) {
-       
-    //    res.json(messages.toJSON());
-    //})
-    //.catch(function (error) {
-    //    res.status(500).json({ error: true, data: { message: error.message } });
-    //});
-
+    });    
 });
 
 // new message to UserA

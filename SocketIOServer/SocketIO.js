@@ -17,7 +17,7 @@ io.on('connection', function (socket) {
         }        
     });
     
-    // on location data receive from mobile app 
+    // on location data receive from the mobile app 
     socket.on('mobile:location', function (clientData) {
         // broadcast the data from mobile to desktop web app client
         socket.broadcast.emit('server:location', clientData);
