@@ -1,11 +1,26 @@
 ﻿
 var io = require('socket.io')();
 
+var clients = [];
+
+var removeSocket = function (client) {
+    var index = clients.indexOf(client);
+    clients.slice(index, 1);
+}
+
 io.on('connection', function (socket) {
     
+    /**
+     * @TODO
+     * Array to store all the clients and send it to the web app when it is connected
+     * Improvements: client can connect before web app lauched
+     */
+    
+
     socket.emit('server:message', { status: 'connection success' });
     
     socket.on('client:connection', function (clientData) {
+        
         if (clientData.type == 'mobile') {
             // this will inform web app about mobile device connection and creates a popup for it
             socket.broadcast.emit('server:mobile:connection', clientData);
@@ -14,7 +29,10 @@ io.on('connection', function (socket) {
         else if (clientData.type == 'web') {
             // this will inform other clients about web client connection
             socket.broadcast.emit('server:web:connection', clientData);
-        }        
+        }
+        
+        clients.push(socket);
+        console.log('Size: ' + clients.length);   
     });
     
     // on location data receive from the mobile app 
@@ -33,6 +51,9 @@ io.on('connection', function (socket) {
         else if (clientData.type == 'web') {
             console.log('web client disconnected');
         }
+
+        removeSocket(socket);
+        console.log('Size: ' + clients.length);   
     });
 });
 
