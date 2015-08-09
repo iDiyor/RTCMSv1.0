@@ -1,13 +1,13 @@
 ﻿
 var io = require('socket.io')();
 
-var clients = [];
+var mobileClients = [];
 
 var deleteClient = function (socket) {
-    for (var i = 0; i < clients.length; i++) {
-        var client = clients[i];
+    for (var i = 0; i < mobileClients.length; i++) {
+        var client = mobileClients[i];
         if (client.socketId == socket.id) {
-            clients.splice(i, 1);
+            mobileClients.splice(i, 1);
         }   
     } 
 }
@@ -18,22 +18,27 @@ io.on('connection', function (socket) {
     
     socket.on('client:connection', function (clientData) {
         
-        // client data 
-        var client = {
-            socketId: socket.id,
-            client: clientData
-        }
-        // add the client data including socket and data to the global array
-        clients.push(client);
-        
         if (clientData.type == 'mobile') {
             // this will inform web app about mobile device connection and creates a popup for it
             socket.broadcast.emit('server:mobile:connection', clientData);
             console.log('mobile:client:connection');
+
+            // client data 
+            var client = {
+                socketId: socket.id,
+                client: clientData
+            }
+            // add the client data including socket and data to the global array
+            mobileClients.push(client);
         }
         else if (clientData.type == 'web') {
             // this will inform other clients about web client connection
             socket.broadcast.emit('server:web:connection', clientData);
+            
+            // when web is connected emit mobile clients array already connected to the server
+            // 
+            socket.broadcast.emit('server:online:mobile:clients', mobileClients); 
+
             console.log('web:client:connection');
         }
     });

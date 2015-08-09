@@ -149,6 +149,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             $scope.vehiclesNumberOnMap = clientGeolocationDataArray.length;
             
         });
+        
+        Socket.On('server:online:mobile:clients', function (mobileClients) {
+            console.log(mobileClients);
+        });
+
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
             // get the name of the disconnected device and remove from the array using that name
