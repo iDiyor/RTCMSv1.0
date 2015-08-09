@@ -37,7 +37,7 @@ io.on('connection', function (socket) {
             
             // when web is connected emit mobile clients array already connected to the server
             // 
-            socket.broadcast.emit('server:online:mobile:clients', mobileClients); 
+            socket.emit('server:online:mobile:clients', mobileClients); 
 
             console.log('web:client:connection');
         }
