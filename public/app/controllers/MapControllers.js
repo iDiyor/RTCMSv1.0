@@ -240,12 +240,17 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                     console.log('CLIENT STATUS: ' + client.status);
                     
                     // popover
-                    $(overlay.getElement()).popover({
+                    var popover = $(overlay.getElement()).popover({
                         html: true,
                         container: 'body',
                         trigger: 'hover',
                         content: '<div><p style="display: inline">Name: ' + '<b>' + clientsArray[i].client.name + '</b></p><br><p>Status: ' + '<b>' + client.status +'</b></p></div>'
                     });
+
+                    var tip = popover.tip();
+
+                    popover.options.content = '<div><p style="display: inline">Name: ' + '<b>' + clientsArray[i].client.name + '</b></p><br><p>Status: ' + '<b>' + client.status + '</b></p></div>';
+                    
                 }
             }
         }
