@@ -70,6 +70,9 @@ io.on('connection', function (socket) {
     });
 
     socket.on('client:disconnection', function (clientData) {
+        // remove the socket and its data from the global array
+        deleteClient(socket);
+        
         if (clientData.type == 'mobile') {
             console.log('mobile client disconnected');
             // need to figure out how to categorise phone and web disconnection
@@ -78,9 +81,6 @@ io.on('connection', function (socket) {
         else if (clientData.type == 'web') {
             console.log('web client disconnected');
         }
-        
-        // remove the socket and its data from the global array
-        deleteClient(socket);
     });
 });
 
