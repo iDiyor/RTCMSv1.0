@@ -1,7 +1,7 @@
 ﻿
 var io = require('socket.io')();
 
-var clients = [];
+var clients = {};
 
 var removeSocket = function (client) {
     for (var i = 0; i < clients.length; i++) {
@@ -36,7 +36,8 @@ io.on('connection', function (socket) {
         }
         
         clients.push(socket);
-        console.log('Size: ' + clients.length);   
+        console.log('Size: ' + clients.length);
+        console.log('CLIENT_IDL CONNECTION: ' + socket.id);
     });
     
     // on location data receive from the mobile app 
@@ -57,6 +58,7 @@ io.on('connection', function (socket) {
         }
 
         removeSocket(socket);
+        console.log('CLIENT_IDL DISCONNECTION: ' + socket.id);
     });
 });
 
