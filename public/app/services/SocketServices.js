@@ -33,6 +33,10 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
                 });
             });
         };
+        
+        services.Disconnect = function () {
+            socket.disconnect();   
+        }
 
         return services;
 }]);
