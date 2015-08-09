@@ -104,11 +104,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                         overlay.setPosition(position);
                         view.setCenter(position);
                         view.setZoom(10);
-                        
-                        console.log(position);
-                        $scope.longitude = position[0];
-                        $scope.latitude = position[1];
-                        $scope.heading = Math.round(radToDeg(heading));
                     }
                 }
             }
@@ -126,7 +121,25 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // on mobile connection event from the server 
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (clientData) {
-           
+           /**
+            * clientData.clientData
+            * -> client ID: String - ID ;
+            * -> client: String - client name(name of the driver) 
+            * -> last known location: Location
+            * -> type: String - mobile
+            */
+           var client = clientData.clientData;
+
+           var clientObject = {
+                id: client.clientId,
+                name: client.client,
+                status: 'No Job'
+            }
+
+            createMarkerAndGeolocationForEachClient(client);
+            setGeolocation(client, client.lastKnowLocation);
+
+
             //var marker = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
             //marker.click(onClientMarkerClick);
             //var locationMarkerIcon = marker.appendTo('.location_marker_group');
@@ -217,32 +230,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     }   
                 }  
             }
-
-
-            //// remove client marker from the map
-            //if (clientLocationMarkersArray.length > 0) {
-            //    for (var i = 0; i < clientLocationMarkersArray.length; i++) {
-            //        var clientLocationMarkerObject = clientLocationMarkersArray[i];
-                    
-            //        if (clientId == clientLocationMarkerObject.client.id) {
-            //            //remove the the map
-            //            map.removeOverlay(clientLocationMarkerObject.overlay);
-            //            // remove from the array
-            //            clientLocationMarkersArray.splice(i, 1);
-            //        }
-            //    }
-            //}
-            //// remove client geolocation from the array
-            //if (clientGeolocationDataArray.length > 0) {
-            //    for (var i = 0; i < clientGeolocationDataArray.length; i++) {
-            //        var clientGeolocationObject = clientGeolocationDataArray[i];
-                    
-            //        if (clientId == clientGeolocationObject.client.id) {
-            //            // remove from the array
-            //            clientGeolocationDataArray.splice(i, 1);
-            //        }
-            //    }
-            //}
           
             //console.log('Client Location Marker #: ' + clientLocationMarkersArray.length.toString());
             //console.log('Client Geolocation #: ' + clientGeolocationDataArray.length.toString());
@@ -295,14 +282,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 element: locationMarkerIcon,
                 positioning: 'bottom-center'
             });
-            
-            // name should be unique for each connected device -> id of the driver
-            //var clientLocationMarkerObject = { client: client , overlay: overlay };
-            
+                
             // adding new overlay into the array
             map.addOverlay(overlay);
-            // adding new overlay on the map to make it visible
-            //clientLocationMarkersArray.push(clientLocationMarkerObject);
             
             // client geolocation data
             var geolocation = new ol.Geolocation({
@@ -313,12 +295,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     timeout: 600000
                 }
             });
-            //geolocation.set("client", clientData.client);
-            //var clientGeolocationObject = { client: client, geolocation: geolocation };
-            
-            // adding new client geolocation var into the array
-            //clientGeolocationDataArray.push(clientGeolocationObject);
-            
+                     
             var clientObject = {
                 client: client,
                 overlay: overlay,
