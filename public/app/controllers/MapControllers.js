@@ -171,7 +171,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     name: client.client
                 }
                 createMarkerAndGeolocationForEachClient(clientObject);
-                setGeolocation(client.clientId, client.last_known_position);
+                setGeolocation(clientObject, client.last_known_position);
             }
 
             console.log(mobileClients);
@@ -286,18 +286,20 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             $scope.vehiclesNumberOnMap = clientGeolocationDataArray.length;
         }
 
-        var setGeolocation = function (clientId, location) {
+        var setGeolocation = function (client, location) {
             for (var i = 0; i < clientGeolocationDataArray.length; i++) {
-                var geolocation = clientGeolocationDataArray[i].geolocation;
-                var clientLocation = [location.longitude, location.latitude];
-                var projectedLocation = ol.proj.transform(clientLocation, 'EPSG:4326', 'EPSG:3857');
-                geolocation.set('position', projectedLocation);
-                geolocation.set('accuracy', location.accuracy);
-                geolocation.set('speed', location.speed);
-                geolocation.set('heading', degToRad(location.bearing));
-                geolocation.changed();
-
-                $scope.$emit('LocationUpdate', { clientId: clientId });
+                if(clientGeolocationDataArray[i].client.id == client.id) {
+                    var geolocation = clientGeolocationDataArray[i].geolocation;
+                    var clientLocation = [location.longitude, location.latitude];
+                    var projectedLocation = ol.proj.transform(clientLocation, 'EPSG:4326', 'EPSG:3857');
+                    geolocation.set('position', projectedLocation);
+                    geolocation.set('accuracy', location.accuracy);
+                    geolocation.set('speed', location.speed);
+                    geolocation.set('heading', degToRad(location.bearing));
+                    geolocation.changed();
+                    
+                    $scope.$emit('LocationUpdate', { clientId: clientId });
+                }
             }
         }
 }]);
