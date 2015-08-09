@@ -3,12 +3,11 @@ var io = require('socket.io')();
 
 var clients = [];
 
-var deleteClient = function (socketId) {
+var deleteClient = function (socket) {
     for (var i = 0; i < clients.length; i++) {
         var client = clients[i];
-        if (client.socketId == socketId) {
+        if (client.socketId == socket.id) {
             clients.splice(i, 1);
-            console.log('SLICE');
         }   
     }
     console.log('Size: ' + clients.length);   
@@ -64,7 +63,7 @@ io.on('connection', function (socket) {
             console.log('web client disconnected');
         }
 
-        deleteClient(socket.id);
+        deleteClient(socket);
         console.log('CLIENT_IDL DISCONNECTION: ' + socket.id);
     });
 });
