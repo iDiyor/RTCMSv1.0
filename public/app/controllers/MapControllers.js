@@ -492,5 +492,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
             socket.off('server:mobile:disconnection', onServerMobileDisconnection);
 
             socket.disconnect();
+            socket.close();
         })
 }]);
