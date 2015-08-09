@@ -69,7 +69,7 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('server:mobile:client:status', clientData);
     });
 
-    socket.on('client:disconnection', function (clientData) {
+    socket.on('client:disconnect', function (clientData) {
         // remove the socket and its data from the global array
         deleteClient(socket);
         

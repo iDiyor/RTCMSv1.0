@@ -13,6 +13,15 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
 
             socket.emit('client:connection', client);
         });
+        
+        socket.on('disconnect', function () {
+            var client = {
+                name: 'jeb',
+                type: 'web'
+            };
+            
+            socket.emit('client:disconnect', client);
+        });
 
         var services = {};
         

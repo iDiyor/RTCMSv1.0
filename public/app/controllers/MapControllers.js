@@ -343,5 +343,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             // say goodbye to your controller here
             // release resources, cancel request...
             console.log("MapController destroyed");
+            
         })
 }]);
