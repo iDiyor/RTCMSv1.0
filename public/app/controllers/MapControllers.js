@@ -67,9 +67,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         
         /* SOCKET EVENT HANDLERS */
         // connection status from the server
-        socket.on('server:message', function (data) {
+        socket.on('server:message', onServerMessage);
+        
+        function onServerMessage(data) {
             $scope.status = data.status;
-        });
+        };
         
         // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB        
         socket.on('server:location', onServerLocation);
@@ -113,7 +115,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         //    }
         //});
         
-        var onServerLocation = function (clientData) {
+        function onServerLocation(clientData) {
             /**
              * clientData.clientId
              * clientData.client 
@@ -174,7 +176,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
 
         socket.on('server:mobile:client:status', onServerMobileClientsStatus);
         
-        var onServerMobileClientsStatus = function (clientData) {
+        function onServerMobileClientsStatus(clientData) {
             
         }
 
@@ -245,7 +247,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
             
         //});
         
-        var onServerMobileConnection = function (clientData) {
+        function onServerMobileConnection(clientData) {
             console.log(clientData);
             
             /**
@@ -296,7 +298,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
 
         //});
         
-        var onServerOnlineMobileClients = function (mobileClients) {
+        function onServerOnlineMobileClients(mobileClients) {
             console.log(mobileClients);
             /**
              * mobileClients
@@ -353,7 +355,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
         //    $scope.vehiclesNumberOnMap = clientsArray.length;
         //});
         
-        var onServerMobileDisconnection = function (clientData) {
+        function onServerMobileDisconnection(clientData) {
             /**
              * clientData.type
              * clientData.clientId
