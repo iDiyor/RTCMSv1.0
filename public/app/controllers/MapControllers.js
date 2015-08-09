@@ -139,8 +139,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 status: 'No Job'
             }
 
-            createMarkerAndGeolocationForEachClient(client);
-            setGeolocation(client, client.lastKnowLocation);
+            createMarkerAndGeolocationForEachClient(clientObject);
+            setGeolocation(clientObject, client.lastKnowLocation);
 
 
             //var marker = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
