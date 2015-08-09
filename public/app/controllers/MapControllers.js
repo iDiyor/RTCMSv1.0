@@ -484,6 +484,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
             // say goodbye to your controller here
             // release resources, cancel request...
             console.log("MapController destroyed");
+            socket.disconnect();
+            socket.close();
+
             socket.off('server:message', onServerMessage);
             socket.off('server:mobile:connection', onServerMobileConnection);
             socket.off('server:mobile:client:status', onServerMobileClientsStatus);
@@ -491,7 +494,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
             socket.off('server:online:mobile:clients', onServerOnlineMobileClients);
             socket.off('server:mobile:disconnection', onServerMobileDisconnection);
 
-            socket.disconnect();
-            socket.close();
+            
         })
 }]);

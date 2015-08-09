@@ -84,8 +84,5 @@ io.on('connection', function (socket) {
     });
 });
 
-io.on('disconnect', function (socket) {
-    console.log('Something disconnected'); 
-});
 
 module.exports = io;
