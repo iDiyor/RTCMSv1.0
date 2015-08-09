@@ -7,7 +7,7 @@ var deleteClient = function (socketId) {
     for (var i = 0; i < clients.length; i++) {
         var client = clients[i];
         if (client.socketId == socketId) {
-            clients.slice(i, 1);
+            clients.splice(i, 1);
             console.log('SLICE');
         }   
     }
