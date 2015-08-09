@@ -28,10 +28,10 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
         services.On = function (eventName, callback) {
             socket.on(eventName, function () {
                 var args = arguments;
-                $rootScope.$apply(function () {
+                //$rootScope.$apply(function () {
                     //callback.apply(socket, args);
                     callback(args);
-                });
+                //});
             });
         };
         
