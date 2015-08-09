@@ -26,10 +26,12 @@ io.on('connection', function (socket) {
             // client data 
             var client = {
                 socketId: socket.id,
-                client: clientData
+                clientData: clientData
             }
             // add the client data including socket and data to the global array
             mobileClients.push(client);
+
+            socket.broadcast.emit('server:online:mobile:clients', mobileClients); 
         }
         else if (clientData.type == 'web') {
             // this will inform other clients about web client connection
