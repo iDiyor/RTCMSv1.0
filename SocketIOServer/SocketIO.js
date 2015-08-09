@@ -37,7 +37,7 @@ io.on('connection', function (socket) {
         
         clients.push(socket);
         console.log('Size: ' + clients.length);
-        console.log('CLIENT_IDL CONNECTION: ' + socket.id);
+        //console.log('CLIENT_IDL CONNECTION: ' + socket.id);
     });
     
     // on location data receive from the mobile app 
