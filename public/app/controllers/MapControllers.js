@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-var mapControllers = angular.module('mapControllers', ['socketServices']);
+var mapControllers = angular.module('mapControllers', []);
 
-mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function ($scope, Location, Socket) {
+mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Location,) {
         
         $scope.vehiclesNumberOnMap = 0;  
                 
