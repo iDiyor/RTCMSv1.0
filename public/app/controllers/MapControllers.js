@@ -151,6 +151,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         
         Socket.On('server:online:mobile:clients', function (mobileClients) {
+            
+            console.log(mobileClients);
             /**
              * mobileClients
              * -> client ID: String - ID ;
