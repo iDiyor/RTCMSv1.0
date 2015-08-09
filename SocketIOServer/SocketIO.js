@@ -61,6 +61,13 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('server:location', clientData);
         console.log('mobile:location');
     });
+    
+    socket.on('mobile:client:status', function (clientData) {
+        //data.put("clientId", mClientId);
+        //data.put("client", mClient);
+        //data.put("clientStatus", status);
+        socket.broadcast.emit('server:mobile:client:status', clientData);
+    });
 
     socket.on('client:disconnection', function (clientData) {
         if (clientData.type == 'mobile') {

@@ -11,6 +11,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // array to store icons/markers on the map
         var clientLocationMarkersArray = [];
         var clientGeolocationDataArray = [];
+        var clientsArray = [];
         
         // convert radians to degrees
         function radToDeg(rad) {
@@ -62,16 +63,21 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
              * clientData.time
             */
                         
-            for (var i = 0; i < clientGeolocationDataArray.length; i++) {
-                var clientGeolocationObject = clientGeolocationDataArray[i];
-                
+            for (var i = 0; i < clientsArray.length; i++) {
+                /**
+                 * ClientsArray
+                 * -> client
+                 * -> overlay
+                 * -> geolocation
+                 */
+                var client = clientsArray[i].client;
                 // find the client who sent location from the array and update
-                if (clientGeolocationObject.client.id == clientData.clientId) {
+                if (client.id == clientData.clientId) {
                     //console.log('GEOLOCATION NAME MATCH');
                     var mobileLocation = [clientData.longitude, clientData.latitude];
                     var projectedLocation = ol.proj.transform(mobileLocation, 'EPSG:4326', 'EPSG:3857');
 
-                    var geolocation = clientGeolocationObject.geolocation;
+                    var geolocation = clientsArray[i].geolocation;
                     geolocation.set('position', projectedLocation);
                     geolocation.set('accuracy', clientData.accuracy);
                     geolocation.set('speed', clientData.speed);
@@ -85,33 +91,36 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         $scope.$on('LocationUpdate', function (event, args) {
             // line below never called
-            if (clientGeolocationDataArray.length > 0 && clientLocationMarkersArray.length > 0) {
-                // client geolocation array
-                for (var i = 0; i < clientGeolocationDataArray.length; i++) {
-                    if (clientGeolocationDataArray[i].client.id == args.clientId) {
-                        var geolocation = clientGeolocationDataArray[i].geolocation;
-                        // client makers array
-                        for (var j = 0; j < clientLocationMarkersArray.length; j++) {
-                            if (clientLocationMarkersArray[j].client.id == args.clientId) {
-                                console.log('GEOLOCATION NAME MATCH');
-                                var position = geolocation.getPosition();
-                                var heading = geolocation.getHeading();
-
-                                var overlay = clientLocationMarkersArray[j].overlay;
-                            
-                                overlay.setPosition(position);
-                                view.setCenter(position);
-                                view.setZoom(10);
-
-                                console.log(position);
-                                $scope.longitude = position[0];
-                                $scope.latitude = position[1];
-                                $scope.heading = Math.round(radToDeg(heading));
-                            }
-                        } 
+            if (clientsArray.length > 0) {
+                for (var i = 0; i < clientsArray.length; i++) {
+                    var client = clientsArray[i].client;
+                    if (client.id == args.clientId) {
+                        var geolocation = clientsArray[i].geolocation;
+                        var position = geolocation.getPosition();
+                        var heading = geolocation.getHeading();
+                        
+                        var overlay = clientLocationMarkersArray[j].overlay;
+                        
+                        overlay.setPosition(position);
+                        view.setCenter(position);
+                        view.setZoom(10);
+                        
+                        console.log(position);
+                        $scope.longitude = position[0];
+                        $scope.latitude = position[1];
+                        $scope.heading = Math.round(radToDeg(heading));
                     }
                 }
             }
+        });
+        
+        Socket.On('server:mobile:client:status', function (clientData) {
+            /**
+             * clientData.clientId
+             * clientData.client
+             * clientData.clientStatus
+             */
+
         });
 
         // on mobile connection event from the server 
@@ -176,10 +185,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 // type: mobile
                 var clientObject = {
                     id: client.clientId,
-                    name: client.client
+                    name: client.client,
+                    status: 'No Job'
                 }
                 createMarkerAndGeolocationForEachClient(clientObject);
-                setGeolocation(clientObject, client.last_known_position);
+                setGeolocation(clientObject, client.lastKnowLocation);
             }
 
         });
@@ -194,47 +204,63 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             
             // get the name of the disconnected device and remove from the array using that name
             var clientId = clientData.clientId;
+            
+            if (clientsArray.length > 0) {
+                for (var i = 0; i < clientsArray.length; i++) {
+                    var client = clientsArray[i].client;
+                    if (clientId == client.id) {
+                        var overlay = clientsArray[i].overlay;
+                        
+                        map.removeOverlay(overlay);
 
-            // remove client marker from the map
-            if (clientLocationMarkersArray.length > 0) {
-                for (var i = 0; i < clientLocationMarkersArray.length; i++) {
-                    var clientLocationMarkerObject = clientLocationMarkersArray[i];
-                    
-                    if (clientId == clientLocationMarkerObject.client.id) {
-                        //remove the the map
-                        map.removeOverlay(clientLocationMarkerObject.overlay);
-                        // remove from the array
-                        clientLocationMarkersArray.splice(i, 1);
-                    }
-                }
+                        clientsArray.splice(i, 1);
+                    }   
+                }  
             }
-            // remove client geolocation from the array
-            if (clientGeolocationDataArray.length > 0) {
-                for (var i = 0; i < clientGeolocationDataArray.length; i++) {
-                    var clientGeolocationObject = clientGeolocationDataArray[i];
+
+
+            //// remove client marker from the map
+            //if (clientLocationMarkersArray.length > 0) {
+            //    for (var i = 0; i < clientLocationMarkersArray.length; i++) {
+            //        var clientLocationMarkerObject = clientLocationMarkersArray[i];
                     
-                    if (clientId == clientGeolocationObject.client.id) {
-                        // remove from the array
-                        clientGeolocationDataArray.splice(i, 1);
-                    }
-                }
-            }
+            //        if (clientId == clientLocationMarkerObject.client.id) {
+            //            //remove the the map
+            //            map.removeOverlay(clientLocationMarkerObject.overlay);
+            //            // remove from the array
+            //            clientLocationMarkersArray.splice(i, 1);
+            //        }
+            //    }
+            //}
+            //// remove client geolocation from the array
+            //if (clientGeolocationDataArray.length > 0) {
+            //    for (var i = 0; i < clientGeolocationDataArray.length; i++) {
+            //        var clientGeolocationObject = clientGeolocationDataArray[i];
+                    
+            //        if (clientId == clientGeolocationObject.client.id) {
+            //            // remove from the array
+            //            clientGeolocationDataArray.splice(i, 1);
+            //        }
+            //    }
+            //}
           
-            console.log('Client Location Marker #: ' + clientLocationMarkersArray.length.toString());
-            console.log('Client Geolocation #: ' + clientGeolocationDataArray.length.toString());
-
-            $scope.vehiclesNumberOnMap = clientGeolocationDataArray.length;
+            //console.log('Client Location Marker #: ' + clientLocationMarkersArray.length.toString());
+            //console.log('Client Geolocation #: ' + clientGeolocationDataArray.length.toString());
+            console.log('Clients #: ' + clientsArray.length);
+            $scope.vehiclesNumberOnMap = clientsArray.length;
         });
         
         // client marker popup click handler
         var onClientMarkerClick = function () {
-            for (var i = 0; i < clientLocationMarkersArray.length; i++) {
-                var overlay = clientLocationMarkersArray[i].overlay;
+            for (var i = 0; i < clientsArray.length; i++) {
+                var overlay = clientsArray[i].overlay;
                 if (overlay.getElement().is($(this))) {
                     //console.log('true');
                     // popover
                     $(overlay.getElement()).popover({
-                    content: 'Client: ' + clientLocationMarkersArray[i].client.name});
+                        html: true,
+                        content: '<div><p>' + clientsArray[i].client.name + '</p></div>'
+                    });
                 }
             }
         }
@@ -270,12 +296,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             });
             
             // name should be unique for each connected device -> id of the driver
-            var clientLocationMarkerObject = { client: client , overlay: overlay };
+            //var clientLocationMarkerObject = { client: client , overlay: overlay };
             
             // adding new overlay into the array
             map.addOverlay(overlay);
             // adding new overlay on the map to make it visible
-            clientLocationMarkersArray.push(clientLocationMarkerObject);
+            //clientLocationMarkersArray.push(clientLocationMarkerObject);
             
             // client geolocation data
             var geolocation = new ol.Geolocation({
@@ -287,22 +313,34 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 }
             });
             //geolocation.set("client", clientData.client);
-            var clientGeolocationObject = { client: client, geolocation: geolocation };
+            //var clientGeolocationObject = { client: client, geolocation: geolocation };
             
             // adding new client geolocation var into the array
-            clientGeolocationDataArray.push(clientGeolocationObject);
+            //clientGeolocationDataArray.push(clientGeolocationObject);
             
+            var clientObject = {
+                client: client,
+                overlay: overlay,
+                geolocation: geolocation
+            };
+            
+            clientsArray.push(clientObject);
+            
+
             console.log('mobile connect');
-            console.log('Devices online: ' + clientLocationMarkersArray.length.toString());
-            console.log('Geolocation online: ' + clientGeolocationDataArray.length.toString());
-            
-            $scope.vehiclesNumberOnMap = clientGeolocationDataArray.length;
+            //console.log('Devices online: ' + clientLocationMarkersArray.length.toString());
+            //console.log('Geolocation online: ' + clientGeolocationDataArray.length.toString());
+            console.log('Clients #' + clientsArray.length);
+            $scope.vehiclesNumberOnMap = clientsArray.length;
         }
 
         var setGeolocation = function (client, location) {
-            for (var i = 0; i < clientGeolocationDataArray.length; i++) {
-                if(clientGeolocationDataArray[i].client.id == client.id) {
-                    var geolocation = clientGeolocationDataArray[i].geolocation;
+            
+            for (var i = 0; i < clientsArray.length; i++) {
+                var clientInArray = clientsArray[i].client;
+                if (clientInArray.id == client.id) {
+                    var geolocation = clientsArray[i].geolocation;
+                       
                     var clientLocation = [location.longitude, location.latitude];
                     var projectedLocation = ol.proj.transform(clientLocation, 'EPSG:4326', 'EPSG:3857');
                     geolocation.set('position', projectedLocation);
@@ -312,7 +350,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.changed();
                     
                     $scope.$emit('LocationUpdate', { clientId: client.id });
-                }
+                }    
             }
         }
 }]);
