@@ -4,8 +4,12 @@ var io = require('socket.io')();
 var clients = [];
 
 var removeSocket = function (client) {
-    var index = clients.indexOf(client);
-    clients.slice(index, 1);
+    for (var i = 0; i < clients.length; i++) {
+        if (clients[i] === client) {
+            clients.slice(i, 1);   
+        }   
+    }
+    console.log('Size: ' + clients.length);   
 }
 
 io.on('connection', function (socket) {
@@ -53,7 +57,6 @@ io.on('connection', function (socket) {
         }
 
         removeSocket(socket);
-        console.log('Size: ' + clients.length);   
     });
 });
 
