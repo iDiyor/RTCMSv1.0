@@ -234,6 +234,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                 var overlay = clientsArray[i].overlay;
                 if (overlay.getElement().is($(this))) {
                     //console.log('true');
+                    
+                    var client = clientsArray[i].client;
+                    console.log('CLIENT STATUS: ' + client.status);
                     // popover
                     $(overlay.getElement()).popover({
                         html: true,
