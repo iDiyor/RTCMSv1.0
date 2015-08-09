@@ -80,6 +80,8 @@ io.on('connection', function (socket) {
         }
         else if (clientData.type == 'web') {
             console.log('web client disconnected');
+
+            socket.broadcast.emit('server:web:disconnection', clientData);
         }
     });
 });
