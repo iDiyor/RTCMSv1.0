@@ -44,7 +44,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
             view: view
         });
         
-        var socket = io.connect('http://52.28.143.209:3000');
+        var socket = io.connect('http://52.28.143.209:3000', { 'forceNew': true, 'reconnection': true });
         
         socket.on('connect', function () {
             var client = {
