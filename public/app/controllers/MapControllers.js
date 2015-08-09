@@ -259,6 +259,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     // popover
                     $(overlay.getElement()).popover({
                         html: true,
+                        container: 'body',
                         content: '<div><p style="display: inline">' + clientsArray[i].client.name + '</p></div>'
                     });
                 }
