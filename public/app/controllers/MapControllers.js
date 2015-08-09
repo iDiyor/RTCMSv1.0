@@ -42,18 +42,37 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 })
             }),
             view: view
-        });    
+        });
+        
+        var socket = io.connect('http://52.28.143.209:3000');
+        
+        socket.on('connect', function () {
+            var client = {
+                name: 'jeb',
+                type: 'web'
+            };
+            
+            socket.emit('client:connection', client);
+        });
+        
+        socket.on('disconnect', function () {
+            var client = {
+                name: 'jeb',
+                type: 'web'
+            };
+            
+            socket.emit('client:disconnect', client);
+        });
+            
         
         /* SOCKET EVENT HANDLERS */
         // connection status from the server
-        Socket.On('server:message', function (data) {
+        socket.on('server:message', function (data) {
             $scope.status = data.status;
         });
         
-        // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB
-        Socket.On('server:location').then(onServerLocation);
-        
-        //Socket.On('server:location', onServerLocation);
+        // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB        
+        socket.on('server:location', onServerLocation);
         
         
         //Socket.On('server:location', function (clientData) {
@@ -152,11 +171,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             }
         });
         
-        Socket.On('server:mobile:client:status').then(onServerMobileClientsStatus);
 
-        //Socket.On('server:mobile:client:status').then(onServerMobileClientsStatus);
-
-        //Socket.On('server:mobile:client:status', onServerMobileClientsStatus);
+        socket.on('server:mobile:client:status', onServerMobileClientsStatus);
         
         var onServerMobileClientsStatus = function (clientData) {
             
@@ -164,9 +180,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
 
         // on mobile connection event from the server 
         // creates a popup for this mobile
-        Socket.On('server:mobile:client:status').then(onServerMobileConnection);
         
-        //Socket.On('server:mobile:connection', onServerMobileConnection);
+        socket.on('server:mobile:connection', onServerMobileConnection);
         //Socket.On('server:mobile:connection', function (clientData) {
             
         //    console.log(clientData);
@@ -252,10 +267,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             setGeolocation(clientObject, client.lastKnowLocation);
         }
         
-        
-        Socket.On('server:online:mobile:clients').then(onServerOnlineMobileClients);
-
-        //Socket.On('server:online:mobile:clients', onServerOnlineMobileClients);
+        socket.on('server:online:mobile:clients', onServerOnlineMobileClients);
         
         //Socket.On('server:online:mobile:clients', function (mobileClients) {
             
@@ -310,9 +322,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         };
 
         // on mobile disconnection event from the server
-        Socket.On('server:mobile:disconnection').then(onServerMobileDisconnection);
 
-        //Socket.On('server:mobile:disconnection', onServerMobileDisconnection);
+        socket.on('server:mobile:disconnection', onServerMobileDisconnection);
         //Socket.On('server:mobile:disconnection', function (clientData) {
         //    /**
         //     * clientData.type
@@ -471,12 +482,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             // say goodbye to your controller here
             // release resources, cancel request...
             console.log("MapController destroyed");
-            Socket.Off('server:mobile:connection', onServerMobileConnection);
-            Socket.Off('server:mobile:client:status', onServerMobileClientsStatus);
-            Socket.Off('server:mobile:connection', onServerMobileConnection);
-            Socket.Off('server:online:mobile:clients', onServerOnlineMobileClients);
-            Socket.Off('server:mobile:disconnection', onServerMobileDisconnection);
+            socket.off('server:mobile:connection', onServerMobileConnection);
+            socket.off('server:mobile:client:status', onServerMobileClientsStatus);
+            socket.off('server:mobile:connection', onServerMobileConnection);
+            socket.off('server:online:mobile:clients', onServerOnlineMobileClients);
+            socket.off('server:mobile:disconnection', onServerMobileDisconnection);
 
-            Socket.Disconnect();
+            socket.disconnect();
         })
 }]);
