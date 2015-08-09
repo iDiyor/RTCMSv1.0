@@ -51,8 +51,16 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         
         // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB
         Socket.On('server:location', function (clientData) {
-            //$scope.longitude = data.longitude;
-            //$scope.latitude = data.latitude;
+            /**
+             * clientData.clientId
+             * clientData.client 
+             * clientData.longitude
+             * clientData.latitude
+             * clientData.accuracy
+             * clientData.bearing
+             * clientData.speed
+             * clientData.time
+            */
                         
             for (var i = 0; i < clientGeolocationDataArray.length; i++) {
                 var clientGeolocationObject = clientGeolocationDataArray[i];
@@ -110,43 +118,43 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (clientData) {
            
-            var marker = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
-            marker.click(onClientMarkerClick);
-            var locationMarkerIcon = marker.appendTo('.location_marker_group');
+            //var marker = $('<img class="location_marker" src="/images/cab-icon.png" data-toggle="popover" title="Info" data-content="" data-placement="top" />');
+            //marker.click(onClientMarkerClick);
+            //var locationMarkerIcon = marker.appendTo('.location_marker_group');
 
-            var overlay = new ol.Overlay({
-                element: locationMarkerIcon,
-                positioning: 'bottom-center'
-            });
+            //var overlay = new ol.Overlay({
+            //    element: locationMarkerIcon,
+            //    positioning: 'bottom-center'
+            //});
             
-            // name should be unique for each connected device -> id of the driver
-            var clientLocationMarkerObject = { client: clientData.client , overlay: overlay };
+            //// name should be unique for each connected device -> id of the driver
+            //var clientLocationMarkerObject = { client: clientData.client , overlay: overlay };
      
-            // adding new overlay into the array
-            map.addOverlay(overlay);
-            // adding new overlay on the map to make it visible
-            clientLocationMarkersArray.push(clientLocationMarkerObject);
+            //// adding new overlay into the array
+            //map.addOverlay(overlay);
+            //// adding new overlay on the map to make it visible
+            //clientLocationMarkersArray.push(clientLocationMarkerObject);
             
-            // client geolocation data
-            var geolocation = new ol.Geolocation({
-                projection: view.getProjection(),      
-                trackingOptions: {
-                    maximumAge: 10000,
-                    enableHighAccuracy: true,
-                    timeout: 600000
-                }
-            });
-            //geolocation.set("client", clientData.client);
-            var clientGeolocationObject = { client: clientData.client, geolocation: geolocation };
+            //// client geolocation data
+            //var geolocation = new ol.Geolocation({
+            //    projection: view.getProjection(),      
+            //    trackingOptions: {
+            //        maximumAge: 10000,
+            //        enableHighAccuracy: true,
+            //        timeout: 600000
+            //    }
+            //});
+            ////geolocation.set("client", clientData.client);
+            //var clientGeolocationObject = { client: clientData.client, geolocation: geolocation };
 
-            // adding new client geolocation var into the array
-            clientGeolocationDataArray.push(clientGeolocationObject);
+            //// adding new client geolocation var into the array
+            //clientGeolocationDataArray.push(clientGeolocationObject);
             
-            console.log('mobile connect');
-            console.log('Devices online: ' + clientLocationMarkersArray.length.toString());           
-            console.log('Geolocation online: ' + clientGeolocationDataArray.length.toString());
+            //console.log('mobile connect');
+            //console.log('Devices online: ' + clientLocationMarkersArray.length.toString());           
+            //console.log('Geolocation online: ' + clientGeolocationDataArray.length.toString());
 
-            $scope.vehiclesNumberOnMap = clientGeolocationDataArray.length;
+            //$scope.vehiclesNumberOnMap = clientGeolocationDataArray.length;
             
         });
         
@@ -164,7 +172,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 var client = mobileClients[i].clientData;
                 // client.clientId
                 // client.client
-                // lastKnowLocation
+                // client.lastKnowLocation -> .latitude .longitude .accuracy ....
                 // type: mobile
                 var clientObject = {
                     id: client.clientId,
@@ -178,6 +186,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
 
         // on mobile disconnection event from the server
         Socket.On('server:mobile:disconnection', function (clientData) {
+            /**
+             * clientData.type
+             * clientData.clientId
+             * clientData.client
+             */
+            
             // get the name of the disconnected device and remove from the array using that name
             var clientId = clientData.clientId;
 

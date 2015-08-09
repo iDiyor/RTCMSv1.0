@@ -20,7 +20,7 @@ io.on('connection', function (socket) {
         
         if (clientData.type == 'mobile') {
             // this will inform web app about mobile device connection and creates a popup for it
-            socket.broadcast.emit('server:mobile:connection', clientData);
+            //socket.broadcast.emit('server:mobile:connection', clientData);
             console.log('mobile:client:connection');
 
             // client data 
@@ -48,6 +48,16 @@ io.on('connection', function (socket) {
     // on location data receive from the mobile app 
     socket.on('mobile:location', function (clientData) {
         // broadcast the data from mobile to desktop web app client
+        /**
+         * clientData.clientId
+         * clientData.client 
+         * clientData.longitude
+         * clientData.latitude
+         * clientData.accuracy
+         * clientData.bearing
+         * clientData.speed
+         * clientData.time
+         */
         socket.broadcast.emit('server:location', clientData);
         console.log('mobile:location');
     });
