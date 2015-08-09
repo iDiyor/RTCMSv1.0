@@ -174,7 +174,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 setGeolocation(clientObject, client.last_known_position);
             }
 
-            console.log(mobileClients);
         });
 
         // on mobile disconnection event from the server
@@ -298,7 +297,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                     geolocation.set('heading', degToRad(location.bearing));
                     geolocation.changed();
                     
-                    $scope.$emit('LocationUpdate', { clientId: clientId });
+                    $scope.$emit('LocationUpdate', { clientId: client.id });
                 }
             }
         }
