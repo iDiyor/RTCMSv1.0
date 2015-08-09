@@ -6,7 +6,8 @@ var clients = [];
 var deleteClient = function (socket) {
     for (var i = 0; i < clients.length; i++) {
         if (clients[i].socketId === socket.id) {
-            clients.slice(i, 1);   
+            clients.slice(i, 1);
+            console.log('SLICE');
         }   
     }
     console.log('Size: ' + clients.length);   
@@ -65,6 +66,10 @@ io.on('connection', function (socket) {
         deleteClient(socket);
         console.log('CLIENT_IDL DISCONNECTION: ' + socket.id);
     });
+});
+
+io.on('connection', function (socket) {
+    console.log("IO DISCONNECT");
 });
 
 
