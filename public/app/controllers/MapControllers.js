@@ -138,8 +138,19 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                     console.log("SHOULD CHANGE");
                     clientsArray[i].client.status = clientData.clientStatus;
                     console.log(clientsArray[i].client.status);
+
+                    var overlay = clientsArray[i].overlay;
+                    // popover
+                    $(overlay.getElement()).popover({
+                        html: true,
+                        container: 'body',
+                        trigger: 'click',
+                        content: '<div><p style="display: inline">Name: ' + '<b>' + clientsArray[i].client.name + '</b></p><br><p>Status: ' + '<b>' + clientsArray[i].client.status + '</b></p></div>'
+                    });
                 }
             }
+
+            $scope.$emit('LocationUpdate', { clientId: clientData.clientId });
         }
 
         // on mobile connection event from the server 
