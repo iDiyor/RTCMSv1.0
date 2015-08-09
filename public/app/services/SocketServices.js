@@ -29,7 +29,8 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
             socket.on(eventName, function () {
                 var args = arguments;
                 $rootScope.$apply(function () {
-                    callback.apply(socket, args);
+                    //callback.apply(socket, args);
+                    callback(args);
                 });
             });
         };
