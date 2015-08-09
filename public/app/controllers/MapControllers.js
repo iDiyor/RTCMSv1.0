@@ -161,7 +161,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
              * -> type: String - mobile
              */ 
             for (var i = 0; i < mobileClients.length; i++) {
-                var client = mobileClients[i].client;
+                var client = mobileClients[i].clientData;
                 // client.clientId
                 // client.client
                 // lastKnowLocation
