@@ -5,6 +5,15 @@ var socketIOServices = angular.module('socketServices', []);
 socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
         var socket = io.connect('http://52.28.143.209:3000');
         
+        socket.on('connect', function () {
+            var client = {
+                name: 'jeb',
+                type: 'web'
+            };
+
+            socket.emit('client:connection', client);
+        });
+
         var services = {};
         
         services.On = function (eventName, callback) {

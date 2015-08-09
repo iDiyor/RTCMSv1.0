@@ -9,40 +9,33 @@ var deleteClient = function (socket) {
         if (client.socketId == socket.id) {
             clients.splice(i, 1);
         }   
-    }
-    console.log('Size: ' + clients.length);   
+    } 
 }
 
 io.on('connection', function (socket) {
     
-    /**
-     * @TODO
-     * Array to store all the clients and send it to the web app when it is connected
-     * Improvements: client can connect before web app lauched
-     */
-    
-
     socket.emit('server:message', { status: 'connection success' });
     
     socket.on('client:connection', function (clientData) {
         
-        if (clientData.type == 'mobile') {
-            // this will inform web app about mobile device connection and creates a popup for it
-            socket.broadcast.emit('server:mobile:connection', clientData);
-            console.log('client:connection');
-        }
-        else if (clientData.type == 'web') {
-            // this will inform other clients about web client connection
-            socket.broadcast.emit('server:web:connection', clientData);
-        }
-        
+        // client data 
         var client = {
             socketId: socket.id,
             client: clientData
         }
-
+        // add the client data including socket and data to the global array
         clients.push(client);
-        console.log('Size: ' + clients.length);
+        
+        if (clientData.type == 'mobile') {
+            // this will inform web app about mobile device connection and creates a popup for it
+            socket.broadcast.emit('server:mobile:connection', clientData);
+            console.log('mobile:client:connection');
+        }
+        else if (clientData.type == 'web') {
+            // this will inform other clients about web client connection
+            socket.broadcast.emit('server:web:connection', clientData);
+            console.log('web:client:connection');
+        }
     });
     
     // on location data receive from the mobile app 
@@ -61,15 +54,10 @@ io.on('connection', function (socket) {
         else if (clientData.type == 'web') {
             console.log('web client disconnected');
         }
-
+        
+        // remove the socket and its data from the global array
         deleteClient(socket);
     });
 });
-
-io.on('connection', function (socket) {
-    console.log("IO DISCONNECT");
-});
-
-
 
 module.exports = io;
