@@ -257,7 +257,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                         content: '<div><p style="display: inline">Name: ' + '<b>' + client.name + '</b></p><br><p>Status: ' + '<b>' + client.status +'</b></p></div>'
                     });
 
-                    $(overlay.getElement()).data("bs.popover").options.content = "Content1";
+                    $(overlay.getElement()).data("bs.popover").options.content = '<div><p style="display: inline">Name: ' + '<b>' + client.name + '</b></p><br><p>Status: ' + '<b>' + client.status + '</b></p></div>';
                     $(overlay.getElement()).popover("show");
                     
                 }
