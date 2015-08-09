@@ -338,4 +338,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 }    
             }
         }
+
+        $scope.$on('$destroy', function iVeBeenDismissed() {
+            // say goodbye to your controller here
+            // release resources, cancel request...
+            console.log("MapController destroyed");
+        })
 }]);
