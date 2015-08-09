@@ -99,7 +99,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                         var position = geolocation.getPosition();
                         var heading = geolocation.getHeading();
                         
-                        var overlay = clientLocationMarkersArray[j].overlay;
+                        var overlay = clientsArray[i].overlay;
                         
                         overlay.setPosition(position);
                         view.setCenter(position);
