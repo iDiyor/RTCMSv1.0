@@ -135,9 +135,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
             console.log(clientData);
             for (var i = 0; i < clientsArray.length; i++) {
                 var client = clientsArray[i].client;
-                if (clientData.clientId == client.id) {
-                    client.status = clientData.clientStatus;
-                    console.log(client.status);
+                if (clientData.clientId == clientsArray[i].client.id) {
+                    clientsArray[i].client.status = clientData.clientStatus;
+                    console.log(clientsArray[i].client.status);
                 }
             }
         }
