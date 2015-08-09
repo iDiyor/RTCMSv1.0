@@ -237,15 +237,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                     //console.log('true');
                     
                     var client = clientsArray[i].client;
-                    console.log('CLIENT NAME: ' + client.name);
-                    console.log('CLIENT STATUS: ' + client.status);
                     
                     // popover
                     $(overlay.getElement()).popover({
                         html: true,
                         container: 'body',
                         trigger: 'click',
-                        content: client.status + '<div><p style="display: inline">Name: ' + '<b>' + clientsArray[i].client.name + '</b></p><br><p>Status: ' + '<b>' + client.status +'</b></p></div>'
+                        content: '<div><p style="display: inline">Name: ' + '<b>' + client.name + '</b></p><br><p>Status: ' + '<b>' + client.status +'</b></p></div>'
                     });
                     
                 }
