@@ -244,10 +244,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                         html: true,
                         container: 'body',
                         trigger: 'manual',
-                        content: '<div><p style="display: inline">Name: ' + '<b>' + clientsArray[i].client.name + '</b></p><br><p>Status: ' + '<b>' + client.status +'</b></p></div>'
+                        content: client.status + '<div><p style="display: inline">Name: ' + '<b>' + clientsArray[i].client.name + '</b></p><br><p>Status: ' + '<b>' + client.status +'</b></p></div>'
                     });
-
-                    $(overlay.getElement()).popover("show");
                     
                 }
             }
