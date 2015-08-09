@@ -3,9 +3,9 @@ var io = require('socket.io')();
 
 var clients = [];
 
-var removeSocket = function (client) {
+var deleteClient = function (socket) {
     for (var i = 0; i < clients.length; i++) {
-        if (clients[i] === client) {
+        if (clients[i].socketId === socket.id) {
             clients.slice(i, 1);   
         }   
     }
@@ -35,7 +35,12 @@ io.on('connection', function (socket) {
             socket.broadcast.emit('server:web:connection', clientData);
         }
         
-        clients.push(socket);
+        var client = {
+            socketId: socket.id,
+            client: clientData
+        }
+
+        clients.push(client);
         console.log('Size: ' + clients.length);
         console.log('CLIENT_IDL CONNECTION: ' + socket.id);
     });
