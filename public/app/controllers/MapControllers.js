@@ -4,7 +4,7 @@
 
 var mapControllers = angular.module('mapControllers', []);
 
-mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Location,) {
+mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Location) {
         
         $scope.vehiclesNumberOnMap = 0;  
                 
