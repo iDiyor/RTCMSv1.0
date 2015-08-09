@@ -255,6 +255,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
                 }
             }
         }
+        
+        Socket.On('disconnect', function () {
+            console.log('web:disconnection'); 
+        });
 
         $scope.onAvailableButtonClick = function () {
 
