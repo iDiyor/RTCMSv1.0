@@ -62,7 +62,7 @@ io.on('connection', function (socket) {
             console.log('web client disconnected');
         }
 
-        removeSocket(socket);
+        deleteClient(socket);
         console.log('CLIENT_IDL DISCONNECTION: ' + socket.id);
     });
 });
