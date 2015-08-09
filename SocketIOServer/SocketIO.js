@@ -62,10 +62,17 @@ io.on('connection', function (socket) {
         console.log('mobile:location');
     });
     
-    socket.on('mobile:client:status', function (clientData) {
-        //data.put("clientId", mClientId);
-        //data.put("client", mClient);
-        //data.put("clientStatus", status);
+    socket.on('mobile:client:status', function (clientData) {        
+        /**
+         * clientData.clientId
+         * clientData.client
+         * clientData.clientStatus
+         */
+        for (var i = 0; i < mobileClients.length; i++) {
+            if (mobileClients[i].clientData.clientId == clientData.clientId) {
+                mobileClients[i].clientData.clientStatus = clientData.clientStatus;
+            }
+        }
         socket.broadcast.emit('server:mobile:client:status', clientData);
     });
 

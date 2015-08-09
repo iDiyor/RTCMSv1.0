@@ -161,7 +161,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
            var clientObject = {
                 id: client.clientId,
                 name: client.client,
-                status: 'No Job'
+                status: client.clientStatus
             }
 
             createMarkerAndGeolocationForEachClient(clientObject);
@@ -183,12 +183,13 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                 var client = mobileClients[i].clientData;
                 // client.clientId
                 // client.client
+                // client.clientStatus
                 // client.lastKnowLocation -> .latitude .longitude .accuracy ....
                 // type: mobile
                 var clientObject = {
                     id: client.clientId,
                     name: client.client,
-                    status: 'No Job'
+                    status: client.clientStatus
                 }
                 createMarkerAndGeolocationForEachClient(clientObject);
                 setGeolocation(clientObject, client.lastKnowLocation);
