@@ -34,6 +34,15 @@ socketIOServices.factory('Socket', ['$rootScope', function ($rootScope) {
             });
         };
         
+        services.Off = function (eventName, callback) {
+            socket.off(eventName, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    callback.apply(socket, args);
+                });
+            });
+        };
+        
         services.Disconnect = function () {
             socket.disconnect();   
         }
