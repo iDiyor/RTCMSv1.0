@@ -43,7 +43,6 @@ io.on('connection', function (socket) {
 
         clients.push(client);
         console.log('Size: ' + clients.length);
-        console.log('CLIENT_IDL CONNECTION: ' + socket.id);
     });
     
     // on location data receive from the mobile app 
@@ -64,7 +63,6 @@ io.on('connection', function (socket) {
         }
 
         deleteClient(socket);
-        console.log('CLIENT_IDL DISCONNECTION: ' + socket.id);
     });
 });
 
