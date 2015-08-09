@@ -121,7 +121,10 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         // on mobile connection event from the server 
         // creates a popup for this mobile
         Socket.On('server:mobile:connection', function (clientData) {
-           /**
+            
+            console.log(clientData);
+            
+            /**
             * clientData.clientData
             * -> client ID: String - ID ;
             * -> client: String - client name(name of the driver) 
