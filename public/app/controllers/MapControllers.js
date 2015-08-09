@@ -236,6 +236,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', function ($scope, Lo
                     //console.log('true');
                     
                     var client = clientsArray[i].client;
+                    console.log('CLIENT NAME: ' + client.name);
                     console.log('CLIENT STATUS: ' + client.status);
                     
                     // popover
