@@ -51,7 +51,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         });
         
         // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB
-        Socket.On('server:location', onServerLocation);
+        Socket.On('server:location').then(onServerLocation);
+        
+        //Socket.On('server:location', onServerLocation);
+        
+        
         //Socket.On('server:location', function (clientData) {
         //    /**
         //     * clientData.clientId
@@ -148,7 +152,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             }
         });
         
-        Socket.On('server:mobile:client:status', onServerMobileClientsStatus);
+        Socket.On('server:mobile:client:status').then(onServerMobileClientsStatus);
+
+        //Socket.On('server:mobile:client:status').then(onServerMobileClientsStatus);
+
+        //Socket.On('server:mobile:client:status', onServerMobileClientsStatus);
         
         var onServerMobileClientsStatus = function (clientData) {
             
@@ -156,7 +164,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
 
         // on mobile connection event from the server 
         // creates a popup for this mobile
-        Socket.On('server:mobile:connection', onServerMobileConnection);
+        Socket.On('server:mobile:client:status').then(onServerMobileConnection);
+        
+        //Socket.On('server:mobile:connection', onServerMobileConnection);
         //Socket.On('server:mobile:connection', function (clientData) {
             
         //    console.log(clientData);
@@ -242,7 +252,11 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             setGeolocation(clientObject, client.lastKnowLocation);
         }
         
-        Socket.On('server:online:mobile:clients', onServerOnlineMobileClients);
+        
+        Socket.On('server:online:mobile:clients').then(onServerOnlineMobileClients);
+
+        //Socket.On('server:online:mobile:clients', onServerOnlineMobileClients);
+        
         //Socket.On('server:online:mobile:clients', function (mobileClients) {
             
         //    console.log(mobileClients);
@@ -296,7 +310,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
         };
 
         // on mobile disconnection event from the server
-        Socket.On('server:mobile:disconnection', onServerMobileDisconnection);
+        Socket.On('server:mobile:disconnection').then(onServerMobileDisconnection);
+
+        //Socket.On('server:mobile:disconnection', onServerMobileDisconnection);
         //Socket.On('server:mobile:disconnection', function (clientData) {
         //    /**
         //     * clientData.type
