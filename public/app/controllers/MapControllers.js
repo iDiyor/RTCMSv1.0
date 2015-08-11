@@ -148,7 +148,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                 }
             }
 
-            $scope.$emit('LocationUpdate', { clientId: clientData.clientId });
+            //$scope.$emit('LocationUpdate', { clientId: clientData.clientId });
         }
 
         // on mobile connection event from the server 
@@ -314,6 +314,9 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             
             console.log('Clients #' + clientsArray.length);
             $scope.vehiclesNumberOnMap = clientsArray.length;
+
+            // apply
+            $scope.$apply();
         }
 
         var setGeolocation = function (client, location) {
