@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-var messageControllers = angular.module('messageControllers', ['driverServices', 'messageServices']);
+var messageControllers = angular.module('messageControllers', ['driverServices', 'messageServices', 'socketServices']);
 
-messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', function ($scope, $stateParams, $state, Driver) {
+messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', 'Socket', function ($scope, $stateParams, $state, Driver, Socket) {
         // should be an array of online drivers only
         $scope.onlineDrivers = Driver.query();
         
@@ -56,5 +56,14 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
                 // clean input for next input
                 $('#message_input').val('');
             });
+        }
+
+        // on message receive from socket -> insert into messages array
+        // add response body
+        Socket.On('server:mobile:client:message:send', onServerMobileClientMessageSend);
+
+        function onServerMobileClientMessageSend(messageBody) {
+            $scope.messages.push(messageBody);
+            console.log(messageBody);
         }
 }]);

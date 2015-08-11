@@ -75,6 +75,28 @@ io.on('connection', function (socket) {
         }
         socket.broadcast.emit('server:mobile:client:status', clientData);
     });
+    
+    socket.on('mobile:client:message:send', function (clientData) {
+        /*
+         * clientData.to_id_user_profile 
+         * clientData.from_id_user_profile 
+         * clientData.content 
+         * clientData.time 
+         * clientData.id_message
+         * "fromUser": {
+            "id_user_profile": 3,
+            "first_name": "Elon",
+            "last_name": "Musk"
+        },
+        "toUser": {
+            "id_user_profile": 2,
+            "first_name": "Diyorbek",
+            "last_name": "Islomov"
+        } 
+         */   
+        console.log(clientData);
+        socket.broadcast.emit('server:mobile:client:message:send', clientData);
+    });
 
     socket.on('client:disconnect', function (clientData) {
         // remove the socket and its data from the global array

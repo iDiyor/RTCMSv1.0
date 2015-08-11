@@ -3,8 +3,10 @@
 var socketIOServices = angular.module('socketServices', []);
 
 socketIOServices.factory('Socket', ['$rootScope', '$q' , function ($rootScope, $q) {
-        var socket = io.connect('http://52.28.143.209:3000');
+
+        var socket = io.connect('http://52.28.143.209:3000', { 'forceNew': true, 'reconnection': true });
         
+
         socket.on('connect', function () {
             var client = {
                 name: 'jeb',
