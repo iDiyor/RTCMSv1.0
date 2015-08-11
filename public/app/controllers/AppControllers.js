@@ -21,7 +21,7 @@ appControllers.controller('AppCtrl', ['$scope', '$location', '$localStorage', 'A
         };
         
         
-        var socket = io.connect('http://52.28.143.209:3000', { 'forceNew': true, 'reconnection': true });
+        var socket = io.connect('http://52.28.143.209:3000', {'reconnection': true });
         
 
         socket.on('connect', function () {
