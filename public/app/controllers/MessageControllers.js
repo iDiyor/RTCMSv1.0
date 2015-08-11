@@ -60,10 +60,17 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
 
         // on message receive from socket -> insert into messages array
         // add response body
-        Socket.On('server:mobile:client:message:send', onServerMobileClientMessageSend);
-
+        //Socket.On('server:mobile:client:message:send', onServerMobileClientMessageSend);
+        $scope.socket.on('server:mobile:client:message:send', onServerMobileClientMessageSend);
         function onServerMobileClientMessageSend(messageBody) {
             $scope.messages.push(messageBody);
             console.log(messageBody);
         }
+
+        $scope.$on('$destroy', function onMessageControllerDestroy() {
+            // say goodbye to your controller here
+            // release resources, cancel request...
+            console.log("MessageController destroyed");
+            
+        })
 }]);
