@@ -64,6 +64,9 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
         $scope.socket.on('server:mobile:client:message:send', onServerMobileClientMessageSend);
         
         function onServerMobileClientMessageSend(messageBody) {
+            messageBody.then(function (data) {
+                console.log(messageBody);
+            });
             $scope.messages.push(messageBody);
             console.log(messageBody);
         }
