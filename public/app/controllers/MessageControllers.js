@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var messageControllers = angular.module('messageControllers', ['driverServices', 'messageServices', 'socketServices']);
+var messageControllers = angular.module('messageControllers', ['driverServices', 'messageServices']);
 
 messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', function ($scope, $stateParams, $state, Driver) {
         // should be an array of online drivers only
@@ -18,7 +18,7 @@ messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state'
         }
 }]);
 
-messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '$localStorage', '$q','Driver', 'Message', 'Socket', function ($scope, $stateParams, $localStorage, $q, Driver, Message, Socket) {
+messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '$localStorage', '$q','Driver', 'Message', function ($scope, $stateParams, $localStorage, $q, Driver, Message) {
         
         var adminProfile = $localStorage.adminProfile;
         var adminUserProfileId = adminProfile.userProfile.id_user_profile;
