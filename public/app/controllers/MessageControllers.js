@@ -44,10 +44,11 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
 
         $scope.onSendButtonClicked = function () {
             var requestBody = {
+                to_id_user_profile: driverUserProfileId,
                 from_id_user_profile: adminUserProfileId,
                 content: $scope.messageContent
             };
-            Message.addMessageTo({ to_id_user_profile: driverUserProfileId }, requestBody, function (res) {
+            Message.addMessageTo(requestBody, function (res) {
                 // insert a message and update messages
                 var message = res.responseBody
                 $scope.messages.push(message);

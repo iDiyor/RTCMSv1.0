@@ -342,20 +342,20 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', 'Socket', function (
             console.log("MapController destroyed");
             
 
-            Socket.Off('server:message', onServerMessage);
-            Socket.Off('server:mobile:connection', onServerMobileConnection);
-            Socket.Off('server:mobile:client:status', onServerMobileClientsStatus);
-            Socket.Off('server:mobile:connection', onServerMobileConnection);
-            Socket.Off('server:online:mobile:clients', onServerOnlineMobileClients);
-            Socket.Off('server:mobile:disconnection', onServerMobileDisconnection);
+            //Socket.Off('server:message', onServerMessage);
+            //Socket.Off('server:mobile:connection', onServerMobileConnection);
+            //Socket.Off('server:mobile:client:status', onServerMobileClientsStatus);
+            //Socket.Off('server:mobile:connection', onServerMobileConnection);
+            //Socket.Off('server:online:mobile:clients', onServerOnlineMobileClients);
+            //Socket.Off('server:mobile:disconnection', onServerMobileDisconnection);
 
-            var client = {
-                name: 'jeb',
-                type: 'web'
-            };
+            //var client = {
+            //    name: 'jeb',
+            //    type: 'web'
+            //};
             
-            Socket.Emit('client:disconnect', client);
+            //Socket.Emit('client:disconnect', client);
 
-            Socket.Disconnect();
+            //Socket.Disconnect();
         })
 }]);

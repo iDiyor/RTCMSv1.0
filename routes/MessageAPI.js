@@ -64,9 +64,9 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
 });
 
 // new message to UserA
-router.post('/:to_id_user_profile', function (req, res) {
+router.post('/', function (req, res) {
     Message.forge({
-        to_id_user_profile: req.params.to_id_user_profile,
+        to_id_user_profile: req.body.to_id_user_profile,
         from_id_user_profile: req.body.from_id_user_profile,
         content: req.body.content
     })
