@@ -25,33 +25,31 @@ socketIOServices.factory('Socket', ['$rootScope', '$q' , function ($rootScope, $
 
         var services = {};
         
-        //services.On = function (eventName, callback) {
-        //    var defer = $q.defer();
-
-        //    socket.on(eventName, function (data) {
-        //        defer.resolve(data);
-                
-        //        //var args = arguments;
-        //        //$rootScope.$apply(function () {
-        //            //callback.apply(socket, args);
-        //        //});
-        //    });
-        //};
-        services.On = function (eventName) {
-            var defer = $q.defer();
-            
-            socket.on(eventName, function (data) {
-                defer.resolve(data); 
+        services.On = function (eventName, callback) {
+            socket.on(eventName, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    callback.apply(socket, args);
+                });
             });
-
-            return defer.promise;
-        }
+        };
         
         services.Off = function (eventName, callback) {
             socket.off(eventName, function () {
                 var args = arguments;
                 $rootScope.$apply(function () {
                     callback.apply(socket, args);
+                });
+            });
+        };
+        
+        services.Emit = function (eventName, data, callback) {
+            socket.emit(eventName, data, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    if (callback) {
+                        callback.apply(socket, args);
+                    }
                 });
             });
         };
