@@ -126,17 +126,17 @@ io.on('connection', function (socket) {
             socket.broadcast.emit('server:mobile:disconnection', clientData);
 
             //socket.off('client:connection', onClientConnect);
-            socket.off('mobile:location', onMobileLocation);
-            socket.off('mobile:client:status', onMobileClientStatus);
-            socket.off('mobile:client:message:send', onMobileClientMessageSend);
+            //socket.off('mobile:location', onMobileLocation);
+            //socket.off('mobile:client:status', onMobileClientStatus);
+            //socket.off('mobile:client:message:send', onMobileClientMessageSend);
         }
         else if (clientData.type == 'web') {
             console.log('web client disconnected');
             
             socket.broadcast.emit('server:web:disconnection', clientData);
 
-            socket.off('client:connection', onClientConnect);
-            socket.off('web:client:map:controller:create', onWebClientMapControllerCreate);
+            //socket.off('client:connection', onClientConnect);
+            //socket.off('web:client:map:controller:create', onWebClientMapControllerCreate);
         }
     }
 });
