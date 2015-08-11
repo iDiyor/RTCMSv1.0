@@ -100,6 +100,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                     $scope.$emit('LocationUpdate', { clientId: clientData.clientId });
                 }
             }
+            $scope.$apply();
         }
         
         $scope.$on('LocationUpdate', function (event, args) {
@@ -149,6 +150,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             }
 
             //$scope.$emit('LocationUpdate', { clientId: clientData.clientId });
+            $scope.$apply();
         }
 
         // on mobile connection event from the server 
@@ -234,6 +236,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             //console.log('Client Geolocation #: ' + clientGeolocationDataArray.length.toString());
             console.log('Clients #: ' + clientsArray.length);
             $scope.vehiclesNumberOnMap = clientsArray.length;
+            $scope.$apply();
         };
         
 
@@ -337,6 +340,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                     $scope.$emit('LocationUpdate', { clientId: client.id });
                 }    
             }
+            $scope.$apply();
         }
 
         $scope.$on('$destroy', function onMapControllerDestroy() {
