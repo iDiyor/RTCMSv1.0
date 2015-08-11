@@ -125,7 +125,7 @@ io.on('connection', function (socket) {
             // need to figure out how to categorise phone and web disconnection
             socket.broadcast.emit('server:mobile:disconnection', clientData);
 
-            socket.off('client:connection', onClientConnect);
+            //socket.off('client:connection', onClientConnect);
             socket.off('mobile:location', onMobileLocation);
             socket.off('mobile:client:status', onMobileClientStatus);
             socket.off('mobile:client:message:send', onMobileClientMessageSend);
