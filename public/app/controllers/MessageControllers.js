@@ -64,11 +64,10 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
         $scope.socket.on('server:mobile:client:message:send', onServerMobileClientMessageSend);
         
         function onServerMobileClientMessageSend(messageBody) {
-            var deferred = $q.defer();
+            console.log(messageBody);
+            $scope.messages.push(messageBody);
+            $scope.$apply();
             
-            deferred.resolve(messageBody);
-            $scope.messages.push(deferred.promise);
-            console.log(deferred.promise);
         }
 
         $scope.$on('$destroy', function onMessageControllerDestroy() {
