@@ -13,7 +13,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             type: 'web'
         };
         
-        socket.emit('web:client:map:controller:create', client);
+        $scope.socket.emit('web:client:map:controller:create', client);
                 
         // client, overlay, geolocation
         var clientsArray = [];
@@ -372,7 +372,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                 type: 'web'
             };
             
-            socket.emit('web:client:map:controller:destroy', client);
+            $scope.socket.emit('web:client:map:controller:destroy', client);
 
             //socket.disconnect();
         })
