@@ -6,7 +6,14 @@ var mapControllers = angular.module('mapControllers', [/*'socketServices'*/]);
 
 mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */function ($scope, Location/*, Socket*/) {
         
-        $scope.vehiclesNumberOnMap = 0;  
+        $scope.vehiclesNumberOnMap = 0;
+        
+        var client = {
+            name: 'jeb',
+            type: 'web'
+        };
+        
+        socket.emit('web:client:map:controller:create', client);
                 
         // client, overlay, geolocation
         var clientsArray = [];
@@ -360,12 +367,12 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             $scope.socket.off('server:online:mobile:clients', onServerOnlineMobileClients);
             $scope.socket.off('server:mobile:disconnection', onServerMobileDisconnection);
 
-            //var client = {
-            //    name: 'jeb',
-            //    type: 'web'
-            //};
+            var client = {
+                name: 'jeb',
+                type: 'web'
+            };
             
-            //socket.emit('client:disconnect', client);
+            socket.emit('web:client:map:controller:destroy', client);
 
             //socket.disconnect();
         })
