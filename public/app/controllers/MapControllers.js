@@ -59,6 +59,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
         
         function onServerMessage(data) {
             $scope.status = data.status;
+
+            $scope.$apply();
         };
         
         // location data from the server (sent by mobile to the server => MOBILE-->SERVER-->WEB        
@@ -121,6 +123,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                     }
                 }
             }
+            $scope.$apply();
         });
         
 
@@ -176,6 +179,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
 
             createMarkerAndGeolocationForEachClient(clientObject);
             setGeolocation(clientObject, client.lastKnowLocation);
+
+            $scope.$apply();
         }
         
         $scope.socket.on('server:online:mobile:clients', onServerOnlineMobileClients);
@@ -204,6 +209,8 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                 createMarkerAndGeolocationForEachClient(clientObject);
                 setGeolocation(clientObject, client.lastKnowLocation);
             }
+
+            $scope.$apply();
         };
 
         // on mobile disconnection event from the server
@@ -318,8 +325,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             console.log('Clients #' + clientsArray.length);
             $scope.vehiclesNumberOnMap = clientsArray.length;
 
-            // apply
-            $scope.$apply();
         }
 
         var setGeolocation = function (client, location) {
@@ -340,7 +345,6 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
                     $scope.$emit('LocationUpdate', { clientId: client.id });
                 }    
             }
-            $scope.$apply();
         }
 
         $scope.$on('$destroy', function onMapControllerDestroy() {
