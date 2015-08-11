@@ -94,7 +94,6 @@ io.on('connection', function (socket) {
             "last_name": "Islomov"
         } 
          */   
-        console.log(clientData);
         socket.broadcast.emit('server:mobile:client:message:send', clientData);
     });
 

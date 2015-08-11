@@ -4,7 +4,7 @@
 
 var messageControllers = angular.module('messageControllers', ['driverServices', 'messageServices', 'socketServices']);
 
-messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', 'Socket', function ($scope, $stateParams, $state, Driver, Socket) {
+messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state', 'Driver', function ($scope, $stateParams, $state, Driver) {
         // should be an array of online drivers only
         $scope.onlineDrivers = Driver.query();
         
