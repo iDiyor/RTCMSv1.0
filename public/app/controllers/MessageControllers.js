@@ -72,6 +72,6 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
             // say goodbye to your controller here
             // release resources, cancel request...
             console.log("MessageController destroyed");
-            
+            $scope.socket.off('server:mobile:client:message:send', onServerMobileClientMessageSend);
         })
 }]);
