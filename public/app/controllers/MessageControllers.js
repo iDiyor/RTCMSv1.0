@@ -18,7 +18,7 @@ messageControllers.controller('MessageCtrl', ['$scope', '$stateParams', '$state'
         }
 }]);
 
-messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '$localStorage', '$q','Driver', 'Message', function ($scope, $stateParams, $localStorage, $q, Driver, Message) {
+messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '$localStorage', '$q','Driver', 'Message', 'Socket', function ($scope, $stateParams, $localStorage, $q, Driver, Message, Socket) {
         
         var adminProfile = $localStorage.adminProfile;
         var adminUserProfileId = adminProfile.userProfile.id_user_profile;
