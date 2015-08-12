@@ -1,6 +1,7 @@
 ﻿'use strict';
 
 var express = require('express');
+var async = require('async');
 var router = express.Router();
 
 var Message = require('./../models/MessageModel.js');
@@ -23,7 +24,13 @@ router.get('/:to_id_user_profile', function (req, res) {
     Message.forge({ to_id_user_profile: req.params.to_id_user_profile })
     .fetchAll({ require: true })
     .then(function (messages) {
-        res.json(messages.toJSON());
+        messages
+        .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+        .fetch(/*{ debug: true }*/)
+        .then(function (sortedMessages) {
+            res.json(sortedMessages.toJSON());
+        });
+        //res.json(messages.toJSON());
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
@@ -33,8 +40,8 @@ router.get('/:to_id_user_profile', function (req, res) {
 // all messages to UserA from UserB
 router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
     Message.forge({
-        to_id_user_profile: req.params.to_id_user_profile,
-        from_id_user_profile: req.params.from_id_user_profile,
+        //to_id_user_profile: req.params.to_id_user_profile,
+        //from_id_user_profile: req.params.from_id_user_profile,
     })
     .fetchAll({
         //debug: true,
@@ -49,13 +56,53 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
             }]
      })
     .then(function (messages) {
-        messages
-        .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
-        .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
-        .fetch(/*{ debug: true }*/)
-        .then(function (sortedMessages) {
-            res.json(sortedMessages.toJSON());
+        
+        async.series([
+            // admin - client
+            function (callback) {
+                messages
+                .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+                .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+                .fetch(/*{ debug: true }*/)
+                .then(function (sortedMessages) {
+                    //res.json(sortedMessages.toJSON());
+                    callback(null, sortedMessages.toJSON());
+                })
+                .catch(function (error) {
+                    callback(error);
+                });
+            },
+            // client - admin
+            function (callback) {
+                messages
+                .query('where', 'to_id_user_profile', '=', req.params.from_id_user_profile)
+                .query('where', 'from_id_user_profile', '=', req.params.to_id_user_profile)
+                .fetch(/*{ debug: true }*/)
+                .then(function (sortedMessages) {
+                    //res.json(sortedMessages.toJSON());
+                    callback(null, sortedMessages.toJSON());
+                })
+                .catch(function (error) {
+                    callback(error);
+                });
+            }
+        ],
+            function (error, result) {
+            if (error) res.status(500).json({ error: true, data: { message: error.message } });
+            
+            var combinedArray = result[0].concat(result[1]);
+            res.json(combinedArray);
         });
+            
+
+        //messages
+        //.query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+        //.query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+        //.fetch(/*{ debug: true }*/)
+        //.then(function (sortedMessages) {
+        //    //res.json(sortedMessages.toJSON());
+        //    allMessages.concat(sortedMessages);
+        //});
         
     })
     .catch(function (error) {

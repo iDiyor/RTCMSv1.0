@@ -42,13 +42,14 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
                 from_id_user_profile: adminUserProfileId
             }
 
+            $scope.messages = array1;
 
-            Message.getMessageToFrom({ to_id_user_profile: driverUserProfileId, from_id_user_profile: adminUserProfileId }, function (res2) {
-            //Message.getMessageToFrom(requestBody, function (res2) {
-                var array2 = res2;
-                var array3 = array1.concat(array2);
-                $scope.messages = array3;
-            });
+            //Message.getMessageToFrom({ to_id_user_profile: driverUserProfileId, from_id_user_profile: adminUserProfileId }, function (res2) {
+            ////Message.getMessageToFrom(requestBody, function (res2) {
+            //    var array2 = res2;
+            //    var array3 = array1.concat(array2);
+            //    $scope.messages = array3;
+            //});
         });
 
         $scope.onSendButtonClicked = function () {
