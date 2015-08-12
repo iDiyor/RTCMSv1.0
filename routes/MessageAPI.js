@@ -45,28 +45,41 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
     })
     .fetchAll({
         //debug: true,
-        require: true,
-        withRelated: [{
-                'fromUser' : function (qb) {
-                    qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
-                },
-                'toUser' : function (qb) {
-                    qb.column('id_user_profile', 'first_name', 'last_name');
-                }
-            }]
+        //require: true
+        //withRelated: [{
+        //        'fromUser' : function (qb) {
+        //            qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
+        //        },
+        //        'toUser' : function (qb) {
+        //            qb.column('id_user_profile', 'first_name', 'last_name');
+        //        }
+        //    }]
      })
     .then(function (messages) {
         
         async.series([
             // admin - client
             function (callback) {
-                messages
-                .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
-                .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
-                .fetch(/*{ debug: true }*/)
+                messages.load([{
+                        'fromUser' : function (qb) {
+                            qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
+                        },
+                        'toUser' : function (qb) {
+                            qb.column('id_user_profile', 'first_name', 'last_name');
+                        }
+                    }])
+                //.query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+                //.query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+                //.fetch(/*{ debug: true }*/)
                 .then(function (sortedMessages) {
                     //res.json(sortedMessages.toJSON());
-                    callback(null, sortedMessages.toJSON());
+                    sortedMessages
+                    .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+                    .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+                    .fetch(/*{ debug: true }*/)
+                    .then(function (superSortedMessages) {
+                        callback(null, sortedMessages.toJSON());
+                    })
                 })
                 .catch(function (error) {
                     callback(error);
@@ -74,13 +87,26 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
             },
             // client - admin
             function (callback) {
-                messages
-                .query('where', 'to_id_user_profile', '=', req.params.from_id_user_profile)
-                .query('where', 'from_id_user_profile', '=', req.params.to_id_user_profile)
-                .fetch(/*{ debug: true }*/)
+                messages.load([{
+                        'fromUser' : function (qb) {
+                            qb.column('id_user_profile', 'first_name', 'last_name'); // used in chat view 
+                        },
+                        'toUser' : function (qb) {
+                            qb.column('id_user_profile', 'first_name', 'last_name');
+                        }
+                    }])
+                //.query('where', 'to_id_user_profile', '=', req.params.from_id_user_profile)
+                //.query('where', 'from_id_user_profile', '=', req.params.to_id_user_profile)
+                //.fetch(/*{ debug: true }*/)
                 .then(function (sortedMessages) {
                     //res.json(sortedMessages.toJSON());
-                    callback(null, sortedMessages.toJSON());
+                    sortedMessages
+                    .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+                    .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+                    .fetch(/*{ debug: true }*/)
+                    .then(function (superSortedMessages) {
+                        callback(null, sortedMessages.toJSON());
+                    })
                 })
                 .catch(function (error) {
                     callback(error);
