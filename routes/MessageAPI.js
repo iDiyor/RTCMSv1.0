@@ -101,7 +101,7 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
                 .then(function (sortedMessages) {
                     //res.json(sortedMessages.toJSON());
                     sortedMessages
-                    .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
+                    .query('where', 'to_id_user_profile', '=', req.params.from_id_user_profile)
                     .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
                     .fetch(/*{ debug: true }*/)
                     .then(function (superSortedMessages) {
