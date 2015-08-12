@@ -35,7 +35,16 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
         
         Message.getMessageToFrom({ to_id_user_profile: adminUserProfileId, from_id_user_profile: driverUserProfileId }, function (res1) {
             var array1 = res1;
-            Message.getMessageToFrom({ to_id_user_profile: driverUserProfileId, from_id_user_profile: adminUserProfileId }, function (res2) {
+            
+            
+            var requestBody = {
+                to_id_user_profile: driverUserProfileId,
+                from_id_user_profile: adminUserProfileId
+            }
+
+
+            //Message.getMessageToFrom({ to_id_user_profile: driverUserProfileId, from_id_user_profile: adminUserProfileId }, function (res2) {
+            Message.getMessageToFrom(requestBody, function (res2) {
                 var array2 = res2;
                 var array3 = array1.concat(array2);
                 $scope.messages = array3;

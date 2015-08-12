@@ -8,16 +8,16 @@ var Message = require('./../models/MessageModel.js');
 // withRelated: [message] == model.load(['message])
 
 // all messages in the database
-router.get('/', function (req, res) {
-    Message.forge()
-    .fetchAll()
-    .then(function (messages) {
-        res.json(messages.toJSON());
-    })
-    .catch(function (error) {
-        res.status(500).json({ error: true, data: { message: error.message } });
-    });
-});
+//router.get('/', function (req, res) {
+//    Message.forge()
+//    .fetchAll()
+//    .then(function (messages) {
+//        res.json(messages.toJSON());
+//    })
+//    .catch(function (error) {
+//        res.status(500).json({ error: true, data: { message: error.message } });
+//    });
+//});
 // all messages to UserA
 router.get('/:to_id_user_profile', function (req, res) {
     Message.forge({ to_id_user_profile: req.params.to_id_user_profile })
@@ -31,10 +31,10 @@ router.get('/:to_id_user_profile', function (req, res) {
 });
 
 // all messages to UserA from UserB
-router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
+router.get('/', function (req, res) {
     Message.forge({
-        to_id_user_profile: req.params.to_id_user_profile,
-        from_id_user_profile: req.params.from_id_user_profile,
+        to_id_user_profile: req.body.to_id_user_profile,
+        from_id_user_profile: req.body.from_id_user_profile,
     })
     .fetchAll({
         //debug: true,
@@ -50,8 +50,8 @@ router.get('/:to_id_user_profile/:from_id_user_profile', function (req, res) {
      })
     .then(function (messages) {
         messages
-        .query('where', 'to_id_user_profile', '=', req.params.to_id_user_profile)
-        .query('where', 'from_id_user_profile', '=', req.params.from_id_user_profile)
+        .query('where', 'to_id_user_profile', '=', req.body.to_id_user_profile)
+        .query('where', 'from_id_user_profile', '=', req.body.from_id_user_profile)
         .fetch(/*{ debug: true }*/)
         .then(function (sortedMessages) {
             res.json(sortedMessages.toJSON());
