@@ -28,6 +28,13 @@ io.on('connection', function (socket) {
             var client = {
                 socketId: socket.id,
                 clientData: clientData
+                /**
+                 * clientData.type
+                 * clientData.clientId
+                 * clientData.client
+                 * clientData.clientStatus
+                 * clientData.lastKnowLocation
+                 */
             }
             // add the client data including socket and data to the global array
             mobileClients.push(client);
@@ -61,6 +68,12 @@ io.on('connection', function (socket) {
          * clientData.speed
          * clientData.time
          */
+
+        for (var i = 0; i < mobileClients.length; i++) {
+            if (mobileClients[i].clientData.clientId == clientData.clientId) {
+                mobileClients[i].clientData.lastKnowLocation = clientData;
+            }   
+        }
         socket.broadcast.emit('server:location', clientData);
         console.log('mobile:location');
     }
