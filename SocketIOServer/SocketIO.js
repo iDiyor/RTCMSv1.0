@@ -117,6 +117,34 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('server:mobile:client:message:send', clientData);
     }
     
+    socket.on('web:client:message:send', onWebClientMessageSend);
+    
+    function onWebClientMessageSend(clientData) {
+        /*
+         * clientData.to_id_user_profile 
+         * clientData.from_id_user_profile 
+         * clientData.content 
+         * clientData.time 
+         * clientData.id_message
+         * "fromUser": {
+            "id_user_profile": 3,
+            "first_name": "Elon",
+            "last_name": "Musk"
+        },
+        "toUser": {
+            "id_user_profile": 2,
+            "first_name": "Diyorbek",
+            "last_name": "Islomov"
+        } 
+         */   
+        for (var i = 0; i < mobileClients.length; i++) {
+            if (mobileClients[i].clientData.clientId == clientData.to_id_user_profile) {
+                socket.to(mobileClients[i].socketId).emit('server:web:client:message:send', clientData);
+            }   
+        }
+        //socket.broadcast.emit('server:web:client:message:send', clientData);
+    }
+    
     socket.on('web:client:map:controller:create', onWebClientMapControllerCreate);
     
     function onWebClientMapControllerCreate(clientData) {

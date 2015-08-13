@@ -65,6 +65,10 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
 
                 // clean input for next input
                 $('#message_input').val('');
+
+                //send the message over the socket to the server -> to mobile
+                $scope.socket.emit('web:client:message:send', message);
+
             });
         }
 
@@ -77,7 +81,6 @@ messageControllers.controller('MessageComposeCtrl', ['$scope', '$stateParams', '
             console.log(messageBody);
             $scope.messages.push(messageBody);
             $scope.$apply();
-            
         }
 
         $scope.$on('$destroy', function onMessageControllerDestroy() {
