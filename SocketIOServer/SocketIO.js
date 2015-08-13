@@ -137,12 +137,10 @@ io.on('connection', function (socket) {
             "last_name": "Islomov"
         } 
          */   
-        for (var i = 0; i < mobileClients.length; i++) {
-            if (mobileClients[i].clientData.clientId == clientData.to_id_user_profile) {
-                socket.to(mobileClients[i].socketId).emit('server:web:client:message:send', clientData);
-            }   
-        }
-        //socket.broadcast.emit('server:web:client:message:send', clientData);
+
+        // 'server:web:client:message:send: + id of the user receiving the message
+        var eventName = 'server:web:client:message:send:' + clientData.to_id_user_profile;
+        socket.broadcast.emit(eventName, clientData);
     }
     
     socket.on('web:client:map:controller:create', onWebClientMapControllerCreate);
