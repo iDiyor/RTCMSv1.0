@@ -7,6 +7,7 @@ var drivers = require('./DriverAPI');
 var vehicles = require('./VehicleAPI');
 var maps = require('./MapAPI');
 var messages = require('./MessageAPI');
+var jobs = require('./JobAPI');
 
  //'/' is same as localhost:port/api/ 
  //if you type /api/ it will account as localhost:port/api/api <-- "/api/api"
@@ -20,5 +21,6 @@ router.use('/drivers', drivers);
 router.use('/vehicles', vehicles);
 router.use('/maps', maps);
 router.use('/messages', messages);
+router.use('/jobs', jobs);
 
 module.exports = router;
