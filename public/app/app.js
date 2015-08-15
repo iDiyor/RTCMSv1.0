@@ -18,6 +18,9 @@ var app = angular.module('RTCMS', [/*'ngRoute',*/ 'ui.router', 'ngStorage',
                                     // message
                                     'messageControllers',
                                     'messageServices',
+                                    // job
+                                    'jobControllers',
+                                    'jobServices',
                                     // socket services
                                     'socketServices']);
 
@@ -59,6 +62,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: '/:id_user_profile',
             templateUrl: 'app/views/MessageComposeView.html',
             controller: 'MessageComposeCtrl'
+        })
+        .state('app.job', {
+            url: '/job',
+            templateUrl: 'app/views/JobView.html',
+            controller: 'JobCtrl'
         })
         .state('admin', {
             url: '/admin',
