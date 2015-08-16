@@ -32,7 +32,7 @@ router.post('/authenticate', function (req, res) {
     .then(function (user) {
         if (req.body.role == 'driver') {
             user
-            .load(['userRole', 'userRole.userProfile', 'userRole.userProfile.driverProfile'])
+            .load(['userRole', 'userRole.userProfile', 'userRole.userProfile.driverProfile']) // driverProfile added to be able to store in mobile app for using in Job Fragment
             .then(function (userWithUserRoleAndUserProfile) {
                 
                 var userRole = userWithUserRoleAndUserProfile.related('userRole');

@@ -29,11 +29,12 @@ router.get('/:id_job', function (req, res) {
     });
 });
 // user`s jobs
-router.get('/user/:id_user_profile', function (req, res) {
-    Job.forge()
-    .fetchAll({ withRelated: ['driver', 'driver.userProfile', 'direction', 'direction.source', 'direction.destination'] })
-    .then(function (job) {
-        res.json(job.toJSON());
+router.get('/driver/:id_driver', function (req, res) {
+    Job.forge({ id_driver: req.params.id_driver })
+    .query('where', 'id_driver', '=', req.params.id_driver)
+    .fetchAll({require: true ,withRelated: ['direction', 'direction.source', 'direction.destination'] })
+    .then(function (jobs) {
+        res.json(jobs.toJSON());
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
