@@ -207,7 +207,7 @@ jobControllers.controller('JobCtrl', ['$scope', 'Job', 'Driver', 'PostcodeLookup
             console.log($scope.jobs[index]);
             var messageBody = {
                 to_id_user_profile: $scope.jobs[index].driver.id_user_profile,
-                id_job: $scope.jobs[index].id_job
+                job: $scope.jobs[index]
             }
             $scope.socket.emit('web:client:job:dispatch', messageBody);
         };
