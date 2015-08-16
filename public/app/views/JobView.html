@@ -1,3 +1,273 @@
 ﻿<div>
-    <p>Job View</p>
+    <div class="panel panel-default content-panel">
+        <div class="content-panel-heading"><p>Vehicles' List</p></div>
+        <div class="panel-body">
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Client name</th>
+                            <th>Description</th>
+                            <th>From Address</th>
+                            <th>To Address</th>
+                            <th>Phone Number</th>
+                            <th>Time</th>
+                            <th>Assigned driver</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="job in jobs">
+                            <td>{{job.id_job}}</td>
+                            <td>{{job.client_name}}</td>
+                            <td>{{job.description}}</td>
+                            <td><p>{{job.from_address}}</p><p>{{job.from_postcode}}</p></td>
+                            <td><p>{{job.to_address}}</p><p>{{job.to_postcode}}</p></td>
+                            <td>{{job.phone_number}}</td>
+                            <td>{{job.time}}</td>
+                            <td style="background-color:#FFE0B2">{{job.driver.userProfile.first_name + ' ' + job.driver.userProfile.last_name}}</td>
+                            <td>
+                                <div>
+                                    <button type="button" class="btn-edit" ng-click="onShowEditDialog($index)">Edit</button>
+                                    <button type="button" class="btn-delete" ng-click="onShowRemoveDialog($index)">Delete</button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn-soon-to-clear" style="width:95%; margin-top:5px;" ng-click="onDispatchJobButtonClicked($index)">Dispatch</button>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--Control buttons-->
+            <div>
+                <button type="button" class="btn-add" ng-click="onShowAddDialog('add')">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Edit Dialog-->
+    <div class="modal fade" id="editModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Edit modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--X button top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Enter new details of the job</h4>
+                </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <!--Job ID-->
+                    <div class="form-group">
+                        <label for="editJobId">Job ID</label>
+                        <p class="form-control-static" id="editJobId"></p>
+                    </div>
+                    <!--Client Name-->
+                    <div class="form-group">
+                        <label for="editClientNameId">Client Name</label>
+                        <input type="text" class="form-control" id="editClientNameId" placeholder="Client name">
+                    </div>
+                    <!--Description -->
+                    <div class="form-group">
+                        <label for="editDescriptionId">Description</label>
+                        <input type="text" class="form-control" id="editDescriptionId" placeholder="Short description of the job">
+                    </div>
+                    <!--From Address-->
+                    <div class="form-group">
+                        <label for="editFromAddressId">From Address</label>
+                        <input type="text" class="form-control" id="editFromAddressId" placeholder="From address">
+                    </div>
+                    <!--From Postcode-->
+                    <div class="form-group">
+                        <label for="editFromPostcodeId">From Postcode</label>
+                        <input type="text" class="form-control" id="editFromPostcodeId" placeholder="From postcode">
+                    </div>
+                    <!--To Address-->
+                    <div class="form-group">
+                        <label for="editToAddressId">To Address</label>
+                        <input type="text" class="form-control" id="editToAddressId" placeholder="To address">
+                    </div>
+                    <!--To Postcode-->
+                    <div class="form-group">
+                        <label for="editToPostcodeId">To Postcode</label>
+                        <input type="text" class="form-control" id="editToPostcodeId" placeholder="To postcode">
+                    </div>
+                    <!--Phone Number-->
+                    <div class="form-group">
+                        <label for="editPhoneNumberId">Phone number</label>
+                        <input type="text" class="form-control" id="editPhoneNumberId" placeholder="Phone number of the client">
+                    </div>
+                    <!--Time-->
+                    <div class="form-group">
+                        <label for="editTimeId">Time</label>
+                        <div class='input-group date' id='editdatetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <!--Driver-->
+                    <label for="editDriverId">Driver</label>
+                    <div class="dropdown" id="editDriverId">
+                        <button class="btn btn-default" data-toggle="dropdown"><span id="editDropdownTitle">Choose a driver for this job</span><span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="editDriverId">
+                            <li ng-repeat="driver in drivers">
+                                <a ng-click="onDropdownMenuSelected($index, 'edit')">{{driver.userProfile.first_name + ' ' + driver.userProfile.last_name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--Modal Footer-->
+                <div class="modal-footer">
+                    <!-- Save Changes Button -->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onSaveChangesButtonClicked('')">Save Changes</button>
+                    <!-- Cancel Button -->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal Add Dialog-->
+    <div class="modal fade" id="addModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Add modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--Dismiss (X) button on top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create a new job</h4>
+                </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <!--Client Name-->
+                    <div class="form-group">
+                        <label for="addClientNameId">Client Name</label>
+                        <input type="text" class="form-control" id="addClientNameId" placeholder="Client name">
+                    </div>
+                    <!--Description -->
+                    <div class="form-group">
+                        <label for="addDescriptionId">Description</label>
+                        <input type="text" class="form-control" id="addDescriptionId" placeholder="Short description of the job">
+                    </div>
+                    <!--From Address-->
+                    <div class="form-group">
+                        <label for="addFromAddressId">From Address</label>
+                        <input type="text" class="form-control" id="addFromAddressId" placeholder="From address">
+                    </div>
+                    <!--From Postcode-->
+                    <div class="form-group">
+                        <label for="addFromPostcodeId">From Postcode</label>
+                        <input type="text" class="form-control" id="addFromPostcodeId" placeholder="From postcode">
+                    </div>
+                    <!--To Address-->
+                    <div class="form-group">
+                        <label for="addToAddressId">To Address</label>
+                        <input type="text" class="form-control" id="addToAddressId" placeholder="To address">
+                    </div>
+                    <!--To Postcode-->
+                    <div class="form-group">
+                        <label for="addToPostcodeId">To Postcode</label>
+                        <input type="text" class="form-control" id="addToPostcodeId" placeholder="To postcode">
+                    </div>
+                    <!--Phone Number-->
+                    <div class="form-group">
+                        <label for="addPhoneNumberId">Phone number</label>
+                        <input type="text" class="form-control" id="addPhoneNumberId" placeholder="Phone number of the client">
+                    </div>
+                    <!--Time-->
+                    <div class="form-group">
+                        <label for="addTimeId">Time</label>
+                        <div class='input-group date' id='adddatetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <!--Driver-->
+                    <label for="addDriverId">Driver</label>
+                    <div class="dropdown" id="addDriverId">
+                        <button class="btn btn-default" data-toggle="dropdown"><span id="addDropdownTitle">Choose a driver for this job</span><span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="addDriverId">
+                            <li ng-repeat="driver in drivers">
+                                <a ng-click="onDropdownMenuSelected($index, 'add')">{{driver.userProfile.first_name + ' ' + driver.userProfile.last_name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Modal Footer-->
+                <div class="modal-footer">
+                    <!--Add button-->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onAddButtonClicked('')">Add</button>
+                    <!--Close dialog button-->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal Remove Alert Dialog-->
+    <div class="modal fade" id="removeModalDialog" role="dialog">
+        <div class="modal-dialog">
+            <!--Add modal dialog content-->
+            <div class="modal-content rect-modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <!--Dismiss (X) button on top-right-->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Do you really want to remove this vehicle?</h4>
+                </div>
+                <!--Modal Body-->
+                <div class="modal-body">
+                    <!--Job ID-->
+                    <div class="form-group">
+                        <label for="jobId">Job ID</label>
+                        <p class="form-control-static" id="jobId"></p>
+                    </div>
+                    <!--Client Name-->
+                    <div class="form-group">
+                        <label for="clientNameId">Client Name</label>
+                        <p class="form-control-static" id="clientNameId"></p>
+                    </div>
+                    <!--Description -->
+                    <div class="form-group">
+                        <label for="descriptionId">Description</label>
+                        <p class="form-control-static" id="descriptionId"></p>
+                    </div>
+                    <!--From Address-->
+                    <div class="form-group">
+                        <label for="fromAddressId">From Address</label>
+                        <p class="form-control-static" id="fromAddressId"></p>
+                    </div>
+                    <!--To Address-->
+                    <div class="form-group">
+                        <label for="toAddressId">To Address</label>
+                        <p class="form-control-static" id="toAddressId"></p>
+                    </div>
+                    <!--Phone Number-->
+                    <div class="form-group">
+                        <label for="phoneNumberId">Phone number</label>
+                        <p class="form-control-static" id="phoneNumberId"></p>
+                    </div>
+                    <!--Time-->
+                    <div class="form-group">
+                        <label for="timeId">Time</label>
+                        <p class="form-control-static" id="timeId"></p>
+                    </div>
+                </div>
+                <!-- Modal Footer-->
+                <div class="modal-footer">
+                    <!--Add button-->
+                    <button type="button" class="btn-delete" data-dismiss="modal" ng-click="onDeleteButtonClicked('')">Delete</button>
+                    <!--Close dialog button-->
+                    <button type="button" class="btn-edit" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

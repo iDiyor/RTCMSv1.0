@@ -30,36 +30,55 @@ router.post('/authenticate', function (req, res) {
     })
     .fetch({ require: true }) // require true -> when forge parameters not match sends error
     .then(function (user) {
-        user
-        .load(['userRole', 'userRole.userProfile'])
-        .then(function (userWithUserRoleAndUserProfile) {
-            
-            var userRole = userWithUserRoleAndUserProfile.related('userRole');
-            userRole
-            .query('where', 'role', '=', req.body.role)
-            .fetch({ require:true })
-            .then(function (responseUserData) {
-                res.json({
-                    responseStatus: 'success',
-                    responseBody: responseUserData // token
-                });
-            })
-            .catch(function (error) {
-                res.status(500).json({
-                    responseStatus: 'failure',
-                    responseBody: {
-                        message: error.message
-                    }
+        if (req.body.role == 'driver') {
+            user
+            .load(['userRole', 'userRole.userProfile', 'userRole.userProfile.driverProfile'])
+            .then(function (userWithUserRoleAndUserProfile) {
+                
+                var userRole = userWithUserRoleAndUserProfile.related('userRole');
+                userRole
+                .query('where', 'role', '=', req.body.role)
+                .fetch({ require: true })
+                .then(function (responseUserData) {
+                    res.json({
+                        responseStatus: 'success',
+                        responseBody: responseUserData // token
+                    });
+                })
+                .catch(function (error) {
+                    res.status(500).json({
+                        responseStatus: 'failure',
+                        responseBody: {
+                            message: error.message
+                        }
+                    });
                 });
             });
-            //var token = jwt.sign(model, 'secretmessage', { expireInMinutes: 1440 });
-            
-            //res.json({
-            //    responseStatus: 'success',
-            //    responseBody: userData.related('userRole').toJSON() // token
-            //});
-        });
-        // use user id to redirect to specific page or operation        
+        } else {
+            user
+            .load(['userRole', 'userRole.userProfile'])
+            .then(function (userWithUserRoleAndUserProfile) {
+                
+                var userRole = userWithUserRoleAndUserProfile.related('userRole');
+                userRole
+                .query('where', 'role', '=', req.body.role)
+                .fetch({ require: true })
+                .then(function (responseUserData) {
+                    res.json({
+                        responseStatus: 'success',
+                        responseBody: responseUserData // token
+                    });
+                })
+                .catch(function (error) {
+                    res.status(500).json({
+                        responseStatus: 'failure',
+                        responseBody: {
+                            message: error.message
+                        }
+                    });
+                });
+            });
+        }   
     })
     .catch(function(error) {
         res.status(500).json({

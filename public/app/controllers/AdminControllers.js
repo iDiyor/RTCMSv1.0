@@ -114,16 +114,16 @@ adminControllers.controller('AdminCtrl', ['$scope', '$localStorage', 'AdminServi
             $('#removeModalDialog').modal('show');
             
             $('#adminId').text($scope.admins[index].id_admin);
-            $('#firstNameId').val($scope.admins[index].userProfile.first_name);
-            $('#middleNameId').val($scope.admins[index].userProfile.middle_name);
-            $('#lastNameId').val($scope.admins[index].userProfile.last_name);
-            $('#BODId').val($scope.admins[index].userProfile.date_of_birth);
-            $('#postCodeId').val($scope.admins[index].userProfile.post_code);
-            $('#houseNumberId').val($scope.admins[index].userProfile.house_number);
-            $('#addressLine1Id').val($scope.admins[index].userProfile.address_line_1);
-            $('#addressLine2Id').val($scope.admins[index].userProfile.address_line_2);
-            $('#phoneNumberId').val($scope.admins[index].userProfile.phone_number);
-            $('#emailId').val($scope.admins[index].userProfile.email);
+            $('#firstNameId').text($scope.admins[index].userProfile.first_name);
+            $('#middleNameId').text($scope.admins[index].userProfile.middle_name);
+            $('#lastNameId').text($scope.admins[index].userProfile.last_name);
+            $('#BODId').text($scope.admins[index].userProfile.date_of_birth);
+            $('#postCodeId').text($scope.admins[index].userProfile.post_code);
+            $('#houseNumberId').text($scope.admins[index].userProfile.house_number);
+            $('#addressLine1Id').text($scope.admins[index].userProfile.address_line_1);
+            $('#addressLine2Id').text($scope.admins[index].userProfile.address_line_2);
+            $('#phoneNumberId').text($scope.admins[index].userProfile.phone_number);
+            $('#emailId').text($scope.admins[index].userProfile.email);
 
             tempElementId = $scope.admins[index].id_admin;
         }

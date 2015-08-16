@@ -2,14 +2,15 @@
 
 var bookshelf = require('./BookshelfConnector.js');
 bookshelf.plugin('registry');
-var Driver = require('./DriverModel.js');
+
+var DriverProfile = require('./DriverProfileModel.js');
 var Direction = require('./DirectionModel.js');
 
 var Job = bookshelf.Model.extend({
     tableName: 'job',
     idAttribute: 'id_job',
     driver: function () {
-        return this.belongsTo('Driver', 'id_driver');
+        return this.belongsTo('DriverProfile', 'id_driver');
     },
     direction: function () {
         return this.hasMany('Direction', 'id_job');

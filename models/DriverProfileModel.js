@@ -6,6 +6,7 @@ bookshelf.plugin('registry');
 var UserProfile = require('./UserProfileModel.js');
 var Document = require('./DocumentModel.js');
 var Vehicle = require('./VehicleModel.js');
+var Job = require('./JobModel.js');
 
 var DriverProfile = bookshelf.Model.extend({
     tableName: 'driver_profile',
@@ -18,6 +19,9 @@ var DriverProfile = bookshelf.Model.extend({
     },
     vehicle: function () {
         return this.hasOne('Vehicle', 'id_driver');
+    },
+    job: function () {
+        return this.hasMany('Job', 'id_driver');
     }
 });
 

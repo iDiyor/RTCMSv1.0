@@ -21,6 +21,8 @@ var app = angular.module('RTCMS', [/*'ngRoute',*/ 'ui.router', 'ngStorage',
                                     // job
                                     'jobControllers',
                                     'jobServices',
+                                    // geolocation services
+                                    'geolocationServices',
                                     // socket services
                                     'socketServices']);
 

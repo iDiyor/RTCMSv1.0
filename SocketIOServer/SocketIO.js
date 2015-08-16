@@ -117,6 +117,7 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('server:mobile:client:message:send', clientData);
     }
     
+    // when web app sends message to the client
     socket.on('web:client:message:send', onWebClientMessageSend);
     
     function onWebClientMessageSend(clientData) {
@@ -143,6 +144,15 @@ io.on('connection', function (socket) {
         socket.broadcast.emit(eventName, clientData);
     }
     
+    socket.on('web:client:job:dispatch', onWebClientJobDispatch);
+    
+    function onWebClientJobDispatch(clientData) {
+        
+        var eventName = 'server:web:client:job:dispatch:' + clientData.to_id_user_profile;
+        socket.broadcast.emit(eventName, clientData);
+    };
+    
+    // when web app opens web controller, server will re-send all connected clients
     socket.on('web:client:map:controller:create', onWebClientMapControllerCreate);
     
     function onWebClientMapControllerCreate(clientData) {
