@@ -128,65 +128,6 @@ var insertNewUserRole = function (user, role, callback) {
     }
 };
 
-var checkForUserRole = function (user, callback) {
-    if (user) {
-        UserRole.forge({ id_user: user.get('id_user') })
-        .fetch({ require: true })
-        .then(function (userRole) {
-            getUserProfileForUserRole(userRole, function (feedback) {
-                callback(feedback);
-            });
-        })
-        .catch(function (error) {
-            console.error(error);
-        }); 
-    }   
-}
-var getUserProfileForUserRole = function (userRole, callback) {
-    if (userRole) {
-        UserProfile.forge({ id_role: userRole.get('id_role') })
-        .fetch({ require: true })
-        .then(function (userProfile) {
-            if (userRole.get('role') == 'driver') { // create a json for driver role user and fetch other data required for this type of user profile (driving licence, ...)
-                getDocumentForUserProfile(userProfile, function (feedback) {
-                    var json = {
-                        userRole: 'driver',
-                        userProfile: userProfile,
-                        document: feedback
-                    };
-                    callback(json);
-                });
-            }
-            else if (userRole.get('role') == 'admin') { // create a json for admin role user
-                var json = {
-                    userRole: 'admin',
-                    userProfile: userProfile,
-                    document: null
-                };
-                callback(json);
-            }
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-    }
-}
-
-// fetch documents if available for that user
-var getDocumentForUserProfile = function (userProfile, callback) {
-    if (userProfile) {
-        Document.forge({ id_user_profile: userProfile.get('id_user_profile') })
-        .fetch({ require: true })
-        .then(function (document) {
-            callback(document);
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-    }   
-}
-
-
 function updateStatus(user, isActive, callback) {
     
 }

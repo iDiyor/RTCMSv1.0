@@ -14,10 +14,3 @@ driverServices.factory('Driver', ['$resource', function ($resource) {
         });
 }]);
 
-
-
-
-//create a service
-// add the service to the app
-// try to make http requests and get response (json)
-// table 

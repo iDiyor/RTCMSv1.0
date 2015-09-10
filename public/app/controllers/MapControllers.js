@@ -48,17 +48,7 @@ mapControllers.controller('MapCtrl', ['$scope', 'Location', /*'Socket', */functi
             }),
             view: view
         });
-        
-        //var socket = io.connect('http://52.28.143.209:3000', { 'forceNew': true, 'reconnection': true });
-        
-        //socket.on('connect', function () {
-        //    var client = {
-        //        name: 'jeb',
-        //        type: 'web'
-        //    };
-            
-        //    socket.emit('client:connection', client);
-        //});           
+                  
         
         /* SOCKET EVENT HANDLERS */
         // connection status from the server

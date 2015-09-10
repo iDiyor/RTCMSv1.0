@@ -10,7 +10,7 @@ var messages = require('./MessageAPI');
 var jobs = require('./JobAPI');
 
  //'/' is same as localhost:port/api/ 
- //if you type /api/ it will account as localhost:port/api/api <-- "/api/api"
+ //if you type /api/ it will assume as localhost:port/api/api <-- "/api/api"
 router.get('/', function (req, res) {
     res.json({ hello: "api route" });
 });

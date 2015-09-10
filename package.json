@@ -1,11 +1,11 @@
 {
-  "name": "procabV0",
+  "name": "RTCMS-WEBSERVER",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
-  "description": "procabV0",
+  "description": "Real-Time Cab Management System",
   "author": {
     "name": "Diyor Islomov",
     "email": "diyor.islomov@gmail.com"

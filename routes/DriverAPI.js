@@ -49,7 +49,6 @@ router.post('/', function (req, res) {
         address_line_2: req.body.address_line_2,
         phone_number: req.body.phone_number,
         email: req.body.email,
-        //driving_licence_number: req.body.driving_licence_number,
         id_role: req.body.id_role
     })
     .save(null, { method: 'insert' })
@@ -117,14 +116,6 @@ router.get('/:id_driver', function (req, res) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
 
-   // Driver.forge({ id_driver: req.params.id_driver })      
-   //.fetch()
-   //.then(function (driverData) {
-   //     res.json(driverData.toJSON());
-   // })
-   //.catch(function (error) {
-   //     res.status(500).json({ error: true, data: { message: error.message } });
-   // });
 });
 
 router.put('/:id_driver', function (req, res) {
@@ -250,122 +241,11 @@ router.delete('/:id_driver', function (req, res) {
                 });
             }
 
-            //driverWithUserProfile.destroy()
-            //.then(function (userProfile) {
-            //    userProfile.related('userProfile').destroy()
-            //    .then(function (userRole) {
-            //        userRole.related('userRole').destroy()
-            //        .then(function (user) {
-            //            user.related('user').destroy()
-            //            .then(function (result) {
-            //                res.json({
-            //                    responseTitle: 'Removing the record from the database',
-            //                    responseStatus: 'success',
-            //                    responseBody: result.toJSON()
-            //                });
-            //            });
-            //        });
-            //    });
-            //});
         });
     })
     .catch(function (error) {
         res.status(500).json({ error: true, data: { message: error.message } });
     });
-
-
-    //DriverProfile.forge({ id_driver: req.params.id_driver })
-    //.fetch({ require: true })
-    //.then(function (driverProfile) {
-    //    // get user profile(destroy) <- get user role (destroy) <- get user (destroy)
-    //    //driverProfile.destroy();
-
-    //    async.waterfall([
-    //        // destroy Document
-    //        function (callback) {
-    //            Document.forge({ id_driver: driverProfile.get('id_driver') })
-    //            .fetch({ require: true })
-    //            .then(function (document) {
-    //                var id_user_profile = driverProfile.get('id_user_profile');
-    //                document.destroy();
-    //                driverProfile.destroy();
-
-    //                callback(null, id_user_profile);
-    //            });
-    //        },
-    //        //Destroy UserProfile
-    //        /**
-    //         * arg1 - id_user_profile
-    //         */
-    //        function (arg1, callback) {
-    //            UserProfile.forge({ id_user_profile: arg1 })
-    //            .fetch({ require: true })
-    //            .then(function (userProfile) {
-    //                // pass id_role to destroy
-    //                var id_role = userProfile.get('id_role');
-    //                userProfile.destroy();
-    //                callback(null, id_role);
-    //            })
-    //            .catch(function (error) {
-    //                callback(error);
-    //            });
-    //        },
-    //        // Destroy UserRole
-    //        /**
-    //         * arg1 - id_role
-    //         */
-    //        function (arg1, callback) {
-    //            UserRole.forge({ id_role: arg1 })
-    //            .fetch()
-    //            .then(function (userRole) {
-    //                var id_user = userRole.get('id_user');
-    //                userRole.destroy();
-    //                callback(null, id_user);
-    //            })
-    //            .catch(function (error) {
-    //                callback(error);
-    //            });
-    //        },
-    //        // Destroy User
-    //        /**
-    //         * arg1 - id_user
-    //         */
-    //        function (arg1, callback) {
-    //            User.forge({ id_user: arg1 })
-    //            .fetch()
-    //            .then(function (user) {
-    //                console.log(user);
-    //                user.destroy();
-    //                callback(null, 'driver record deleted');
-    //            })
-    //            .catch(function (error) {
-    //                callback(error);
-    //            });
-    //        }
-    //    ],
-    //        function (error, result) {
-    //        if (error) {
-    //            res.status(500).json({ error: true, data: { message: error.message } });
-    //            return;
-    //        }
-
-    //        res.json({ responseStatus: result });
-    //    });
-    //})
-    //.catch(function (error) {
-    //    res.status(500).json({ error: true, data: { message: error.message } });
-    //});
-    
-    
-   // Driver.forge({ id_driver: req.params.id_driver })
-   //.fetch({ require: true })
-   //.then(function (driverData) {
-   //     driverData.destroy();
-   //     res.json({ message: 'Driver successfully deleted' });
-   // })
-   // .catch(function (error) {
-   //     res.status(500).json({ error: true, data: { message: error.message } });
-   // });
 });
 
 
